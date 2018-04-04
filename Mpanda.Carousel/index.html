@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .mpanda-Carousel {
+      position: relative;
+      display: flex;
+    }
+
+    .slide {
+      flex: 1;
+      background-color: #fff;
+      box-shadow: 0px 0px 50px #838383;
+      border-radius: 5px;
+      transition: all .5s;
+
+      background-position: center;
+    }
+
+    .slide.active {
+      z-index: 5;
+      height: 50vh;
+
+      background-size: cover 100% !important;
+    }
+
+    @media (max-width: 700px) {
+      .slide.active {
+        flex: 2;
+      }
+    }
+
+    @media (min-width: 700px) and (max-width: 1080px) {
+      .slide.active {
+        flex: 4;
+      }
+    }
+
+    @media (min-width: 1080px) {
+      .slide.active {
+        flex: 5;
+      }
+    }
+
+    .slide.left {
+      transform: rotate3d(3, 10, 1, 45deg);
+      margin-right: -20vh;
+    }
+
+    .slide.right {
+      transform: rotate3d(3, -10, -1, 45deg);
+      margin-left: -20vh;
+    }
+
+    @keyframes zeroDegreeToThirty {
+      0% {
+        transform: rotate3d(0, 0, 0, 0deg);
+      }
+      100% {
+        transform: rotate3d(10, 0, 0, 45deg);
+      }
+    }
+
+    .slide-arrow {
+      position: absolute;
+      z-index: 999;
+      top: 20vh;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #fff;
+      line-height: 40px;
+      font-size: 50px;
+      height: 50px;
+      width: 50px;
+      border-radius: 25px;
+    }
+
+    @media (min-width: 700px) {
+      .slide-arrow {
+        display: none;
+      }
+    }
+
+    .slide-arrow:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .slide-arrow.left {
+      text-align: right;
+      padding-right: 10px;
+      left: -40px;
+    }
+
+    .slide-arrow.left::before {
+      content: "‹";
+    }
+
+    .slide-arrow.right {
+      text-align: left;
+      padding-left: 10px;
+      right: -40px;
+    }
+
+    .slide-arrow.right::before {
+      content: "›";
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mpanda-Carousel">
+    <section class="slide left">
+      <h1>Title1</h1>
+      <span>Context</span>
+      <figure data-img="./img.jpg">
+        <!-- <img src="./img.jpg" alt=""> -->
+      </figure>
+    </section>
+    <section class="slide left">
+      <h1>Title2</h1>
+      <span>Context</span>
+      <figure data-img="./img2.jpg">
+      </figure>
+    </section>
+    <section class="slide active">
+      <h1>Title3</h1>
+      <span>Context</span>
+      <figure>
+        <img src="" alt="">
+      </figure>
+    </section>
+    <section class="slide right">
+      <h1>Title4</h1>
+      <span>Context</span>
+      <figure data-img="./img3.jpg">
+
+      </figure>
+    </section>
+    <section class="slide right">
+      <h1>Title5</h1>
+      <span>Context</span>
+      <figure>
+        <img src="" alt="">
+      </figure>
+    </section>
+
+    <div class="slide-arrow left"></div>
+    <div class="slide-arrow right"></div>
+  </div>
+</body>
+<script>
+  window.onload = function () {
+    var c = new MPandaCarousel()
+    c.init()
+  }
+
+  function MPandaCarousel() {
+    this.slides = null;
+    // this.currentSection = null;
+    this.currentSectionPos = 2;
+    this.pause = false;
+    this.pauseTimer = null;
+    this.playTimer = null;
+    this.intervalTime = 4000;
+
+    this.init = () => {
+      this.slides = document.querySelectorAll(".mpanda-Carousel .slide");
+      this.leftArrow = document.querySelector(".slide-arrow.left")
+      this.rightArrow = document.querySelector(".slide-arrow.right")
+      var carouselController = this
+
+      for (var i = 0; i < this.slides.length; i++) {
+        var slide = this.slides[i];
+        slide.onmouseup = function () {
+          carouselController.focusOn(this)
+        }
+        slide.onmouseover = function () {
+          carouselController.pause = true;
+        }
+        slide.onmouseout = function () {
+          carouselController.pause = false;
+        }
+      }
+      this.leftArrow.onmouseup = function () {
+        carouselController.pause = true
+        clearInterval(carouselController.pauseTimer)
+        carouselController.pauseTimer = setInterval(function () {
+          carouselController.pause = false
+        }, 3000)
+        carouselController.toLeft()
+      }
+      this.rightArrow.onmouseup = function () {
+        carouselController.pause = true
+        clearInterval(carouselController.pauseTimer)
+        carouselController.pauseTimer = setInterval(function () {
+          carouselController.pause = false
+        }, 3000)
+        carouselController.toRight()
+      }
+      this.loadImg();
+      this.play();
+    };
+    this.loadImg = () => {
+      for (var i = 0; i < this.slides.length; i++) {
+        var slide = this.slides[i];
+        var figure = slide.querySelector("figure")
+        var imgUrl = figure.dataset.img;
+        slide.style.backgroundImage = "url('" + imgUrl + "')";
+      }
+    }
+    this.focusOn = (section) => {
+      section.className = "slide active"
+      var isLeft = true
+      var activePos = 1;
+      for (var k = 0; k < this.slides.length; k++) {
+        var j = this.slides[k]
+        j.style.zIndex = isLeft ? this.slides.length : this.slides.length - k;
+        if (j == section) {
+          this.currentSectionPos = k;
+          isLeft = !isLeft;
+          continue;
+        }
+        var sideClassName = isLeft ? "left" : "right";
+        var className = "slide" + " " + sideClassName;
+        j.className = className;
+      }
+    };
+
+    this.play = () => {
+      var carouselController = this
+      clearInterval(this.playTimer)
+      this.playTimer = setInterval(function () {
+        if (!carouselController.pause) {
+          var newPos = (carouselController.currentSectionPos + 1) % carouselController.slides.length
+          carouselController.focusOn(carouselController.slides[newPos])
+        }
+      }, carouselController.intervalTime)
+    }
+
+    this.toRight = () => {
+      var newPos = (this.currentSectionPos + 1) % this.slides.length
+      this.focusOn(this.slides[newPos])
+    }
+    this.toLeft = () => {
+      var newPos = (this.currentSectionPos + this.slides.length - 1) % this.slides.length
+      this.focusOn(this.slides[newPos])
+    }
+
+  }
+</script>
+
+</html>
