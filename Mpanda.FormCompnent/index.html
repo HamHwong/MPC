@@ -12,16 +12,16 @@
   <div>
     <form action="">
       <div class="mpanda_radio_wapper">
-        <span class="mpanda_radio mpanda_radio_overwrite">aa</span>
-        <input type="radio" class="mpanda_radio_original" name="s" checked>
+        <span class="mpanda_radio mpanda_radio_overwrite">家政</span>
+        <input type="radio" class="mpanda_radio_original" name="from" checked>
       </div>
       <div class="mpanda_radio_wapper">
-        <span class="mpanda_radio mpanda_radio_overwrite">aa</span>
-        <input type="radio" class="mpanda_radio_original" name="s">
+        <span class="mpanda_radio mpanda_radio_overwrite">跑腿</span>
+        <input type="radio" class="mpanda_radio_original" name="from">
       </div>
       <div class="mpanda_radio_wapper">
-        <span class="mpanda_radio mpanda_radio_overwrite">aa</span>
-        <input type="radio" class="mpanda_radio_original" name="s">
+        <span class="mpanda_radio mpanda_radio_overwrite">维修</span>
+        <input type="radio" class="mpanda_radio_original" name="from">
       </div>
     </form>
   </div>
@@ -30,6 +30,9 @@
   .mpanda_radio_wapper {
     float: left;
     padding-right: 10px;
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    color: #a5a5a5;
+
   }
 
   .mpanda_radio {
@@ -37,12 +40,13 @@
     display: block;
     width: 82px;
     height: 40px;
-    border-radius: 3px 0px;
+    border-radius: 0px 0px 15px;
     overflow: hidden;
     background-color: #fcfcfc;
     cursor: pointer;
-    border-top: 1px solid #a5a5a5;
-    /* border-right: 1px solid #a5a5a5; */
+    border-top: 3px solid #a5a5a5;
+    padding: 0px 5px;
+
   }
 
   .mpanda_radio::after {
@@ -59,6 +63,10 @@
     border-left: 12px solid transparent;
     border-right: transparent;
     border-bottom: #a5a5a5;
+  }
+
+  .mpanda_radio_wapper.selected {
+    color: #000;
   }
 
   .mpanda_radio_wapper.selected .mpanda_radio {
