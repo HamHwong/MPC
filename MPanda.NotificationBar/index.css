@@ -19,13 +19,11 @@
 .__notification>.__notification_icon{
   width: 24px;
   height: 24px;
-  background: url(./assets/light.svg) no-repeat;
+  /* background: url(./assets/light.svg) no-repeat; */
 }
 .__notification>.__notification_close{
   width: 24px;
-  height: 24px;
-  /* background-color: red; */
-  background-image: url(./assets/cross.svg) no-repeat;
+  height: 24px; 
   cursor: pointer;
 }
 .__notification>.__notification_container>.__notification_container_inner_wrapper{
