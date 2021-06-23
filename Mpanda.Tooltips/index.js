@@ -1,4 +1,4 @@
-function tooltips (rootDOM) {
+function __tooltips (rootDOM) {
   this.rootDOM = rootDOM || document.querySelector('body')
   this.DOM = null
   this.contentDOM = null
@@ -186,6 +186,3 @@ function tooltips (rootDOM) {
   this.init()
 }
 
-window.onload = function () {
-  new tooltips()
-}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="App">
+      <div class="container">
+        <div class="__notification">
+          <i class="__notification_icon"> </i>
+          <div class="__notification_container">
+            <div class="__notification_container_inner_wrapper">
+              <span>Content 1</span>
+              <span>Content 2</span>
+              <span>Content 3</span>
+              <span>Content 4</span>
+              <span>Content 1</span>
+            </div>
+          </div>
+          <i class="__notification_close"> close </i>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./index.js"></script>
+  <style>
+    body,
+    .App {
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+    .container {
+      padding: 100px;
+      background-color: #333;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      var dom = document.querySelector('.__notification')
+      new __notification(dom).loadData([
+        { content: '1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试' },
+        { content: '21 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试' },
+        { content: '31 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试31 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试1 阿达萨的阿阿大声点阿斯顿阿阿斯顿阿的测试' },
+      ])
+    }
+  </script>
+</html>
