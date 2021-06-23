@@ -12,6 +12,7 @@
   /* warpper_offset_y */
   z-index: 2;
   margin: 10px;
+  box-shadow:  0 2px 4px rgb(99, 99, 99);
 }
 .__tooltips.__left::before{
   position: absolute;

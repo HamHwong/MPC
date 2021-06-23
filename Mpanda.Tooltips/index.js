@@ -5,6 +5,11 @@ function tooltips (rootDOM) {
   this.className = '__tooltips __tooltips_hidden';
   this.x = 0;
   this.y = 0;
+  this.MODE = {
+    FOLLOW_MOUSE: 0,
+    FOLLOW_TARGET: 1
+  }
+  this.mode = this.MODE.FOLLOW_TARGET;
   this.content = null;
   this.init = function () {
     var _this = this
@@ -15,7 +20,7 @@ function tooltips (rootDOM) {
     })
   }
   this.generateTooltipsDOMTo = function (parentDOM) {
-    if (this.DOM === null || !this.alreadyHaveTooltips()) {
+    if (this.DOM === null || !this.tooltipsExisted()) {
       this.DOM = document.createElement('div')
       this.contentDOM = document.createElement('div')
       this.contentDOM.className = '__tooltips_content'
@@ -27,7 +32,7 @@ function tooltips (rootDOM) {
       this.contentDOM = this.DOM.querySelector('div')
     }
   }
-  this.alreadyHaveTooltips = function () {
+  this.tooltipsExisted = function () {
     return document.querySelectorAll(this.className).length > 0
   }
   this.update = function (text) {
@@ -41,15 +46,15 @@ function tooltips (rootDOM) {
         e.stopPropagation()
         e.preventDefault()
         _this.update(e.target.dataset.title)
-        
+
         var direction = _this.getDirection()
 
         // Margin Offset
         var wrapper_offset_x = 10
         var wrapper_offset_y = 10
-        
+
         //Anchor Offset
-        _this.setDirection(direction) 
+        _this.setDirection(direction)
         var anchor_offset = _this.getAnchorOffset(direction)
         var anchor_offset_x = anchor_offset.x
         var anchor_offset_y = anchor_offset.y
@@ -59,8 +64,18 @@ function tooltips (rootDOM) {
         var offset_y = position_offset.y
         var offset_x = position_offset.x
 
-        _this.DOM.style.top = e.y - wrapper_offset_y + anchor_offset_y + offset_y + 'px'
-        _this.DOM.style.left = e.x - wrapper_offset_x + anchor_offset_x + offset_x + 'px'
+        var x = 0, y = 0
+        if (_this.mode === _this.MODE.FOLLOW_TARGET) {
+          x = e.target.offsetLeft
+          y = e.target.offsetTop + e.target.offsetHeight
+          console.log(e)
+        } else {
+          x = e.x
+          y = e.y
+        }
+
+        _this.DOM.style.top = y - wrapper_offset_y + anchor_offset_y + offset_y + 'px'
+        _this.DOM.style.left = x - wrapper_offset_x + anchor_offset_x + offset_x + 'px'
         _this.show()
       }
     })
@@ -91,11 +106,11 @@ function tooltips (rootDOM) {
   this.setDirection = function (direction) {
     var classNames = this.DOM.className.split(' ')
     var directionClassNames = []
-    for(var key in this.Direction){
-      directionClassNames.push( this.Direction[key])
+    for (var key in this.Direction) {
+      directionClassNames.push(this.Direction[key])
     }
-    classNames = classNames.filter(function(directionName){return !directionClassNames.includes(directionName)})
-    switch(direction){
+    classNames = classNames.filter(function (directionName) { return !directionClassNames.includes(directionName) })
+    switch (direction) {
       case this.Direction.LEFT:
         classNames.push('__left')
         break;
@@ -108,7 +123,7 @@ function tooltips (rootDOM) {
       case this.Direction.BOTTOM:
         classNames.push('__bottom')
         break;
-    } 
+    }
     this.DOM.className = classNames.join(' ')
   }
   this.getDirection = function (e) {
@@ -137,10 +152,10 @@ function tooltips (rootDOM) {
     }
     return result
   }
-  this.getPositionOffset = function(direction){
+  this.getPositionOffset = function (direction) {
     var result = {
-      x:0,
-      y:0
+      x: 0,
+      y: 0
     }
     switch (direction) {
       case this.Direction.LEFT:
@@ -149,11 +164,11 @@ function tooltips (rootDOM) {
         break;
       case this.Direction.RIGHT:
         result.x = -250
-        result.y = 0 
+        result.y = 0
         break;
       case this.Direction.TOP:
-        result.x 
-        result.y
+        result.x
+        result.y = -this.DOM.offsetHeight
         break;
       case this.Direction.BOTTOM:
         result.x
