@@ -33,15 +33,17 @@ function __notification(dom) {
       var spanDOMs = e.target.querySelectorAll(`span`)
       var spanContainers = e.target.querySelector('.__notification_container_inner_wrapper')
       console.log(spanDOMs[_this.index].offsetWidth)
-      if(spanDOMs[_this.index].offsetWidth>spanContainers.offsetWidth){
-        console.log('Larger')
-      }
-      // console.log(spanDOM)
-      // console.log(_this.status)
+      if(spanDOMs[_this.index].offsetWidth>spanContainers.offsetWidth){ 
+        spanDOMs[_this.index].parentElement.className = 'content_wrapper marquee'
+      } 
     })
-    this.DOM.addEventListener('mouseleave',function(){
+    this.DOM.addEventListener('mouseleave',function(e){
       _this.status= _this.STATUS.PROGRESSING
-      // console.log(_this.status)
+
+      var spanDOMs = e.target.querySelectorAll(`span`)
+      spanDOMs.forEach(function(item){
+        item.className = 'content_wrapper'
+      }) 
     })
     this.DOM.querySelector('.__notification_close').addEventListener('click',function(){
       _this.destory()

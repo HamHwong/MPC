@@ -19,10 +19,13 @@
 .__notification>.__notification_icon{
   width: 24px;
   height: 24px;
+  background: url(./assets/light.svg) no-repeat;
 }
 .__notification>.__notification_close{
   width: 24px;
   height: 24px;
+  /* background-color: red; */
+  background-image: url(./assets/cross.svg) no-repeat;
   cursor: pointer;
 }
 .__notification>.__notification_container>.__notification_container_inner_wrapper{
@@ -42,6 +45,17 @@
   line-height: 14px !important; 
   margin: 0;
 }
-.__notification>.__notification_container>.__notification_container_inner_wrapper>p.marquee{
+.__notification>.__notification_container>.__notification_container_inner_wrapper span{
 
+}
+.__notification>.__notification_container>.__notification_container_inner_wrapper .marquee{
+  /* transition: text-indent 20s ease-in-out; */
+}
+@keyframes marquee {
+  0%   {text-indent: 0%;} 
+  100% {text-indent: -200%;}
+}
+.__notification>.__notification_container>.__notification_container_inner_wrapper .marquee:hover{
+  animation:marquee 30s infinite;
+  -webkit-animation:marquee 30s infinite; /* Safari 和 Chrome */
 }
