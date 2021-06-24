@@ -7,58 +7,72 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    .mpanda-Carousel {
+    .__Carousel {
       position: relative;
       display: flex;
+      align-items: center;
+      flex-direction: row;
+      cursor: pointer;
+      /* width: 700px; */
     }
 
-    .slide {
+    .__Carousel .slide {
       flex: 1;
-      background-color: #fff;
-      box-shadow: 0px 0px 50px #838383;
       border-radius: 5px;
       transition: all .5s;
       background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
+      background-size: contain;
+      background-position: center; 
       filter: blur(2px);
       /* 强制开启gpu加速 */
       transform:translateZ(0);
     }
-    .slide.active{
-      filter: none;
+    .__Carousel .slide>figure>*{
+      background-color: #fff;
+      box-shadow: 0px 0px 50px #838383; 
+    }
+    .__Carousel .slide>figure{ 
+      display: flex;
+      justify-content: center;
+      
+    }
+    .__Carousel .slide.active{
+      filter: none; 
     }
 
-    .slide.active {
+    .__Carousel .slide.active {
       z-index: 5;
-      height: 50vh;
-
+      /* height: 50vh;  */
     }
 
     @media (max-width: 700px) {
-      .slide.active {
+      .__Carousel .slide.active {
         flex: 2;
       }
     }
 
     @media (min-width: 700px) and (max-width: 1080px) {
-      .slide.active {
+      .__Carousel .slide.active {
         flex: 4;
       }
     }
 
     @media (min-width: 1080px) {
-      .slide.active {
+      .__Carousel .slide.active {
         flex: 5;
       }
     }
-
-    .slide.left {
+    .__Carousel .slide figure{
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+    .__Carousel .slide.left {
       transform: rotate3d(3, 10, 1, 45deg);
       margin-right: -20vh;
     }
 
-    .slide.right {
+    .__Carousel .slide.right {
       transform: rotate3d(3, -10, -1, 45deg);
       margin-left: -20vh;
     }
@@ -72,7 +86,7 @@
       }
     }
 
-    .slide-arrow {
+    .__Carousel .slide-arrow {
       position: absolute;
       z-index: 999;
       top: 20vh;
@@ -84,73 +98,64 @@
       width: 50px;
       border-radius: 25px;
     }
-
+/* 
     @media (min-width: 700px) {
-      .slide-arrow {
+      .__Carousel .slide-arrow {
         display: none;
       }
-    }
+    } */
 
-    .slide-arrow:hover {
+    .__Carousel .slide-arrow:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .slide-arrow.left {
+    .__Carousel .slide-arrow.left {
       text-align: right;
       padding-right: 10px;
       left: -40px;
     }
 
-    .slide-arrow.left::before {
+    .__Carousel .slide-arrow.left::before {
       content: "‹";
     }
 
-    .slide-arrow.right {
+    .__Carousel .slide-arrow.right {
       text-align: left;
       padding-left: 10px;
       right: -40px;
     }
 
-    .slide-arrow.right::before {
+    .__Carousel .slide-arrow.right::before {
       content: "›";
     }
   </style>
 </head>
 
 <body>
-  <div class="mpanda-Carousel">
-    <section class="slide left">
-      <h1>Title1</h1>
-      <span>Context</span>
-      <figure data-img="./img.jpg">
-        <!-- <img src="./img.jpg" alt=""> -->
-      </figure>
-    </section>
-    <section class="slide left">
-      <h1>Title2</h1>
-      <span>Context</span>
-      <figure data-img="./img2.jpg">
-      </figure>
-    </section>
-    <section class="slide active">
-      <h1>Title3</h1>
-      <span>Context</span>
+  <div class="__Carousel">
+    <section class="slide left"> 
       <figure>
-        <img src="" alt="">
+        <img src="./img4.png" width="270px" height="481.25px" alt="">
       </figure>
     </section>
-    <section class="slide right">
-      <h1>Title4</h1>
-      <span>Context</span>
-      <figure data-img="./img3.jpg">
-
-      </figure>
-    </section>
-    <section class="slide right">
-      <h1>Title5</h1>
-      <span>Context</span>
+    <section class="slide left"> 
       <figure>
-        <img src="" alt="">
+        <img src="./img4.png" width="270px" height="481.25px" alt="">
+      </figure>
+    </section>
+    <section class="slide active"> 
+      <figure>
+        <img src="./img4.png" width="270px" height="481.25px" alt="">
+      </figure>
+    </section>
+    <section class="slide right"> 
+      <figure>
+        <img src="./img4.png" width="270px" height="481.25px" alt="">
+      </figure>
+    </section>
+    <section class="slide right"> 
+      <figure>
+        <img src="./img4.png" width="270px" height="481.25px" alt="">
       </figure>
     </section>
 
@@ -175,7 +180,7 @@
     this.intervalTime = 4000;
 
     this.init = () => {
-      this.slides = document.querySelectorAll(".mpanda-Carousel .slide");
+      this.slides = document.querySelectorAll(".__Carousel .slide");
       this.leftArrow = document.querySelector(".slide-arrow.left")
       this.rightArrow = document.querySelector(".slide-arrow.right")
       var carouselController = this
@@ -216,7 +221,9 @@
         var slide = this.slides[i];
         var figure = slide.querySelector("figure")
         var imgUrl = figure.dataset.img;
-        slide.style.backgroundImage = "url('" + imgUrl + "')";
+        slide.style.backgroundImage = "url('" + imgUrl + "')"; 
+        slide.style.height = (Math.random*4000)+'px'
+        console.log(slide,  slide.style.height)
       }
     }
     this.focusOn = (section) => {
@@ -237,14 +244,14 @@
     };
 
     this.play = () => {
-      var carouselController = this
-      clearInterval(this.playTimer)
-      this.playTimer = setInterval(function () {
-        if (!carouselController.pause) {
-          var newPos = (carouselController.currentSectionPos + 1) % carouselController.slides.length
-          carouselController.focusOn(carouselController.slides[newPos])
-        }
-      }, carouselController.intervalTime)
+      // var carouselController = this
+      // clearInterval(this.playTimer)
+      // this.playTimer = setInterval(function () {
+      //   if (!carouselController.pause) {
+      //     var newPos = (carouselController.currentSectionPos + 1) % carouselController.slides.length
+      //     carouselController.focusOn(carouselController.slides[newPos])
+      //   }
+      // }, carouselController.intervalTime)
     }
 
     this.sort = (middleSection) => {
