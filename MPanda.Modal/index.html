@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+    <style>
+      .App {
+      }
+
+      .App section {
+        margin: 20px 10px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: rgb(216, 216, 216);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="App">
+      <section>
+        <h3>Append To Body</h3>
+        <div>
+          <button data-modal-btn="modal_A">To Body</button>
+        </div>
+      </section>
+
+      <div data-modal="modal_A" style="width:1000px;height:800px">
+        Content!!!!
+        <video
+          id="_Video_Name"
+          autoplay
+          src="./Assets/movie.ogg"
+          controls="controls"
+          loop
+        >
+          your browser does not support the video tag
+        </video>
+      </div>
+
+      <section>
+        <h3>Append To Current DOM</h3>
+        <div>
+          <button>To Current DOM</button>
+        </div>
+      </section>
+      <section>
+        <h3>Append To Any DOM</h3>
+        <div>
+          <label for="dom"> DOM: </label>
+          <input name="dom" type="text" />
+        </div>
+        <div>
+          <button>To DOM</button>
+        </div>
+      </section>
+    </div>
+  </body>
+  <script src="./index.js"></script>
+  <script>
+    window.onload = function () {
+      var modal_A = new __Modal({
+        onShow: function () {
+          var video = document.getElementById('_Video_Name')
+          video.play()
+          console.log(this, 'open')
+        },
+        onClose: function () {
+          var video = document.getElementById('_Video_Name')
+          video.pause()
+          console.log(this, 'close')
+        },
+      })
+    }
+  </script>
+</html>
