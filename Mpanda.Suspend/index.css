@@ -1,0 +1,8 @@
+[Suspend]{
+  box-shadow:  0 0 20px rgba(0, 0, 0, 0.08);
+  /* border: 1px solid #333; */
+  transition: all .5s; 
+  border-radius: 5px;
+  overflow: hidden;
+  /* transform: matrix3d(n,n,n,n,n,n,n,n,n,n,n,n,n,n,n,n); */
+}
