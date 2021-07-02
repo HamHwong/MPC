@@ -3,7 +3,6 @@ class Suspending{
     this.mouseX = 0;
     this.mouseY = 0;
     this.doms = []
-    
     var init=()=>{
       var _this = this
       document.addEventListener('mousemove',function(e){
@@ -24,28 +23,7 @@ class Suspending{
     }
     function checkCollide(origin ,target ,offset){
       var OriginCenterPoint = {X:origin.x+origin.w/2,Y:origin.y+origin.h/2}
-      var TargetCenterPoint = {X:target.x+target.w/2,Y:target.y+target.h/2}
-      // var OriginMatrix =[ 
-      //   [OriginCenterPoint.X-origin.w/2,OriginCenterPoint.Y-origin.h/2],
-      //   [OriginCenterPoint.X+origin.w/2,OriginCenterPoint.Y-origin.h/2],
-      //   [OriginCenterPoint.X-origin.w/2,OriginCenterPoint.Y+origin.h/2],
-      //   [OriginCenterPoint.X+origin.w/2,OriginCenterPoint.Y+origin.h/2]
-      // ]
-      // var TargetMatrix = [
-      //   [TargetCenterPoint.X-target.w/2-offset,TargetCenterPoint.Y-target.h/2-offset],
-      //   [TargetCenterPoint.X+target.w/2+offset,TargetCenterPoint.Y-origin.h/2-offset],
-      //   [TargetCenterPoint.X-target.w/2-offset,TargetCenterPoint.Y+target.h/2+offset],
-      //   [TargetCenterPoint.X+target.w/2+offset,TargetCenterPoint.Y+target.h/2+offset]
-      // ]
-      // var Matrix = [
-      //   [0,0,0,0],
-      //   [0,0,0,0],
-      //   [0,0,0,0],
-      //   [0,0,0,0]
-      // ]
-      // var Force = 1
-      // 中心点到目标四点的距离,距离越短,影响越高
-      // OriginCenterPoint
+      var TargetCenterPoint = {X:target.x+target.w/2,Y:target.y+target.h/2} 
       var rotateX = 0;
       var rotateY = 0;
       var maxRotate = 10;
