@@ -54,9 +54,9 @@ function __tooltips (rootDOM) {
           _this.update(e.target.dataset.title)
           // Mouse Or Target Position
           var x = 0, y = 0, w = 0, h = 0
-          if (_this.mode === _this.MODE.FOLLOW_TARGET) {
-            x = e.target.offsetLeft
-            y = e.target.offsetTop + e.target.offsetHeight / 2
+          if (_this.mode === _this.MODE.FOLLOW_TARGET) { 
+            x = e.target.offsetLeft-scrollX
+            y = e.target.offsetTop -scrollY+ e.target.offsetHeight / 2
             w = e.target.offsetWidth
             h = e.target.offsetHeight
           } else {
@@ -74,8 +74,7 @@ function __tooltips (rootDOM) {
           //Position Offset 
           var position_offset = _this.getPositionOffset(direction, w, h)
           var offset_y = position_offset.y
-          var offset_x = position_offset.x
-
+          var offset_x = position_offset.x 
           _this.DOM.style.top = y + wrapper_offset_y + offset_y + 'px'
           _this.DOM.style.left = x + wrapper_offset_x + offset_x + 'px'
 
@@ -139,7 +138,7 @@ function __tooltips (rootDOM) {
       ].includes(i))
     }
 
-    if (this.DOM.offsetWidth + x > document.body.offsetWidth) {
+    if (this.DOM.offsetWidth + x > document.body.offsetWidth-scrollX) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.TOP_LEFT,
         this.Direction.BOTTOM_LEFT,
@@ -148,7 +147,7 @@ function __tooltips (rootDOM) {
         this.Direction.LEFT_BOTTOM,
       ].includes(i))
     }
-    if (this.DOM.offsetWidth / 2 + x > document.body.offsetWidth) {
+    if (this.DOM.offsetWidth / 2 + x > document.body.offsetWidth-scrollX) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.TOP,
         this.Direction.BOTTOM
@@ -171,8 +170,8 @@ function __tooltips (rootDOM) {
         this.Direction.RIGHT_BOTTOM
       ].includes(i))
     }
-
-    if (this.DOM.offsetHeight + y > document.body.offsetHeight) {
+    // console.log(this.DOM.offsetHeight ,y ,document.body.offsetHeight)
+    if (this.DOM.offsetHeight + y > document.body.offsetHeight-scrollY) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.TOP,
         this.Direction.TOP_LEFT,
@@ -183,7 +182,7 @@ function __tooltips (rootDOM) {
     }
 
 
-    if (this.DOM.offsetHeight / 2 + y > document.body.offsetHeight) {
+    if (this.DOM.offsetHeight / 2 + y > document.body.offsetHeight-scrollY) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.LEFT,
         this.Direction.RIGHT,
@@ -205,8 +204,8 @@ function __tooltips (rootDOM) {
     }
     restOfDirections.sort((pre, next) => pre.index - next.index)
     // console.log(restOfDirections,this.DOM.TOP)
-    // return restOfDirections[Math.floor(Math.random() * (restOfDirections.length - 1))].item
-    return this.Direction.LEFT_TOP
+    return restOfDirections[Math.floor(Math.random() * (restOfDirections.length - 1))].item
+    // return this.Direction.LEFT_TOP
   }
   this.getPositionOffset = function (direction, w, h) {
     var { width, height } = this.getDOMSize()
@@ -268,7 +267,7 @@ function __tooltips (rootDOM) {
         result.y = -(height + borderTriangleHeight + marginOffsetY)
         break;
       case this.Direction.BOTTOM_LEFT:
-        result.x =  -( borderTriangleWidth/2 +borderTriangleDistance)
+        result.x =  -( borderTriangleWidth/2 +borderTriangleDistance) 
         result.y = -(height+ borderTriangleHeight + marginOffsetY)
         break;
       case this.Direction.BOTTOM_RIGHT:
