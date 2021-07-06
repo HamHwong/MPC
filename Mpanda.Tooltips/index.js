@@ -10,7 +10,8 @@ function __tooltips (rootDOM) {
     FOLLOW_TARGET: 1
   }
   this.debounceTimer = 0
-  this.timerDuration = 300
+  this.timerDuration = 100
+  this.mouseOverTooltips = false
   this.mode = this.MODE.FOLLOW_TARGET;
   this.content = null;
   this.init = function () {
@@ -54,15 +55,16 @@ function __tooltips (rootDOM) {
           _this.update(e.target.dataset.title)
           // Mouse Or Target Position
           var x = 0, y = 0, w = 0, h = 0
-          if (_this.mode === _this.MODE.FOLLOW_TARGET) { 
-            x = e.target.offsetLeft-scrollX
-            y = e.target.offsetTop -scrollY+ e.target.offsetHeight / 2
-            w = e.target.offsetWidth
-            h = e.target.offsetHeight
+          if (_this.mode === _this.MODE.FOLLOW_TARGET) {
+            x = e.target.offsetLeft - scrollX
+            y = e.target.offsetTop - scrollY + e.target.offsetHeight / 2
           } else {
             x = e.x
             y = e.y
           }
+
+          w = e.target.offsetWidth
+          h = e.target.offsetHeight
 
           var direction = _this.getDirection(x, y)
           _this.setDirection(direction)
@@ -74,7 +76,7 @@ function __tooltips (rootDOM) {
           //Position Offset 
           var position_offset = _this.getPositionOffset(direction, w, h)
           var offset_y = position_offset.y
-          var offset_x = position_offset.x 
+          var offset_x = position_offset.x
           _this.DOM.style.top = y + wrapper_offset_y + offset_y + 'px'
           _this.DOM.style.left = x + wrapper_offset_x + offset_x + 'px'
 
@@ -83,12 +85,22 @@ function __tooltips (rootDOM) {
       }, _this.timerDuration);
     })
     DOM.addEventListener('mouseleave', function (e) {
-      if (_this.isShow()) {
-        e.stopPropagation()
-        e.preventDefault()
-        clearTimeout(_this.debounceTimer)
-        _this.hide()
-      }
+      _this.debounceTimer = setTimeout(() => {
+        if (_this.isShow() && !_this.mouseOverTooltips) {
+          e.stopPropagation()
+          e.preventDefault()
+          clearTimeout(_this.debounceTimer)
+          _this.hide()
+        }
+      }, _this.timerDuration);
+    })
+
+    _this.DOM.addEventListener('mouseover', function () {
+      _this.mouseOverTooltips = true
+    })
+    _this.DOM.addEventListener('mouseleave', function (e) {
+      _this.mouseOverTooltips = false 
+          _this.hide() 
     })
   }
   this.show = function () {
@@ -97,13 +109,12 @@ function __tooltips (rootDOM) {
     this.DOM.className = arr.join(' ')
   }
   this.hide = function () {
-    //console.log('hide')
     var arr = this.DOM.className.split(' ')
     arr.push('__tooltips_hidden')
+    arr = arr.filter((name, i) => arr.indexOf(name) === i)
     this.DOM.className = arr.join(' ')
   }
   this.isShow = function () {
-    // console.log(this.DOM.className.split(' '))
     return !!!this.DOM.className.split(' ').find(function (className) { return className === '__tooltips_hidden' })
   }
   this.getDOMSize = function () {
@@ -138,7 +149,7 @@ function __tooltips (rootDOM) {
       ].includes(i))
     }
 
-    if (this.DOM.offsetWidth + x > document.body.offsetWidth-scrollX) {
+    if (this.DOM.offsetWidth + x > document.body.offsetWidth - scrollX) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.TOP_LEFT,
         this.Direction.BOTTOM_LEFT,
@@ -147,7 +158,7 @@ function __tooltips (rootDOM) {
         this.Direction.LEFT_BOTTOM,
       ].includes(i))
     }
-    if (this.DOM.offsetWidth / 2 + x > document.body.offsetWidth-scrollX) {
+    if (this.DOM.offsetWidth / 2 + x > document.body.offsetWidth - scrollX) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.TOP,
         this.Direction.BOTTOM
@@ -171,7 +182,7 @@ function __tooltips (rootDOM) {
       ].includes(i))
     }
     // console.log(this.DOM.offsetHeight ,y ,document.body.offsetHeight)
-    if (this.DOM.offsetHeight + y > document.body.offsetHeight-scrollY) {
+    if (this.DOM.offsetHeight + y > document.body.offsetHeight - scrollY) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.TOP,
         this.Direction.TOP_LEFT,
@@ -182,7 +193,7 @@ function __tooltips (rootDOM) {
     }
 
 
-    if (this.DOM.offsetHeight / 2 + y > document.body.offsetHeight-scrollY) {
+    if (this.DOM.offsetHeight / 2 + y > document.body.offsetHeight - scrollY) {
       DirectionCollection = DirectionCollection.filter(i => ![
         this.Direction.LEFT,
         this.Direction.RIGHT,
@@ -203,20 +214,19 @@ function __tooltips (rootDOM) {
       return raw.indexOf(target) >= 0
     }
     restOfDirections.sort((pre, next) => pre.index - next.index)
-    // console.log(restOfDirections,this.DOM.TOP)
     return restOfDirections[Math.floor(Math.random() * (restOfDirections.length - 1))].item
-    // return this.Direction.LEFT_TOP
+    // return this.Direction.TOP_RIGHT
   }
   this.getPositionOffset = function (direction, w, h) {
     var { width, height } = this.getDOMSize()
-    var objectOffsetX = 0
-    var objectOffsetY = 0
-    if (this.mode === this.MODE.FOLLOW_TARGET) {
-      objectOffsetX = w
-      objectOffsetY = h
-    }
-    var marginOffsetX = 10
-    var marginOffsetY = 10
+    // var objectOffsetX = 0
+    // var objectOffsetY = 0
+    // if (this.mode === this.MODE.FOLLOW_TARGET) {
+    objectOffsetX = w
+    objectOffsetY = h
+    // }
+    // var marginOffsetX = 10
+    // var marginOffsetY = 10
     // var anchorSize = 5;
     var borderTriangleWidth = 5;
     var borderTriangleHeight = 6;
@@ -227,52 +237,85 @@ function __tooltips (rootDOM) {
     }
     switch (direction) {
       case this.Direction.TOP:
-        result.x = -(width / 2) + marginOffsetX
-        result.y = 0 + marginOffsetY
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = -(width / 2) 
+          result.y = 0
+        } else {
+          result.x = -(width / 2) 
+          result.y = objectOffsetY
+        }
         break;
       case this.Direction.TOP_LEFT:
-        result.x = marginOffsetX
-        result.y = 0 + objectOffsetY
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = 0
+        } else {
+          result.x = -(borderTriangleWidth + borderTriangleDistance)
+        }
+        result.y = objectOffsetY 
         break;
       case this.Direction.TOP_RIGHT:
-        result.x = -width + w / 2 + marginOffsetX
-        result.y = 0 + marginOffsetY
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = -width + w / 2 
+        } else {
+          result.x = -width + (borderTriangleWidth + borderTriangleDistance)
+        }
+        result.y = objectOffsetY
         break;
       case this.Direction.LEFT:
-        result.x = marginOffsetX + objectOffsetX
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x =  objectOffsetX
+        } else {
+          result.x = borderTriangleWidth
+        }
         result.y = -(height / 2)
         break;
       case this.Direction.LEFT_TOP:
-        result.x = objectOffsetX + marginOffsetX
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = objectOffsetX 
+        } else {
+          result.x = 0 + borderTriangleWidth
+        }
         result.y = - (0 + borderTriangleWidth + borderTriangleDistance / 2)
         break;
       case this.Direction.LEFT_BOTTOM:
-        result.x = objectOffsetX + marginOffsetX
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = objectOffsetX 
+        } else {
+          result.x = 0 + borderTriangleWidth
+        }
         result.y = -(height) + borderTriangleWidth + borderTriangleDistance
         break;
       case this.Direction.RIGHT:
-        result.x = -(width) - marginOffsetX
+        result.x = -(width)
         result.y = -(height / 2)
         break;
       case this.Direction.RIGHT_TOP:
-        result.x = -(width) - marginOffsetX
+        result.x = -(width) 
         result.y = -(0 + objectOffsetY / 2) + borderTriangleWidth / 2
         break;
       case this.Direction.RIGHT_BOTTOM:
-        result.x = -(width) - marginOffsetX
+        result.x = -(width)
         result.y = -(height) + borderTriangleWidth + borderTriangleDistance
         break;
       case this.Direction.BOTTOM:
-        result.x = -(width / 2) + objectOffsetX / 2
-        result.y = -(height + borderTriangleHeight + marginOffsetY)
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = -(width / 2) + objectOffsetX / 2
+        } else {
+          result.x = -(width / 2)
+        }
+        result.y = -(height + borderTriangleHeight)
         break;
       case this.Direction.BOTTOM_LEFT:
-        result.x =  -( borderTriangleWidth/2 +borderTriangleDistance) 
-        result.y = -(height+ borderTriangleHeight + marginOffsetY)
+        if (this.mode === this.MODE.FOLLOW_TARGET) { 
+          result.x = -(borderTriangleWidth/2+borderTriangleDistance)  + objectOffsetX/2
+        }else{
+          result.x = -(borderTriangleWidth/2+borderTriangleDistance)
+        }
+        result.y = -(height + borderTriangleHeight)
         break;
       case this.Direction.BOTTOM_RIGHT:
-        result.x = -(width)+ borderTriangleWidth/2 +borderTriangleDistance
-        result.y = -(height+ borderTriangleHeight + marginOffsetY)
+        result.x = -(width) + borderTriangleWidth / 2 + borderTriangleDistance
+        result.y = -(height + borderTriangleHeight)
         break;
     }
     return result
