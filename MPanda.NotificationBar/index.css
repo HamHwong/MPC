@@ -38,6 +38,7 @@
 }
 .__notification>.__notification_container>.__notification_container_inner_wrapper>.content_wrapper>span{
   /* display:inline-block !important; */
+  white-space: nowrap; 
   word-break:keep-all;
   font-size: 14px !important;
   line-height: 14px !important; 
@@ -47,13 +48,19 @@
 
 }
 .__notification>.__notification_container>.__notification_container_inner_wrapper .marquee{
-  /* transition: text-indent 20s ease-in-out; */
+  /* transition: margin-left 20s linear; */
+  margin-left:0;
 }
 @keyframes marquee {
-  0%   {text-indent: 0%;} 
-  100% {text-indent: -200%;}
+  /* 0%   {text-indent: 0%;} 
+  100% {text-indent: -200%;} */
+  /* 0%   {margin-left: 0%;}  
+  50% {margin-left: -100%;}
+  100% {margin-left: -200%;} */
 }
 .__notification>.__notification_container>.__notification_container_inner_wrapper .marquee:hover{
-  animation:marquee 30s infinite;
-  -webkit-animation:marquee 30s infinite; /* Safari 和 Chrome */
+  position: relative;
+  /* margin-left: -200%; */
+  /* animation:marquee 30s linear infinite; */
+  /* -webkit-animation:marquee 30s linear infinite;  */
 }

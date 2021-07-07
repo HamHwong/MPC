@@ -80,7 +80,6 @@ function __Modal (obj) {
     })
     dialog_tooltips.append(btn_close)
     // End Adding Buttons
-
     this.Content_Wrapper_DOM.className = ['__Model'].join(' ')
     this.Content_Wrapper_DOM.append(content)
     this.Shadow_DOM.append(this.Content_Wrapper_DOM)
