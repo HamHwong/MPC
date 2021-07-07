@@ -45,7 +45,7 @@
 
 @media (min-width: 700px) and (max-width: 1080px) {
   .__Carousel .slide.active {
-    flex: 4;
+    flex: 3;
   }
 }
 
