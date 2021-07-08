@@ -1,6 +1,6 @@
 {
-  "name": "@mpanda/pmc",
-  "version": "0.1.0",
+  "name": "@mpanda/mpc",
+  "version": "0.1.2",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
@@ -15,6 +15,10 @@
   "author": "HamHwong",
   "license": "MIT",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HamHwong/Mpanda.Frontend.Library.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -22,12 +26,12 @@
     "lib": "vue-cli-service build --target lib --name mpc --dest lib packages/index.js"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "node-sass": "4.14.1",
-    "sass-loader": "8.0.0",
-    "vue": "^3.0.0"
   },
   "devDependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0",
+    "node-sass": "4.14.1",
+    "sass-loader": "8.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
