@@ -4,7 +4,7 @@
       @click="handleClick"
       :value="data"
     />
-    <MPModal draggable>
+    <MPModal draggable resizeable visible>
       kjlkj
     </MPModal>
   </div>
