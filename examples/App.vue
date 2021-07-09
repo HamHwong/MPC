@@ -4,6 +4,9 @@
       @click="handleClick"
       :value="data"
     />
+    <MPModal draggable>
+      kjlkj
+    </MPModal>
   </div>
 </template>
 
