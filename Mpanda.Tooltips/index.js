@@ -2,7 +2,7 @@ function __tooltips (rootDOM) {
   this.rootDOM = rootDOM || document.querySelector('body')
   this.DOM = null
   this.contentDOM = null
-  this.className = '__tooltips __tooltips_hidden';
+  this.className = '__tooltips';
   this.x = 0;
   this.y = 0;
   this.MODE = {
@@ -22,7 +22,7 @@ function __tooltips (rootDOM) {
     })
   }
   this.generateTooltipsDOMTo = function (parentDOM) {
-    if (this.DOM === null || !this.tooltipsExisted()) {
+    if (this.DOM === null && !this.tooltipsExisted()) {
       this.DOM = document.createElement('div')
       this.contentDOM = document.createElement('div')
       this.contentDOM.className = '__tooltips_content'
@@ -30,10 +30,10 @@ function __tooltips (rootDOM) {
       radiusWrapper.className = '__tooltips_radius_wrapper'
       radiusWrapper.appendChild(this.contentDOM)
       this.DOM.appendChild(radiusWrapper)
-      this.DOM.className = this.className
+      this.DOM.className = [this.className,'__tooltips_hidden'].join(' ')
       parentDOM.appendChild(this.DOM)
     } else {
-      this.DOM = this.rootDOM.querySelector(this.className)
+      this.DOM = this.rootDOM.querySelector('.'+this.className)
       this.contentDOM = this.DOM.querySelector('div')
     }
   }
@@ -45,19 +45,34 @@ function __tooltips (rootDOM) {
     this.contentDOM.innerText = text
   }
   this.attachEventTriggerToDOM = function (DOM) {
+    if(DOM.scrollWidth<DOM.offsetWidth) return
+
+      //获取元素的纵坐标
+      function getTop (e) {
+        var offset = e.offsetTop;
+        if (e.offsetParent != null) offset += getTop(e.offsetParent);
+        return offset;
+      }
+      //获取元素的横坐标
+      function getLeft (e) {
+        var offset = e.offsetLeft;
+        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+        return offset;
+      }
+
     var _this = this
-    DOM.addEventListener('mousemove', function (e) {
+    DOM.addEventListener('mouseover', function (e) {
       clearTimeout(_this.debounceTimer)
       _this.debounceTimer = setTimeout(() => {
         if (!_this.isShow()) {
           e.stopPropagation()
           e.preventDefault()
-          _this.update(e.target.dataset.title)
+          _this.update(e.target.dataset.title||e.target.innerText)
           // Mouse Or Target Position
           var x = 0, y = 0, w = 0, h = 0
           if (_this.mode === _this.MODE.FOLLOW_TARGET) {
-            x = e.target.offsetLeft - scrollX
-            y = e.target.offsetTop - scrollY + e.target.offsetHeight / 2
+            x = getLeft(e.target)  - scrollX
+            y = getTop(e.target) - scrollY+ e.target.offsetHeight / 2
           } else {
             x = e.x
             y = e.y
@@ -214,8 +229,9 @@ function __tooltips (rootDOM) {
       return raw.indexOf(target) >= 0
     }
     restOfDirections.sort((pre, next) => pre.index - next.index)
-    return restOfDirections[Math.floor(Math.random() * (restOfDirections.length - 1))].item
-    // return this.Direction.TOP_RIGHT
+    var radomIndex = Math.floor(Math.random() * (restOfDirections.length - 1))
+    var result = restOfDirections[radomIndex]?restOfDirections[radomIndex].item:this.Direction.BOTTOM 
+    return result
   }
   this.getPositionOffset = function (direction, w, h) {
     var { width, height } = this.getDOMSize()
