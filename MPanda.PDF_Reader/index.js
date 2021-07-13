@@ -428,7 +428,7 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
       var renderTask = page.render(renderContext);
 
       renderTask.promise.then(function () {
-        _this._CurrentPage = num
+        _this.CurrentPage = num
         if (_this.CurrentPage + 1 <= _this.MaxPage) {
           //Enabled Next
           _this.Reader.querySelectorAll('.__BTN_Next').forEach(function (btn) {
