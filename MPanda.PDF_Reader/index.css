@@ -1,10 +1,43 @@
 .__PDF_Reader{
+  position: relative;
   background: #666666;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 } 
+.__PDF_Reader.loading::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #3333336c;
+  z-index: 9999;
+}
+.__PDF_Reader.loading::after{
+  content: '';
+  border-radius: 50%;
+  border: 20px groove #fff;
+  box-sizing: border-box;
+  position: absolute; 
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  z-index: 10000;
+  animation:cycle 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+@keyframes cycle {
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
 .__PDF_Reader .Thumbs_Wrapper{ 
   width: 200px;
   margin-right: -200px; 

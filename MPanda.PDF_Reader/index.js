@@ -54,6 +54,7 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
     }
   })
   this.url = pdfurl
+  this.Reader = null
   this.contentDOM = null
   this.canvasDOM = null
   this.canvasWrapper = null
@@ -64,7 +65,6 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
   this.id = window._utils.string.randomString(6)
   this.dragging = false
   this.pdfDoc = null
-  this.Reader = null
   this.keyboardHasBound = false
 
   this._MaxPage = 0
@@ -110,8 +110,24 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
       return this._Scale
     }
   })
-  this.LoadingPDF = false
+  this._LoadingPDF = false
+  Object.defineProperty(this, "LoadingPDF", {
+    set (val) {
+      this._LoadingPDF = val
+      var ReaderClassNames = this.Reader.className.split(' ')
+      if (val) {
+        ReaderClassNames.push('loading')
+      } else {
+        ReaderClassNames = ReaderClassNames.filter(i => i !== 'loading')
+      }
+      this.Reader.className = ReaderClassNames.join(' ')
+    },
+    get () {
+      return this._LoadingPDF
+    }
+  })
   this.init = async function () {
+
     if (workerurl) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = workerurl;
     }
@@ -132,6 +148,7 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
     })
 
 
+    this.LoadingPDF = true;
     pdfjsLib.getDocument(this.url).promise.then((pdfDoc) => {
       this.pdfDoc = pdfDoc;
       this.MaxPage = pdfDoc.numPages;
@@ -412,6 +429,7 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
   }
   this.toPage = function (num) {
     num = Number(num) || 1
+    // this.LoadingPDF = true;
     var canvas = this.canvasDOM || document.getElementById(this.id);
     var ctx = this.ctx || canvas.getContext('2d');
     var _this = this;
@@ -470,11 +488,10 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
           var className = thumb.className.split(' ')
           className.push('selected')
           thumb.className = className.join(' ')
-        }
-
+        } 
       }).finally(function () {
-        this.LoadingPDF = false;
-      });
+        _this.LoadingPDF = false;
+      }); 
     });
   }
   this.destroy = function () {
