@@ -44,9 +44,10 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
   Object.defineProperty(this, "height", {
     set (val) {
       this._height = val
-      if (this.thumbsDOM) {
+      if (this.thumbsInnerWrapperDOM) {
         // debugger
-        this.thumbsDOM.style.height = this.canvasWrapper.offsetHeight + 'px'
+        this.thumbsInnerWrapperDOM.style.height = this.canvasWrapper.offsetHeight + 'px'
+        // this.thumbsDOM.style.height = this.canvasWrapper.offsetHeight + 'px'
       }
     },
     get () {
@@ -242,11 +243,26 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
   this.generateThumbsWrapper = function () {
     var thumbsWrapper = document.createElement('div')
     thumbsWrapper.className = ['Thumbs_Wrapper'].join(' ')
-    thumbsWrapper.style.height = '1000px'
+    // init
     var thumbsInnerWrapper = document.createElement('div')
     thumbsInnerWrapper.className = ['Thumbs_Inner_Wrapper'].join(' ')
+    thumbsInnerWrapper.style.height = '1000px'
     this.thumbsInnerWrapperDOM = thumbsInnerWrapper
     thumbsWrapper.append(thumbsInnerWrapper)
+    var thumbsHandler =document.createElement('div')
+    thumbsHandler.innerText='导航栏'
+    thumbsHandler.className=['Thumbs_Handler'].join(' ') 
+    thumbsHandler.addEventListener('click',()=>{
+      var classNames = thumbsWrapper.className.split(' ')
+      if(classNames.includes('unfold')){
+        thumbsWrapper.className =  classNames.filter(i=>i!=='unfold').join(' ')
+      }else{
+        classNames.push('unfold')
+        thumbsWrapper.className = classNames.join(' ')
+      }
+    })
+    thumbsWrapper.append(thumbsHandler)
+    //Thumbs_Handler
     return thumbsWrapper
   }
   this.generateThumbs = function () {
@@ -306,7 +322,7 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
     function renderThumbs () {
       for (var j = 0; j < _this.thumbs.length; j++) {
         var thumb = _this.thumbs[j]
-        if (_this.isElementInViewport(thumb, _this.thumbsDOM)) {
+        if (_this.isElementInViewport(thumb, _this.thumbsInnerWrapperDOM)) {
           renderThumb.call(_this, thumb)
         }
       }

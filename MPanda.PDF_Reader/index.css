@@ -14,12 +14,12 @@
   width: 100%;
   height: 100%;
   background-color: #3333336c;
-  z-index: 9999;
+  z-index: 999;
 }
 .__PDF_Reader.loading::after{
   content: '';
   border-radius: 50%;
-  border: 20px groove #fff;
+  border: 7px solid #fff;
   box-sizing: border-box;
   position: absolute; 
   top: calc(50% - 20px);
@@ -27,8 +27,25 @@
   width: 40px;
   height: 40px;
   color: #fff;
-  z-index: 10000;
-  animation:cycle 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  z-index: 1000; 
+  transform-origin:50% 50%;
+  animation:zoom 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) alternate infinite;
+}
+@keyframes zoom {
+  from{
+    transform: scale(1); 
+    box-shadow: #333333 0 0 10px,
+    #818181 0 0 10px inset,
+    rgb(255, 93, 29) 0 10px 20px  ,
+    rgb(217, 255, 0) 0 -10px 20px  ,
+    rgb(0, 183, 255) 10px 0px 20px  ,
+    rgb(255, 10, 202) -10px 0px 20px  ;
+  }
+  to{
+    transform: scale(1.2);
+    box-shadow: #777777 0 0 20px, 
+    #818181 0 0 10px inset;
+  }
 }
 @keyframes cycle {
   from{
@@ -38,11 +55,34 @@
     transform: rotate(360deg);
   }
 }
+
 .__PDF_Reader .Thumbs_Wrapper{ 
-  width: 200px;
+  width: 0px;
   margin-right: -200px; 
+  position: relative;
   background: rgb(145, 145, 145); 
-  overflow-y: auto; 
+  /* overflow-y: auto;  */
+  transition: width .5s ease-in-out;
+}
+
+.__PDF_Reader .Thumbs_Wrapper.unfold{
+  width: 200px; 
+}
+
+.__PDF_Reader .Thumbs_Wrapper .Thumbs_Handler{ 
+  position: absolute;
+  right: -20px;
+  top: 0;
+  width: 20px;
+  height: 50px;
+  writing-mode:vertical-rl; 
+  font-size:8px;
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+  background-color: rgb(66, 66, 66);
+  border-radius: 0 0 10px 0px;
+  cursor: pointer;
 }
 .__PDF_Reader .Thumbs_Wrapper .Thumbs_Inner_Wrapper{
   display: flex;
@@ -51,8 +91,8 @@
   overflow-y: auto;
 }
 .__PDF_Reader .Thumbs_Wrapper .Thumbs_Inner_Wrapper .Thumb{
-  min-width: 80px;
-  min-height: 80px;
+  /* min-width: 80px;
+  min-height: 80px; */
   background-color: #333333; 
   margin: 20px;
   /* box-sizing: border-box; */
