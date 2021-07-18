@@ -46,8 +46,15 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
       this._height = val
       if (this.thumbsInnerWrapperDOM) {
         // debugger
-        this.thumbsInnerWrapperDOM.style.height = this.canvasWrapper.offsetHeight + 'px'
-        // this.thumbsDOM.style.height = this.canvasWrapper.offsetHeight + 'px'
+        var height = 0
+        if (val <= 450) {
+          height = 450
+        } else if (val >= 900) {
+          height = 900
+        } else {
+          height = val
+        }
+        this.thumbsInnerWrapperDOM.style.height = height + 'px'
       }
     },
     get () {
@@ -187,20 +194,32 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
     reader.append(await this.generateTools())
     this.contentDOM = await this.generateCanvas()
     reader.append(this.contentDOM)
-    reader.append(await this.generateTools())
+    reader.append(await this.generateTools('bottom'))
 
     containerDOM.append(reader)
 
     return reader
   }
-  this.generateTools = async function () {
+  this.checkAndMarkIfCanvasWrapperIsOverflow = function () {
+    var classNames = this.canvasWrapper.className.split(' ')
+    if(this.canvasWrapper.offsetWidth < this.canvasWrapper.scrollWidth || this.canvasWrapper.offsetHeight < this.canvasWrapper.scrollHeight){ 
+      if(!classNames.includes('zoom')){
+        classNames.push('zoom')
+      }
+    }else{ 
+      classNames = classNames.filter(i=>i!=='zoom') 
+    }
+    this.canvasWrapper.className = classNames.join(' ')
+  }
+  this.generateTools = async function (direction='top') {
     var tools = document.createElement('div')
-    tools.className = ['__PDF_Tools'].join(' ')
+    tools.className = ['__PDF_Tools','hidden',direction].join(' ')
     var toolsArr = []
     // 缩小
-    var shrinkBtn = this.generateButton(['__PDF_Btn'], '<p>缩小</p>', 'click', function (e) {
+    var shrinkBtn = this.generateButton(['__PDF_Btn'], '<p class="icon-zoom-out"></p>', 'click', function (e) {
       e.stopPropagation()
       e.preventDefault()
+      this.checkAndMarkIfCanvasWrapperIsOverflow()
       this.Scale = this.Scale / 1.25
     })
     toolsArr.push(shrinkBtn)
@@ -229,12 +248,33 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
     })
     toolsArr.push(nextPageBtn)
     // 放大
-    var enlargeBtn = this.generateButton(['__PDF_Btn'], '<p>放大</p>', 'click', function (e) {
+    var enlargeBtn = this.generateButton(['__PDF_Btn'], '<p  class="icon-zoom-in"></p>', 'click', function (e) {
       e.stopPropagation()
       e.preventDefault()
+      this.checkAndMarkIfCanvasWrapperIsOverflow()
       this.Scale = this.Scale * 1.25
     })
     toolsArr.push(enlargeBtn)
+
+    var menuBtn = document.createElement('div')
+    menuBtn.className = ['__PDF_Menu_Btn','icon-sort'].join(' ')
+    menuBtn.addEventListener('click',(e)=>{
+      // console.log(e)
+      var classNames = tools.className.split(' ')
+      var menuBtnClassNames =   menuBtn.className.split(' ')
+      if(classNames.includes('hidden')){
+        classNames = classNames.filter(i=>i!=='hidden')
+        menuBtnClassNames = menuBtnClassNames.filter(i=>i!=='icon-sort')
+        menuBtnClassNames.push('icon-minus')
+      }else{
+        classNames.push('hidden')
+        menuBtnClassNames = menuBtnClassNames.filter(i=>i!=='icon-minus')
+        menuBtnClassNames.push('icon-sort')
+      }
+      tools.className = classNames.join(' ')
+      menuBtn.className = menuBtnClassNames.join(' ')
+    })
+    toolsArr.push(menuBtn)
     toolsArr.map(btn => {
       tools.append(btn)
     })
@@ -249,16 +289,25 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
     thumbsInnerWrapper.style.height = '1000px'
     this.thumbsInnerWrapperDOM = thumbsInnerWrapper
     thumbsWrapper.append(thumbsInnerWrapper)
-    var thumbsHandler =document.createElement('div')
-    thumbsHandler.innerText='导航栏'
-    thumbsHandler.className=['Thumbs_Handler'].join(' ') 
-    thumbsHandler.addEventListener('click',()=>{
+    var thumbsHandler = document.createElement('div')
+    thumbsHandler.innerText = '导航栏'
+    thumbsHandler.className = ['Thumbs_Handler','icon-angle-right'].join(' ')
+    thumbsHandler.addEventListener('click', () => {
       var classNames = thumbsWrapper.className.split(' ')
-      if(classNames.includes('unfold')){
-        thumbsWrapper.className =  classNames.filter(i=>i!=='unfold').join(' ')
-      }else{
+      var handlerClassName = thumbsHandler.className.split(' ')
+      if (classNames.includes('unfold')) {
+        thumbsWrapper.className = classNames.filter(i => i !== 'unfold').join(' ')
+        // Icon Change 
+        handlerClassName = handlerClassName.filter(i=>i!=='icon-angle-left')
+        handlerClassName.push('icon-angle-right')
+        thumbsHandler.className = handlerClassName.join(' ')
+      } else {
         classNames.push('unfold')
         thumbsWrapper.className = classNames.join(' ')
+        // Icon Change 
+        handlerClassName = handlerClassName.filter(i=>i!=='icon-angle-right')
+        handlerClassName.push('icon-angle-left')
+        thumbsHandler.className = handlerClassName.join(' ')
       }
     })
     thumbsWrapper.append(thumbsHandler)
@@ -434,6 +483,13 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
       offsetYOfLast = 0
       _this.dragging = false
     })
+    canvasWrapper.addEventListener('mousewheel', function (e) {
+      if (e.deltaY > 0) {
+        _this.nextPage()
+      } else {
+        _this.prePage()
+      }
+    })
     // readerWrapper.addEventListener('mouseout',function(){
     //   offsetXOfLast = 0
     //   _this.dragging = false
@@ -454,7 +510,7 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
       canvas.height = viewport.height;
       canvas.width = viewport.width;
       _this.width = viewport.width;
-      _this.height = viewport.height;
+      _this.height = viewport.height; 
       var renderContext = {
         canvasContext: ctx,
         viewport: viewport
@@ -504,10 +560,10 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
           var className = thumb.className.split(' ')
           className.push('selected')
           thumb.className = className.join(' ')
-        } 
+        }
       }).finally(function () {
         _this.LoadingPDF = false;
-      }); 
+      });
     });
   }
   this.destroy = function () {

@@ -1,9 +1,7 @@
 .__tooltips{
   position: fixed;
-  width:250px;
-  transition: 
-  opacity .15s cubic-bezier(0,-0.36,1,1.41),
-  height .15s cubic-bezier(.43,-0.23,.53,1.36);
+  max-width:400px;
+  transition: opacity .15s ease-in-out height .15s ease-in-out;
   opacity: 1;
   /* pointer-events: none; */
   font-size: 12px;
