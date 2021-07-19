@@ -484,6 +484,8 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
       _this.dragging = false
     })
     canvasWrapper.addEventListener('mousewheel', function (e) {
+      e.stopPropagation()
+      e.preventDefault()
       if (e.deltaY > 0) {
         _this.nextPage()
       } else {
