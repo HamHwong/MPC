@@ -4,7 +4,7 @@
       @click="handleClick"
       :value="data"
     />
-    <MPModal draggable resizeable visible>
+    <MPModal draggable resizeable visible :position="{x:100,y:200}">
       kjlkj
     </MPModal>
   </div>
@@ -25,41 +25,6 @@ export default {
         pic: require('./assets/images/img.jpg'),
       }, {
         order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 3,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, { 
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 2,
         label: '1',
         pic: require('./assets/images/img.jpg'),
       }]

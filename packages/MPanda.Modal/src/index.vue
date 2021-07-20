@@ -102,6 +102,15 @@ export default {
       type: Number,
       default: () => 200
     },
+    position:{
+      type: Object,
+      default:()=>{
+        return {
+          x:0,
+          y:0
+        }
+      }
+    },
     visible: {
       type: Boolean,
       default: () => false
@@ -128,28 +137,31 @@ export default {
     const isVisible = ref(false)
     const isGrabbing = ref(false)
     const isResizing = ref(false)
-    let x = ref(0)
-    let y = ref(0)
+    let x = ref(props.position.x)
+    let y = ref(props.position.y) 
     let w = ref(props.width)
     let h = ref(props.height)
     let headerHeight = 22;
-    if (props.draggable) {
-      x.value = 0
-      y.value = 0
-    }
+    // if (props.draggable) {
+    //   x.value = 0
+    //   y.value = 0
+    // }
     if (props.resizeable) {
       w.value = 0
       h.value = 0
     }
-    function handleDrag () {
+    var startX = ref(0)
+    function handleDrag (e) {
       if (props.draggable && !isGrabbing.value) {
         isGrabbing.value = true
+        startX.value = x.value - e.pageX
       }
     }
     function handleDragging (e) {
       if (isGrabbing.value) {
-        x.value = e.pageX
+        x.value = e.pageX + startX.value
         y.value = e.pageY
+        // startX.value = x.value
         // console.log(x.value,y.value)
       }
     }
