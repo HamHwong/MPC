@@ -1,33 +1,59 @@
 <template>
   <div>
-    <MPCarousel
-      @click="handleClick"
-      :value="data"
-    />
-    <MPModal draggable resizeable visible :position="{x:100,y:200}">
-      kjlkj
+    <div style="width:30%;margin:0 auto;background-color:#ccc;">
+      <MPCarousel
+        @click="handleClick"
+        :value="data"
+      />
+    </div>
+
+    <div id="modal_container" style="width:800px;height:600px;overflow:auto">
+    <MPModal
+      :visible="modalVisibility"  
+      @close="()=>modalVisibility=false" 
+    >
+      props:
+      <p>
+      Draggable
+      </p>
+      <p>
+      Resizeable
+      </p>
+      <p>
+      Center (will overwrite draggable and resizeable)
+      </p>
+      <div style="width:800px;height:600px"></div>
     </MPModal>
+</div>
+    <button @click="handleModalDisplay" >click</button>
   </div>
 </template>
 
 <script>
+import { reactive, ref } from '@vue/reactivity'
 
 export default {
   name: 'App',
-  methods: {
-    handleClick: (a, b, c) => { console.log(a, b, c) }
-  },
-  data () {
+  setup () {
+    const modalVisibility = ref(false)
+    const data = reactive([{
+      order: 0,
+      label: '1',
+      pic: require('./assets/images/img.jpg'),
+    }, {
+      order: 1,
+      label: '1',
+      pic: require('./assets/images/img.jpg'),
+    }])
+    function handleClick (a, b, c) { console.log(a, b, c) }
+    function handleModalDisplay(){
+      modalVisibility.value = true
+    }
     return {
-      data: [{
-        order: 0,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }, {
-        order: 1,
-        label: '1',
-        pic: require('./assets/images/img.jpg'),
-      }]
+      modalVisibility,
+      handleClick,
+      handleModalDisplay,
+      data
     }
   }
 }

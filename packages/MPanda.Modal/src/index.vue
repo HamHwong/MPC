@@ -1,5 +1,5 @@
 <template>
-  <teleport :to="appendTo">
+  <!-- <teleport :to="appendTo"> -->
     <div
       :class="{
       __Model_Shadow:true ,
@@ -15,13 +15,13 @@
         <div
           :class="{
             __Model:true,
-            __Modal_Draggable:draggable
+            __Modal_Draggable:draggable&&!center
           }"
           :style="{
-              left:draggable?`${x-w/2<0?0:x-w/2}px`:null,
-              top:draggable?`${y-headerHeight/2<0?0:y-headerHeight/2}px`:null,
-              width:resizeable?`${w}px`:null,
-              height:resizeable?`${h}px`:null
+              left:draggable?`${x}px`:null,
+              top:draggable?`${y}px`:null,
+              width:resizeable&&!center?`${w}px`:null,
+              height:resizeable&&!center?`${h}px`:null
               }"
         >
           <div
@@ -41,11 +41,6 @@
             ></div>
           </div>
           <div class="__Model_Content">
-            x:{{x}}
-            y:{{y}}
-            h:{{h}}
-            w:{{w}}
-            headerHeight:{{headerHeight}}
             <slot name="default"></slot>
           </div>
           <div
@@ -72,7 +67,7 @@
         </div>
       </div>
     </div>
-  </teleport>
+  <!-- </teleport> -->
 </template>
 
 <script>
@@ -102,16 +97,20 @@ export default {
       type: Number,
       default: () => 200
     },
-    position:{
+    position: {
       type: Object,
-      default:()=>{
+      default: () => {
         return {
-          x:0,
-          y:0
+          x: 0,
+          y: 0
         }
       }
     },
     visible: {
+      type: Boolean,
+      default: () => false
+    },
+    center: {
       type: Boolean,
       default: () => false
     }
@@ -138,36 +137,30 @@ export default {
     const isGrabbing = ref(false)
     const isResizing = ref(false)
     let x = ref(props.position.x)
-    let y = ref(props.position.y) 
+    let y = ref(props.position.y)
     let w = ref(props.width)
     let h = ref(props.height)
     let headerHeight = 22;
-    // if (props.draggable) {
-    //   x.value = 0
-    //   y.value = 0
-    // }
-    if (props.resizeable) {
-      w.value = 0
-      h.value = 0
-    }
-    var startX = ref(0)
+    var Mouse_OffsetX = ref(0)
+    var Mouse_StartY = ref(0)
     function handleDrag (e) {
       if (props.draggable && !isGrabbing.value) {
         isGrabbing.value = true
-        startX.value = x.value - e.pageX
+        Mouse_OffsetX.value = x.value - e.pageX
+        Mouse_StartY.value = y.value - e.pageY
       }
     }
     function handleDragging (e) {
       if (isGrabbing.value) {
-        x.value = e.pageX + startX.value
-        y.value = e.pageY
-        // startX.value = x.value
-        // console.log(x.value,y.value)
+        x.value = e.pageX + Mouse_OffsetX.value
+        y.value = e.pageY + Mouse_StartY.value
       }
     }
     function handleDrop () {
       if (props.draggable && isGrabbing.value) {
         isGrabbing.value = false
+        Mouse_OffsetX.value = 0
+        Mouse_StartY.value = 0
       }
     }
     const Direction = ref(null)
@@ -179,38 +172,14 @@ export default {
         isResizing.value = true
         Direction.value = direction
         startHeight.value = h.value
+        // Mouse_OffsetX.value = x.value - e.pageX
+        Mouse_StartY.value = e.screenY
       }
     }
     function endResize (e) {
       e.preventDefault()
       e.stopPropagation()
       if (props.resizeable && isResizing.value) {
-        var newheight = 0
-        var newWidth = 0
-        switch (Direction.value) {
-          case DIRECTION.X:
-            newWidth = e.screenX - x.value
-            w.value = newWidth
-            break;
-          case DIRECTION.Y:
-            newheight = e.screenY - (y.value + startHeight.value)
-            if (newheight + y.value > screen.height) {
-              h.value = screen.height - y.value
-            } else {
-              h.value = newheight
-            }
-            break;
-          case DIRECTION.CROSS:
-            newWidth = e.screenX - x.value
-            newheight = e.screenY - (y.value + startHeight.value)
-            w.value = newWidth
-            if (newheight + y.value > screen.height) {
-              h.value = screen.height - y.value
-            } else {
-              h.value = newheight
-            }
-            break;
-        }
         isResizing.value = false
       }
     }
@@ -221,16 +190,15 @@ export default {
             w.value = e.screenX - x.value
             break;
           case DIRECTION.Y:
-            h.value = e.screenY - (y.value + startHeight.value)
+            h.value = e.screenY - Mouse_StartY.value + startHeight.value
             break;
           case DIRECTION.CROSS:
             w.value = e.screenX - x.value
-            h.value = e.screenY - (y.value + startHeight.value)
+            h.value = e.screenY - Mouse_StartY.value + startHeight.value
             break;
         }
       }
     }
-
     function handleClose () {
       display.value = false
       context.emit('close')
@@ -368,7 +336,7 @@ export default {
       .__Model_Resize {
         position: absolute;
         cursor: pointer;
-        background: red;
+        // background: red;
         &.Handler_Right {
           width: 5px;
           height: 100%;
