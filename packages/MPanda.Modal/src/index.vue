@@ -8,14 +8,17 @@
     }"
       @mousemove="handleDragging($event);handleResizeMove($event)"
       @mouseup="endResize"
+      @click.stop="(e)=>{tapShadowToClose&&handleClose(e)}"
     >
       <div :class="{
           __Model_Wrapper:true
-        }">
+        }"
+          @click.stop=""
+        >
         <div
           :class="{
             __Model:true,
-            __Modal_Draggable:draggable&&!center
+            __Modal_Draggable:draggable&&!center 
           }"
           :style="{
               left:draggable?`${x}px`:null,
@@ -48,6 +51,7 @@
             __Model_Resize:true, 
             Handler_Right:true, 
           }"
+            v-if="resizeable"
             @mousedown="handleResize($event,DIRECTION.X)"
           />
           <div
@@ -55,6 +59,7 @@
             __Model_Resize:true, 
             Handler_Bottom:true
           }"
+          v-if="resizeable"
             @mousedown="handleResize($event,DIRECTION.Y)"
           />
           <div
@@ -62,6 +67,7 @@
             __Model_Resize:true, 
             Handler_Cross:true
           }"
+          v-if="resizeable"
             @mousedown="handleResize($event,DIRECTION.CROSS)"
           />
         </div>
@@ -113,10 +119,15 @@ export default {
     center: {
       type: Boolean,
       default: () => false
+    },
+    tapShadowToClose:{
+      type:Boolean,
+      default:()=>false
     }
   },
-  emits: ['close'],
+  emits: ['close','display'],
   setup (props, context) {
+    console.log(props)
     const status = ref(STATUS.HIDE)
     const display = ref(false)
     watch(() => display.value, (visible) => {
@@ -199,7 +210,9 @@ export default {
         }
       }
     }
-    function handleClose () {
+    function handleClose (e) {
+      e.stopPropagation()
+      e.preventDefault()
       display.value = false
       context.emit('close')
     }
@@ -231,7 +244,7 @@ export default {
   display: none;
 }
 .__Model_Shadow {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   min-width: 100vw;
@@ -287,8 +300,11 @@ export default {
           }
         }
         position: absolute;
-        left: 0;
-        top: 0;
+        // left: 0;
+        // top: 0;
+      }
+      &.__Modal_Resizeable{
+
       }
       .__Model_Header {
         /* width: 100%; */

@@ -1,6 +1,8 @@
 // 导入组件
 import MPCarousel from "./Mpanda.Carousel/index";
 import MPModal from "./MPanda.Modal/index";
+// 
+import MPTooltips from './Mpanda.Tooltips/index.js'
 
 // 存储组件列表-数组方式
 // const components = [tedMenu]
@@ -9,7 +11,10 @@ import MPModal from "./MPanda.Modal/index";
 const components = {
   MPCarousel,
   MPModal
-};
+}; 
+const directives = {
+  tooltips:MPTooltips
+}
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 const install = function (Vue) {
@@ -25,6 +30,10 @@ const install = function (Vue) {
   Object.keys(components).forEach(key => {
     Vue.component(key, components[key]);
   });
+
+  Object.keys(directives).forEach(key=>{
+    Vue.directive(key,directives[key])
+  })
 };
 
 // 判断是否是直接引入文件

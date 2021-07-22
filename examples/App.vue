@@ -6,26 +6,32 @@
         :value="data"
       />
     </div>
-
-    <div id="modal_container" style="width:800px;height:600px;overflow:auto">
-    <MPModal
-      :visible="modalVisibility"  
-      @close="()=>modalVisibility=false" 
+<!-- 
+    <div
+      id="modal_container"
+      style="width:800px;height:600px;overflow:auto"
     >
-      props:
-      <p>
-      Draggable
-      </p>
-      <p>
-      Resizeable
-      </p>
-      <p>
-      Center (will overwrite draggable and resizeable)
-      </p>
-      <div style="width:800px;height:600px"></div>
-    </MPModal>
-</div>
-    <button @click="handleModalDisplay" >click</button>
+    </div> -->
+      <MPModal
+        :visible="modalVisibility"
+        @close="()=>modalVisibility=false"
+        draggable
+        resizeable
+        tap-shadow-to-close
+      >
+        props:
+        <p>
+          Draggable
+        </p>
+        <p>
+          Resizeable
+        </p>
+        <p>
+          Center (will overwrite draggable and resizeable)
+        </p>
+        <div style="width:800px;height:600px"></div>
+      </MPModal>
+    <button v-tooltips="'xxxx'" @click="handleModalDisplay">click</button>
   </div>
 </template>
 
@@ -46,7 +52,7 @@ export default {
       pic: require('./assets/images/img.jpg'),
     }])
     function handleClick (a, b, c) { console.log(a, b, c) }
-    function handleModalDisplay(){
+    function handleModalDisplay () {
       modalVisibility.value = true
     }
     return {
