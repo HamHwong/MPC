@@ -6,12 +6,13 @@
         :value="data"
       />
     </div>
-<!-- 
+
     <div
       id="modal_container"
-      style="width:800px;height:600px;overflow:auto"
+      style="width:100px;height:100px;marign-left:20px;overflow:auto;background-color:red"
+      v-tooltips="'sssss'"
     >
-    </div> -->
+    </div>
       <MPModal
         :visible="modalVisibility"
         @close="()=>modalVisibility=false"
@@ -31,7 +32,7 @@
         </p>
         <div style="width:800px;height:600px"></div>
       </MPModal>
-    <button v-tooltips="'xxxx'" @click="handleModalDisplay">click</button>
+    <button @click="handleModalDisplay">click</button>
   </div>
 </template>
 
