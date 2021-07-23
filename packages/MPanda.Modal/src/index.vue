@@ -330,7 +330,7 @@ export default {
             position: absolute;
             left: 0;
             top: 0;
-            background-image: url("./Assets/image/close.svg");
+            background-image: url("./Assets/close.svg");
             background-size: contain;
             background-repeat: no-repeat;
             width: 6px;
