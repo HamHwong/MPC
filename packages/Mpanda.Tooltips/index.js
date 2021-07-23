@@ -44,7 +44,6 @@ function __tooltips (rootDOM,el,binding) {
   }
   this.attachEventTriggerToDOM = function (DOM) {
     // if(DOM.scrollWidth<DOM.offsetWidth) return
-
       //获取元素的纵坐标
       function getTop (e) {
         var offset = e.offsetTop;

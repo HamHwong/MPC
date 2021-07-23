@@ -3,6 +3,7 @@ import MPCarousel from "./Mpanda.Carousel/index";
 import MPModal from "./MPanda.Modal/index";
 // 
 import MPTooltips from './Mpanda.Tooltips/index.js'
+import MPSuspend from './Mpanda.Suspend/index.js'
 
 // 存储组件列表-数组方式
 // const components = [tedMenu]
@@ -13,7 +14,8 @@ const components = {
   MPModal
 }; 
 const directives = {
-  tooltips:MPTooltips
+  tooltips:MPTooltips,
+  suspend:MPSuspend
 }
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
