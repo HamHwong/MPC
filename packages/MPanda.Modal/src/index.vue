@@ -126,8 +126,7 @@ export default {
     }
   },
   emits: ['close','display'],
-  setup (props, context) {
-    console.log(props)
+  setup (props, context) { 
     const status = ref(STATUS.HIDE)
     const display = ref(false)
     watch(() => display.value, (visible) => {

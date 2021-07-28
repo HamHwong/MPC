@@ -1,5 +1,5 @@
 import './index.css'
-function __tooltips (rootDOM,el,binding) {
+function __tooltips (rootDOM, el, binding) {
   this.rootDOM = rootDOM || document.querySelector('#app')
   this.DOM = null
   this.contentDOM = null
@@ -28,10 +28,10 @@ function __tooltips (rootDOM,el,binding) {
       radiusWrapper.className = '__tooltips_radius_wrapper'
       radiusWrapper.appendChild(this.contentDOM)
       this.DOM.appendChild(radiusWrapper)
-      this.DOM.className = [this.className,'__tooltips_hidden'].join(' ')
+      this.DOM.className = [this.className, '__tooltips_hidden'].join(' ')
       parentDOM.appendChild(this.DOM)
     } else {
-      this.DOM = this.rootDOM.querySelector('.'+this.className)
+      this.DOM = this.rootDOM.querySelector('.' + this.className)
       this.contentDOM = this.DOM.querySelector('div')
     }
   }
@@ -44,18 +44,18 @@ function __tooltips (rootDOM,el,binding) {
   }
   this.attachEventTriggerToDOM = function (DOM) {
     // if(DOM.scrollWidth<DOM.offsetWidth) return
-      //获取元素的纵坐标
-      function getTop (e) {
-        var offset = e.offsetTop;
-        if (e.offsetParent != null) offset += getTop(e.offsetParent);
-        return offset;
-      }
-      //获取元素的横坐标
-      function getLeft (e) {
-        var offset = e.offsetLeft;
-        if (e.offsetParent != null) offset += getLeft(e.offsetParent);
-        return offset;
-      }
+    //获取元素的纵坐标
+    function getTop (e) {
+      var offset = e.offsetTop;
+      if (e.offsetParent != null) offset += getTop(e.offsetParent);
+      return offset;
+    }
+    //获取元素的横坐标
+    function getLeft (e) {
+      var offset = e.offsetLeft;
+      if (e.offsetParent != null) offset += getLeft(e.offsetParent);
+      return offset;
+    }
 
     var _this = this
     DOM.addEventListener('mouseover', function (e) {
@@ -64,12 +64,12 @@ function __tooltips (rootDOM,el,binding) {
         if (!_this.isShow()) {
           e.stopPropagation()
           e.preventDefault()
-          _this.update(binding.value||e.target.innerText)
+          _this.update(binding.value || e.target.innerText)
           // Mouse Or Target Position
           var x = 0, y = 0, w = 0, h = 0
           if (_this.mode === _this.MODE.FOLLOW_TARGET) {
-            x = getLeft(e.target)  - scrollX
-            y = getTop(e.target) - scrollY+ e.target.offsetHeight / 2
+            x = getLeft(e.target) - scrollX
+            y = getTop(e.target) - scrollY + e.target.offsetHeight / 2
           } else {
             x = e.x
             y = e.y
@@ -77,7 +77,7 @@ function __tooltips (rootDOM,el,binding) {
 
           w = e.target.offsetWidth
           h = e.target.offsetHeight
-          console.log(w,h)
+          console.log(w, h)
 
           var direction = _this.getDirection(x, y)
           _this.setDirection(direction)
@@ -112,8 +112,8 @@ function __tooltips (rootDOM,el,binding) {
       _this.mouseOverTooltips = true
     })
     _this.DOM.addEventListener('mouseleave', function () {
-      _this.mouseOverTooltips = false 
-          _this.hide() 
+      _this.mouseOverTooltips = false
+      _this.hide()
     })
   }
   this.show = function () {
@@ -228,7 +228,7 @@ function __tooltips (rootDOM,el,binding) {
     }
     restOfDirections.sort((pre, next) => pre.index - next.index)
     var radomIndex = Math.floor(Math.random() * (restOfDirections.length - 1))
-    var result = restOfDirections[radomIndex]?restOfDirections[radomIndex].item:this.Direction.BOTTOM 
+    var result = restOfDirections[radomIndex] ? restOfDirections[radomIndex].item : this.Direction.BOTTOM
     return result
   }
   this.getPositionOffset = function (direction, w, h) {
@@ -252,10 +252,10 @@ function __tooltips (rootDOM,el,binding) {
     switch (direction) {
       case this.Direction.TOP:
         if (this.mode === this.MODE.FOLLOW_TARGET) {
-          result.x = -(width / 2) 
+          result.x = -(width / 2)
           result.y = 0
         } else {
-          result.x = -(width / 2) 
+          result.x = -(width / 2)
           result.y = objectOffsetY
         }
         break;
@@ -265,11 +265,11 @@ function __tooltips (rootDOM,el,binding) {
         } else {
           result.x = -(borderTriangleWidth + borderTriangleDistance)
         }
-        result.y = objectOffsetY 
+        result.y = objectOffsetY
         break;
       case this.Direction.TOP_RIGHT:
         if (this.mode === this.MODE.FOLLOW_TARGET) {
-          result.x = -width + w / 2 
+          result.x = -width + w / 2
         } else {
           result.x = -width + (borderTriangleWidth + borderTriangleDistance)
         }
@@ -277,7 +277,7 @@ function __tooltips (rootDOM,el,binding) {
         break;
       case this.Direction.LEFT:
         if (this.mode === this.MODE.FOLLOW_TARGET) {
-          result.x =  objectOffsetX
+          result.x = objectOffsetX
         } else {
           result.x = borderTriangleWidth
         }
@@ -285,7 +285,7 @@ function __tooltips (rootDOM,el,binding) {
         break;
       case this.Direction.LEFT_TOP:
         if (this.mode === this.MODE.FOLLOW_TARGET) {
-          result.x = objectOffsetX 
+          result.x = objectOffsetX
         } else {
           result.x = 0 + borderTriangleWidth
         }
@@ -293,7 +293,7 @@ function __tooltips (rootDOM,el,binding) {
         break;
       case this.Direction.LEFT_BOTTOM:
         if (this.mode === this.MODE.FOLLOW_TARGET) {
-          result.x = objectOffsetX 
+          result.x = objectOffsetX
         } else {
           result.x = 0 + borderTriangleWidth
         }
@@ -304,7 +304,7 @@ function __tooltips (rootDOM,el,binding) {
         result.y = -(height / 2)
         break;
       case this.Direction.RIGHT_TOP:
-        result.x = -(width) 
+        result.x = -(width)
         result.y = -(0 + objectOffsetY / 2) + borderTriangleWidth / 2
         break;
       case this.Direction.RIGHT_BOTTOM:
@@ -320,10 +320,10 @@ function __tooltips (rootDOM,el,binding) {
         result.y = -(height + borderTriangleHeight)
         break;
       case this.Direction.BOTTOM_LEFT:
-        if (this.mode === this.MODE.FOLLOW_TARGET) { 
-          result.x = -(borderTriangleWidth/2+borderTriangleDistance)  + objectOffsetX/2
-        }else{
-          result.x = -(borderTriangleWidth/2+borderTriangleDistance)
+        if (this.mode === this.MODE.FOLLOW_TARGET) {
+          result.x = -(borderTriangleWidth / 2 + borderTriangleDistance) + objectOffsetX / 2
+        } else {
+          result.x = -(borderTriangleWidth / 2 + borderTriangleDistance)
         }
         result.y = -(height + borderTriangleHeight)
         break;
@@ -350,29 +350,29 @@ function __tooltips (rootDOM,el,binding) {
   }
   this.init()
 }
-export default{
-  beforeMount(el,binding) {
-    console.log(el,binding)
+export default {
+  beforeMount () {
+
   },
   // called when bound element's parent component is mounted
-  mounted(el,binding) { 
-    new __tooltips(null,el,binding)
-    console.log(el,binding)
+  mounted (el, binding) {
+    new __tooltips(null, el, binding)
+
   },
   // called before the containing component's VNode is updated
-  beforeUpdate(el,binding) {
-    console.log(el,binding)
+  beforeUpdate () {
+
   },
   // called after the containing component's VNode and the VNodes of its children // have updated
-  updated(el,binding) {
-    console.log(el,binding)
+  updated () {
+
   },
   // called before the bound element's parent component is unmounted
-  beforeUnmount(el,binding) {
-    console.log(el,binding)
+  beforeUnmount () {
+
   },
   // called when the bound element's parent component is unmounted
-  unmounted(el,binding) {
-    console.log(el,binding)
-  } 
+  unmounted () {
+
+  }
 }

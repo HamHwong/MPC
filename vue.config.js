@@ -1,4 +1,10 @@
-module.exports = { 
+const path = require("path");
+function resolve (dir) {
+  return path.join(__dirname, dir);
+}
+
+module.exports = {
+  lintOnSave: false,
   pages: {
     index: {
       entry: "examples/main.js",
@@ -18,5 +24,23 @@ module.exports = {
       .tap(options => {
         return options
       })
+      
+    const imagesRule = config.module.rule('images')
+    imagesRule.uses.clear()
+    imagesRule.use('file-loader')
+      .loader('url-loader')
+      .options({
+        limit: 10240,
+        fallback: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'static/images'
+          }
+        }
+      })
+
+    config.resolve
+      .alias
+      .set('@utils', resolve('./packages/Mpanda.Utils'))
   }
 };

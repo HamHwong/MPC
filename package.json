@@ -5,7 +5,7 @@
   "keywords": [
     "vue",
     "vue3",
-    "mpanda", 
+    "mpanda",
     "mpanda studio",
     "mpandaham",
     "ui",
@@ -26,19 +26,31 @@
     "lib": "vue-cli-service build --target lib --name mpc --dest lib packages/index.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/vue-fontawesome": "^3.0.0-4",
+    "pdfjs-dist": "^2.3.200"
   },
   "devDependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0",
-    "node-sass": "4.14.1",
-    "sass-loader": "8.0.0",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.5",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "file-loader": "^6.2.0",
+    "node-sass": "4.14.1",
+    "path": "^0.12.7",
+    "pdfjs-dist": "^2.9.359",
+    "sass-loader": "8.0.0",
+    "url-loader": "^4.1.1",
+    "vue": "^3.0.0",
+    "worker-loader": "^3.0.8"
   },
   "eslintConfig": {
     "root": true,

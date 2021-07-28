@@ -63,8 +63,7 @@ function doSuspending (origin, target, radius) {
   // `
 }
 
-function foreachSuspend (e) {
-  console.log(e.pageX,e.pageY)
+function foreachSuspend (e) { 
   doms.map(dom => {
     doSuspending({ x: e.pageX, y: e.pageY, w: 0, h: 0 }, dom)
   })
