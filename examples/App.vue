@@ -38,7 +38,7 @@
       <div style="width:800px;height:600px"></div>
     </MPModal>
     <button @click="handleModalDisplay">click</button>
-    <MPPdfReader pdfurl="dxcportal.sharepoint.com/sites/chenjinghua/Lists/PDFList/Attachments/4/[itpub.net]Packt.Apache.Solr.3.Enterprise.Search.Server.Nov.2011.pdf"/>
+    <MPPdfReader pdfurl="/pdf.pdf"/>
   </div>
 </template>
 
@@ -61,8 +61,7 @@ export default {
     function handleClick (a, b, c) { console.log(a, b, c) }
     function handleModalDisplay () {
       modalVisibility.value = true
-    }
-    const pdfURL = require('./assets/PDF.pdf')
+    } 
     return {
       modalVisibility,
       handleClick,

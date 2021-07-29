@@ -1,11 +1,19 @@
 <template>
   <div
     :id="`pdf_reader_${id}`"
-    class="__PDF_Reader"
+    :class="{__PDF_Reader:true,loading:LoadingPDF}"
   >
     <PDFToolBar position="top" />
-    <div class="__PDF_Reader_Inner_Wrapper">
-      <PDFThumbs :PDF="pdfDoc" />
+    <div
+      class="__PDF_Reader_Inner_Wrapper"
+      :style="{minHeight:200+'px'}"
+    >
+      <PDFThumbs
+        @ToPage="ToPage"
+        :PDF="pdfDoc"
+        :height="Height"
+        :maxPage="MaxPage"
+      />
       <div class="Canvas_Wrapper">
         <canvas ref="canvasDOM"></canvas>
       </div>
@@ -19,17 +27,17 @@ import { ref } from '@vue/reactivity'
 // import { computed } from '@vue/runtime-core'
 import PDFToolBar from './components/toolbar'
 import PDFThumbs from './components/thumbs.vue'
-import { nextTick, onMounted, watch } from '@vue/runtime-core'
+import {nextTick, onMounted, provide, watch } from '@vue/runtime-core'
 import pdfjsLib from 'pdfjs-dist'
 // const pdfjsLib = require("./pdfjs.es5");
 // var pdfjsLib = require('pdfjs-dist/build/pdf.js');
-// pdfjsLib.disableWorker = true
+pdfjsLib.disableWorker = true
 export default {
   props: {
     pdfurl: {
       type: String,
       default: () => "",
-      // required: true
+      required: true
     },
     width: {
       type: Number,
@@ -57,23 +65,53 @@ export default {
           canvasDOM.value.width = props.width
       })
     })
-    // console.log(PDFToolBar) 
     let MaxPage = ref(0)
     let CurrentPage = ref(0)
     let LoadingPDF = ref(false)
-    watch(()=>props.pdfurl,(url,oldURL)=>{
-      if(!!url&&url!==oldURL){
+    let id = ref(randomString(6))
+    let Scale = ref(1)
+    let Width = ref(props.width)
+    let Height = ref(props.height)
+    provide('MaxPage', MaxPage)
+    provide('CurrentPage', CurrentPage)
+    watch(() => props.pdfurl, (url, oldURL) => {
+      if (!!url && url !== oldURL) {
         LoadingPDF.value = true
-        pdfjsLib.getDocument(url).promise.then((pdf)=>{
+        pdfjsLib.getDocument(url).promise.then((pdf) => {
           pdfDoc.value = pdf
           MaxPage.value = pdf.numPages
           CurrentPage.value = 1
           LoadingPDF.value = false
+          ToPage(1)
         })
       }
-    },{
-      immediate:true
+    }, {
+      immediate: true
     })
+    function ToPage (num) {
+      nextTick(()=>{
+        num = Number(num) || 1
+        LoadingPDF.value = true;
+        ctx.value = ctx.value || canvasDOM.value.getContext('2d')
+        pdfDoc.value.getPage(num).then(function (page) {
+          var viewport = page.getViewport({ scale: Scale.value });
+          canvasDOM.value.height = viewport.height;
+          canvasDOM.value.width = viewport.width;
+          Width.value = viewport.width;
+          Height.value = viewport.height;
+          var renderContext = {
+            canvasContext: ctx.value,
+            viewport: viewport
+          };
+          var renderTask = page.render(renderContext);
+          renderTask.promise.then(function () {
+            CurrentPage.value = num
+          }).finally(function () {
+            LoadingPDF.value = false;
+          });
+        });
+      })
+    }
     // let width = ref(props.width)
     // let _height = ref(props.height)
     // let url = ref(props.pdfurl)
@@ -85,7 +123,6 @@ export default {
     // let thumbsDOM = ref(null)
     // let thumbsInnerWrapperHeight = ref(0)
     // let ctx = ref(null)
-    let id = ref(randomString(6))
     // let dragging = ref(false)
     // let pdfDoc = ref(null)
     // let keyboardHasBound = ref(false)
@@ -113,7 +150,6 @@ export default {
     // // })
 
 
-    // let Scale = ref(1)
 
     function randomString (len) {
       len = len || 32
@@ -135,7 +171,11 @@ export default {
       handleEnlarge,
       id,
       canvasDOM,
-      pdfDoc
+      pdfDoc,
+      ToPage,
+      Width,
+      Height,
+      MaxPage
     }
   }
 }

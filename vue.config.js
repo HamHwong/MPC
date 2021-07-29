@@ -12,6 +12,7 @@ module.exports = {
       filename: "index.html"
     }
   },
+  
   css: { extract: false },
   chainWebpack: config => {
     config.module
@@ -25,19 +26,19 @@ module.exports = {
         return options
       })
       
-    const imagesRule = config.module.rule('images')
-    imagesRule.uses.clear()
-    imagesRule.use('file-loader')
-      .loader('url-loader')
-      .options({
-        limit: 10240,
-        fallback: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'static/images'
-          }
-        }
-      })
+    // const imagesRule = config.module.rule('pdf')
+    // imagesRule.uses.clear()
+    // imagesRule.use('file-loader')
+    //   .loader('url-loader')
+    //   .options({
+    //     limit: 10240,
+    //     fallback: {
+    //       loader: 'file-loader',
+    //       options: {
+    //         outputPath: 'static/images'
+    //       }
+    //     }
+    //   })
 
     config.resolve
       .alias

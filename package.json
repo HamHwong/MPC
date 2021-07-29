@@ -29,7 +29,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
-    "pdfjs-dist": "^2.3.200"
+    "pdfjs-dist": "2.3.200"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
