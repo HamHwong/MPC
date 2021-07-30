@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <div
-      class="__Carousel"
-    >
+  <div
+    ref="container"
+    :style="{minWidth:`${containerMinWidth*2}px`}" 
+  >
+    <div class="__Carousel">
       <section
         v-for="(item,index) in data"
         :class="{
           slide:true,
-          left:currentSectionPos>index,
-          active:currentSectionPos===index, 
-          right:currentSectionPos<index,
+          left:checkPosition(index,'left'),
+          active:checkPosition(index,'active'), 
+          right:checkPosition(index,'right'),
           }"
         :style="{
-            zIndex:zIndex(index)
+            zIndex:zIndex(index),
+            marginRight: checkPosition(index,'left')?setMargin():null,
+            marginLeft:checkPosition(index,'right')?setMargin():null
           }"
         :key="index"
         @mouseover="doPause"
@@ -27,7 +30,7 @@
               width:(item.width&&item.width!==0)?`${item.width}px` :'100%',
               height:(item.height&&item.height!==0)?`${item.height}px` :null
             }"
-            alt=""
+            :ref="el=>imgDOMs[index]=(el)"
           >
         </figure>
       </section>
@@ -39,7 +42,10 @@
         @click="toRight"
         class="slide-arrow right"
       ></div>
-      <div v-if="indicators" class="slide-indicators">
+      <div
+        v-if="indicators"
+        class="slide-indicators"
+      >
         <i
           @click="focusOn(index)"
           v-for="(i,index) in value"
@@ -62,24 +68,33 @@ export default {
       type: Array,
       default: () => []
     },
-    indicators:{
-      type:Boolean,
-      default:()=>false
+    indicators: {
+      type: Boolean,
+      default: () => false
     }
   },
-  emits: ['click'],
+  emits: ['click', 'pause', 'next', 'previous'],
   setup (props, context) {
+    const container = ref(null)
     var data = reactive([])
-    watch(()=>props.value,(val)=>{
-      var sortedArr = val.sort((pre,next)=>pre.order-next.order)
-      sortedArr.map(i=>data.push(i))  
-    },{ 
-      immediate:true
-    }) 
+    var imgDOMs = ref([])
+    watch(() => props.value, (val) => {
+      var sortedArr = val.sort((pre, next) => pre.order - next.order)
+      sortedArr.map(i => data.push(i))
+    }, {
+      immediate: true
+    })
+    watch(() => imgDOMs.value, (imgs) => { 
+      nextTick(() => {  
+        containerMinWidth.value = Math.max(...imgs.map(img => img.width))
+        console.log('containerMinWidth.value',containerMinWidth.value)
+      })
+    }, { immediate: true })
     var currentSectionPos = ref(0);
     var pause = ref(false);
     var playTimer = ref(null);
     var intervalTime = ref(4000);
+    var containerMinWidth = ref(0);
     var focusOn = (index) => {
       currentSectionPos.value = index
     };
@@ -96,7 +111,7 @@ export default {
       }
     }
     var doPause = () => {
-      context.emit('pause',currentSectionPos.value)
+      context.emit('pause', currentSectionPos.value)
       pause.value = true
     }
     var doContinue = () => {
@@ -114,12 +129,12 @@ export default {
     }
     var toRight = () => {
       var newPos = (currentSectionPos.value + 1) % data.length
-      context.emit('next',newPos)
+      context.emit('next', newPos)
       focusOn(newPos)
     }
     var toLeft = () => {
       var newPos = (currentSectionPos.value + data.length - 1) % data.length
-      context.emit('previous',newPos)
+      context.emit('previous', newPos)
       focusOn(newPos)
     }
     var zIndex = (index) => {
@@ -136,6 +151,20 @@ export default {
     var handleClick = ($event, item, index) => {
       context.emit('click', $event, item, index)
     }
+    function checkPosition (index, pos) {
+      pos = pos.toLowerCase()
+      if (currentSectionPos.value > index) {
+        return pos === 'left'
+      } else if (currentSectionPos.value === index) {
+        return pos === 'active'
+      } else {
+        return pos === 'right'
+      }
+    }
+    function setMargin () {
+      var result = -49
+      return `${result}%`
+    }
     onMounted(() => {
       nextTick(() => {
         play()
@@ -151,7 +180,12 @@ export default {
       zIndex,
       handleClick,
       convert,
-      data
+      data,
+      checkPosition,
+      setMargin,
+      container,
+      containerMinWidth,
+      imgDOMs
     }
   }
 }
@@ -194,11 +228,11 @@ export default {
     }
     &.left {
       transform: rotate3d(3, 10, 1, 45deg);
-      margin-right: -18%;
+      // margin-right: -18%;
     }
     &.right {
       transform: rotate3d(3, -10, -1, 45deg);
-      margin-left: -18%;
+      // margin-left: -18%;
     }
 
     & > figure {

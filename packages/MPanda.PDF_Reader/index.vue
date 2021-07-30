@@ -79,7 +79,7 @@ export default {
   components: {
     PDFToolBar,
     PDFThumbs
-  },
+  }, 
   setup (props) {
     const canvasDOM = ref(null)
     const ctx = ref(null)
@@ -103,16 +103,22 @@ export default {
     provide('MaxPage', MaxPage)
     provide('CurrentPage', CurrentPage)
     watch(() => props.pdfurl, (url, oldURL) => {
-      if (!!url && url !== oldURL) {
-        LoadingPDF.value = true
-        pdfjsLib.getDocument(url).promise.then((pdf) => {
-          pdfDoc.value = pdf
-          MaxPage.value = pdf.numPages
-          CurrentPage.value = 1
-          ToPage(1)
-        }).finally(() => {
-          LoadingPDF.value = false
-        })
+      try{
+        if (!!url && url !== oldURL) {
+          LoadingPDF.value = true
+          pdfjsLib.getDocument(url).promise.then((pdf) => {
+            pdfDoc.value = pdf
+            MaxPage.value = pdf.numPages
+            CurrentPage.value = 1
+            ToPage(1)
+          }).catch(e=>{
+            console.log(e)
+          }).finally(() => {
+            LoadingPDF.value = false
+          })
+        }
+      }catch(e){
+        console.log(e)
       }
     }, {
       immediate: true
@@ -230,7 +236,8 @@ export default {
       zoomOut,
       handleMouseDown,
       handleMouseMove,
-      handleMouseUp
+      handleMouseUp,
+      LoadingPDF
     }
   }
 }

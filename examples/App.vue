@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div style="width:30%;margin:0 auto;background-color:#eee;">
-      <MPCarousel
-        v-suspend
+    <div style="width:400px;margin:0 auto;background-color:#eee;">
+      <MPCarousel 
         @click="handleClick"
         :value="data"
       />
@@ -52,11 +51,53 @@ export default {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
+      width:400,
     }, {
-      order: 1,
+      order: 0,
       label: '1',
       pic: '/images/img.jpg',
-    }])
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:800,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, {
+      order: 0,
+      label: '1',
+      pic: '/images/img.jpg',
+      width:400,
+    }, ])
     function handleClick (a, b, c) { console.log(a, b, c) }
     function handleModalDisplay () {
       modalVisibility.value = true

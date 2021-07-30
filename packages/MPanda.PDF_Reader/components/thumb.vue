@@ -33,35 +33,39 @@ export default {
       // console.log(PDF)
       if (PDF) {
         PDFFile.value = PDF
-        PDFLoaded.value = true
-        console.log('PDFLoaded',PDFLoaded.value)
+        PDFLoaded.value = true 
       }
     },{immediate:true}) 
     watch(() => props.hasRendered, (val) => {
-      console.log(val,PDFLoaded.value)
-      if (val && PDFLoaded.value) {
-        var ctx = canvas.value.getContext('2d')
-        PDFFile.value.getPage(props.page).then(function (page) {
-          var desiredHeight = 120;
-          var viewport = page.getViewport({ scale: 1 });
-          var scale = desiredHeight / viewport.height;
-          var scaledViewport = page.getViewport({ scale: scale, });
-          canvas.value.height = scaledViewport.height;
-          canvas.value.width = scaledViewport.width;
-          var renderContext = {
-            canvasContext: ctx,
-            viewport: scaledViewport
-          };
-          var renderTask = page.render(renderContext);
-          renderTask.promise.then(function () {
-            // ThumbsArr.value[i]['hasRendered'] = true
-            context.emit('PageRendered', page)
-          }).catch(e => {
+      try{
+        if (val && PDFLoaded.value) {
+          var ctx = canvas.value.getContext('2d')
+          PDFFile.value.getPage(props.page).then(function (page) {
+            var desiredHeight = 120;
+            var viewport = page.getViewport({ scale: 1 });
+            var scale = desiredHeight / viewport.height;
+            var scaledViewport = page.getViewport({ scale: scale, });
+            canvas.value.height = scaledViewport.height;
+            canvas.value.width = scaledViewport.width;
+            var renderContext = {
+              canvasContext: ctx,
+              viewport: scaledViewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
+              // ThumbsArr.value[i]['hasRendered'] = true
+              context.emit('PageRendered', page)
+            }).catch(e => {
+              console.log(e)
+              // ThumbsArr.value[i]['hasRendered'] = false
+              context.emit('PageRenderedFailed', page)
+            })
+          }).catch(e=>{
             console.log(e)
-            // ThumbsArr.value[i]['hasRendered'] = false
-            context.emit('PageRenderedFailed', page)
           })
-        })
+        }
+      }catch(e){
+        console.log(e)
       }
     })
     return {

@@ -77,8 +77,7 @@ export default {
           Page: i + 1,
           hasRendered: false
         })
-      }
-      console.log(ThumbsArr.value)
+      }  
     })
     function handleRenderThumb () {
       for (var i = 0; i < ThumbsArr.value.length; i++) {
