@@ -2,21 +2,24 @@
   <div>
     <div style="width:30%;margin:0 auto;background-color:#eee;">
       <MPCarousel
-      v-suspend
+        v-suspend
         @click="handleClick"
         :value="data"
       />
     </div>
 
-    <div
-      id="modal_container"
-      style="width:100px;height:100px;marign-left:20px;overflow:hidden;background-color:red"
-      v-tooltips="'sssss'"
-      v-suspend
-    >
+    <div 
+      v-tooltips="'sssss'" 
+    > 
+    dfsdfsd
     </div>
     <div style="display:flex">
-      <div v-for="i in 5" :key="i" style="width:100px;height:100px;box-shadow:0 0 20px #ccc;border-radius:10px;margin:10px" v-suspend></div>
+      <div
+        v-for="i in 5"
+        :key="i"
+        style="width:100px;height:100px;box-shadow:0 0 20px #ccc;border-radius:10px;margin:10px"
+        v-suspend
+      ></div>
     </div>
     <MPModal
       :visible="modalVisibility"
@@ -39,7 +42,7 @@
     </MPModal>
     <button @click="handleModalDisplay">click</button>
     <div style="width: 800px;box-shadow: 0 0 50px #333;margin:0 auto;margin-top: 20px;border-radius: 5px;overflow: hidden;">
-      <MPPdfReader pdfurl="/pdf.pdf"/>
+      <MPPdfReader pdfurl="/pdf.pdf" />
     </div>
   </div>
 </template>
@@ -54,16 +57,16 @@ export default {
     const data = reactive([{
       order: 0,
       label: '1',
-      pic: require('./assets/images/img.jpg'),
+      pic: '/images/img.jpg',
     }, {
       order: 1,
       label: '1',
-      pic: require('./assets/images/img.jpg'),
+      pic: '/images/img.jpg',
     }])
     function handleClick (a, b, c) { console.log(a, b, c) }
     function handleModalDisplay () {
       modalVisibility.value = true
-    } 
+    }
     return {
       modalVisibility,
       handleClick,
