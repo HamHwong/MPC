@@ -1,24 +1,20 @@
-# pmc
+# MPC(MpandaComponents) for Vue3
 
-## Project setup
+## Installation
 ```
-yarn install
+npm install @mpanda/mpc -S
 ```
+## Usage
+```js
+import Vue from 'vue'
+import MPC from '@mpanda/mpc' 
+Vue.use(MPC)
+```
+## Browser Support
+> Modern browsers except IE
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Documentation
+> Contributing!
+## Licence
+> MPC is open source and released under the MIT Licence.
+> Copyright (c) 2021 Ham
