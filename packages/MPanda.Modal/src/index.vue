@@ -8,7 +8,7 @@
     }"
       @mousemove="handleDragging($event);handleResizeMove($event)"
       @mouseup="endResize"
-      @click.stop="(e)=>{tapShadowToClose&&handleClose(e)}"
+      @click.stop="(e)=>{tapShadowToClose&&!isResizing&&handleClose(e)}"
     >
       <div :class="{
           __Model_Wrapper:true
@@ -24,7 +24,9 @@
               left:draggable?`${x}px`:null,
               top:draggable?`${y}px`:null,
               width:resizeable&&!center?`${w}px`:null,
-              height:resizeable&&!center?`${h}px`:null
+              height:resizeable&&!center?`${h}px`:null,
+              maxHeight:maxHeight?`${maxHeight}px`:null,
+              maxWidth:maxWidth?`${maxWidth}px`:null
               }"
         >
           <div
@@ -43,7 +45,7 @@
               class="__Model_Close_Btn"
             ></div>
           </div>
-          <div class="__Model_Content">
+          <div class="__Model_Content"> 
             <slot name="default"></slot>
           </div>
           <div
@@ -102,6 +104,14 @@ export default {
     height: {
       type: Number,
       default: () => 400
+    },
+    maxHeight: {
+      type: Number,
+      default: () => null
+    },
+    maxWidth: {
+      type: Number,
+      default: () => null
     },
     position: {
       type: Object,
@@ -190,7 +200,9 @@ export default {
       e.preventDefault()
       e.stopPropagation()
       if (props.resizeable && isResizing.value) {
-        isResizing.value = false
+        setTimeout(() => {
+          isResizing.value = false
+        }, 100);
       }
     }
     function handleResizeMove (e) {
@@ -232,7 +244,8 @@ export default {
       isVisible,
       status,
       STATUS,
-      handleClose
+      handleClose,
+      isResizing
     }
   }
 }

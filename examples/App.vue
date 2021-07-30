@@ -26,6 +26,10 @@
       @close="()=>modalVisibility=false"
       draggable
       resizeable
+      :height="800"
+      :width="800"
+      :maxHeight="830"
+      :maxWidth="800"
       tap-shadow-to-close
     >
       <MPPdfReader pdfurl="/pdf.pdf" />

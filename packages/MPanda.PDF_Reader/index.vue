@@ -23,13 +23,15 @@
         :minHeight="minHeight"
       />
       <div
-        @mousewheel.prevent="handleWheel"
         @mousedown="handleMouseDown"
         @mousemove="handleMouseMove"
         @mouseup="handleMouseUp"
         class="Canvas_Wrapper"
       >
-        <canvas ref="canvasDOM"></canvas>
+        <canvas
+          @mousewheel.prevent="handleWheel"
+          ref="canvasDOM"
+        ></canvas>
       </div>
     </div>
     <PDFToolBar

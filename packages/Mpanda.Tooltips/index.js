@@ -1,6 +1,6 @@
 import './index.css'
 function __tooltips (rootDOM, el, binding) {
-  this.rootDOM = rootDOM || document.querySelector('#app')
+  this.rootDOM = rootDOM || document.querySelector('#app')|| document.querySelector('body')
   this.DOM = null
   this.contentDOM = null
   this.className = '__tooltips';
@@ -357,7 +357,6 @@ export default {
   // called when bound element's parent component is mounted
   mounted (el, binding) {
     new __tooltips(null, el, binding)
-
   },
   // called before the containing component's VNode is updated
   beforeUpdate () {
