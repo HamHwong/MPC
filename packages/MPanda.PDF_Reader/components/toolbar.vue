@@ -142,7 +142,7 @@ export default {
 
 <style lang="scss" scoped>
 .__PDF_Tools {
-  position: absolute;
+  // position: absolute;
   display: flex;
   width: 100%;
   background: #333333;
@@ -156,28 +156,28 @@ export default {
   &.hidden {
     max-height: 0;
   }
-  &.top {
-    top: 0;
-    &.hidden {
-      .__PDF_Menu_Btn {
-        top: 10px;
-      }
-    }
-    .__PDF_Menu_Btn {
-      top: 40px;
-    }
-  }
-  &.bottom {
-    bottom: 0;
-    .__PDF_Menu_Btn {
-      bottom: 40px;
-    }
-    &.hidden {
-      .__PDF_Menu_Btn {
-        bottom: 10px;
-      }
-    }
-  }
+  // &.top {
+  //   top: 0;
+  //   &.hidden {
+  //     .__PDF_Menu_Btn {
+  //       top: 10px;
+  //     }
+  //   }
+  //   .__PDF_Menu_Btn {
+  //     top: 40px;
+  //   }
+  // }
+  // &.bottom {
+  //   bottom: 0;
+  //   .__PDF_Menu_Btn {
+  //     bottom: 40px;
+  //   }
+  //   &.hidden {
+  //     .__PDF_Menu_Btn {
+  //       bottom: 10px;
+  //     }
+  //   }
+  // }
 
   .__PDF_Btn {
     display: flex;
