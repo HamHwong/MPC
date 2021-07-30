@@ -1,44 +1,103 @@
 <template>
-    <div :class="{
+  <div :class="{
       __PDF_Tools:true,
       hidden:!visible,
       top:position ==='top',
       bottom:position==='bottom'
     }">
-      <div class="__PDF_Btn">
-        <font-awesome-icon :icon="['fas', 'search-minus']" />
-      </div>
-      <div class="__PDF_Btn __BTN_Pre">
-        <p>上一页</p>
-      </div>
-      <input
-        type="text"
-        style="width:25px"
-      >
-      <div class="__PDF_Btn __BTN_Next">
-        <p>下一页</p>
-      </div>
-      <div class="__PDF_Btn">
-        <font-awesome-icon :icon="['fas', 'search-plus']" />
-      </div>
+    <div @click="zoomOut" class="__PDF_Btn">
+      <font-awesome-icon :icon="['fas', 'search-minus']" />
     </div>
+    <div @click="prePage" class="__PDF_Btn __BTN_Pre">
+      <p>上一页</p>
+    </div>
+    <input
+      type="text"
+      style="width:25px;margin-right: 15px;"
+      v-model="CurrentPage"
+    >
+    <div @click="nextPage" class="__PDF_Btn __BTN_Next">
+      <p>下一页</p>
+    </div>
+    <div @click="zoomIn" class="__PDF_Btn">
+      <font-awesome-icon :icon="['fas', 'search-plus']" />
+    </div>
+  </div>
+  <div
+    @click="toggleToolbar"
+    class="__PDF_Menu_Btn"
+    :style="{
+      top:position ==='top'?adjustMenuPosition('top'):null,
+      bottom:position ==='bottom'?adjustMenuPosition('bottom'):null,
+    }"
+  >
+    <font-awesome-icon :icon="['fas', adjustStatusIcon(position)]" />
+  </div>
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import { inject } from '@vue/runtime-core'
 export default {
-  name:"PDFToolBar",
+  name: "PDFToolBar",
   props: {
-    visible: {
-      type: Boolean,
-      default: () => false
-    },
-    position:{
-      type:String,
-      default:()=>"top",
-      validator:(val)=>['top','bottom'].includes(val)
+    position: {
+      type: String,
+      default: () => "top",
+      validator: (val) => ['top', 'bottom'].includes(val)
     }
   },
-  setup () {
+  emits:['next','pre','zoom:out','zoom:in'],
+  setup (props,ctx) {
+    const visible = ref(false)
+    const CurrentPage = inject('CurrentPage')
+    function toggleToolbar () {
+      visible.value = !visible.value
+    }
+    function adjustMenuPosition (position) {
+      if (position === 'top') {
+        if (visible.value) {
+          return '35px'
+        } else {
+          return '15px'
+        }
+      } else {
+        if (visible.value) {
+          return '35px'
+        } else {
+          return '15px'
+        }
+      }
+    }
+    function adjustStatusIcon (position) {
+      if (position === 'top') {
+        if (visible.value) {
+          return 'caret-up'
+        } else {
+          return 'caret-down'
+        }
+      } else {
+        if (visible.value) {
+          return 'caret-down'
+        } else {
+          return 'caret-up'
+        }
+      }
+    }
+    function nextPage(){ 
+      ctx.emit('next')
+    }
+    function prePage(){ 
+      ctx.emit('pre')
+    }
+    function zoomOut(){
+      console.log('zoom:out')
+      ctx.emit('zoom:out')
+    }
+    function zoomIn(){
+      console.log('zoom:in')
+      ctx.emit('zoom:in')
+    }
     // function debounce (func, wait) {
     //   let lastTime = null;
     //   let timeout;
@@ -66,14 +125,24 @@ export default {
     // function handlePageInput(){
 
     // }
-    return {}
+    return {
+      visible,
+      toggleToolbar,
+      CurrentPage,
+      adjustMenuPosition,
+      adjustStatusIcon,
+      nextPage,
+      prePage,
+      zoomOut,
+      zoomIn
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .__PDF_Tools {
-  position:absolute;
+  position: absolute;
   display: flex;
   width: 100%;
   background: #333333;
@@ -83,12 +152,12 @@ export default {
   overflow: hidden;
   z-index: 2;
   max-height: 200px;
-  transition: max-height 0.2s ease-in-out;
+  transition: max-height 0.2s ease;
   &.hidden {
     max-height: 0;
   }
-  &.top { 
-    top:0;
+  &.top {
+    top: 0;
     &.hidden {
       .__PDF_Menu_Btn {
         top: 10px;
@@ -99,7 +168,7 @@ export default {
     }
   }
   &.bottom {
-    bottom:0;
+    bottom: 0;
     .__PDF_Menu_Btn {
       bottom: 40px;
     }
@@ -109,6 +178,7 @@ export default {
       }
     }
   }
+
   .__PDF_Btn {
     display: flex;
     justify-content: center;
@@ -128,15 +198,6 @@ export default {
       vertical-align: middle;
     }
   }
-  .__PDF_Menu_Btn {
-    right: 10px;
-    color: rgb(151, 151, 151);
-    position: absolute;
-    cursor: pointer;
-    &:hover {
-      color: rgb(199, 199, 199);
-    }
-  }
 
   .__PDF_Btn {
     &.disabled {
@@ -147,5 +208,16 @@ export default {
       margin-right: 15px;
     }
   }
+}
+.__PDF_Menu_Btn {
+  right: 10px;
+  color: rgb(151, 151, 151);
+  position: absolute;
+  cursor: pointer;
+  z-index: 2;
+  &:hover {
+    color: rgb(199, 199, 199);
+  }
+  transition: top 0.2s ease, bottom 0.2s ease;
 }
 </style>

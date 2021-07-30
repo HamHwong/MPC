@@ -30,7 +30,7 @@ export default {
     const PDFLoaded = ref(false)
     const PDFFile = ref(null)
     watch(() => props.PDF, (PDF) => {
-      console.log(PDF)
+      // console.log(PDF)
       if (PDF) {
         PDFFile.value = PDF
         PDFLoaded.value = true

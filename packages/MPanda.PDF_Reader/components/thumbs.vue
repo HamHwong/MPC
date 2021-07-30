@@ -5,16 +5,17 @@
     }">
     <div
       class="Thumbs_Inner_Wrapper"
-      :style="{ height: `${height}px` }"
+      :style="{ height: `${height}px`,maxHeight:`${maxHeight}px`,minHeight:`${maxHeight}px` }"
       @mousewheel="handleRenderThumb"
-    > 
+      ref="thumbs_wrapper"
+    >
       <Thumb
         @click="handleToPage(i.Page)"
         v-for="(i,index) in ThumbsArr"
         :page="i.Page"
         :isSelected="i.Page === CurrentPage"
         :hasRendered="i.hasRendered"
-        :key="i.Page" 
+        :key="i.Page"
         :ref="(el) => {
           ThumbsArr[index].ref = el
         }"
@@ -34,7 +35,7 @@
 <script>
 import { reactive, ref, toRef, toRefs } from '@vue/reactivity'
 import { isElementInViewport } from '@utils/index.js'
-import { inject,watch } from '@vue/runtime-core'
+import { inject, watch } from '@vue/runtime-core'
 import Thumb from './thumb.vue'
 export default {
   name: 'PDFThumbs',
@@ -47,56 +48,72 @@ export default {
       type: Number,
       default: () => 0,
     },
-    maxPage:{
-      type:Number,
-      default:()=>0
+    maxPage: {
+      type: Number,
+      default: () => 0
+    },
+    maxHeight: {
+      type: Number,
+      default: () => 900
+    },
+    minHeight: {
+      type: Number,
+      default: () => 450
     }
   },
-  components:{Thumb},
+  components: { Thumb },
   emits: ['ToPage'],
   setup (props, ctx) {
     const isFold = ref(true)
+    const thumbs_wrapper = ref(null)
     function toggleThumbs () {
       isFold.value = !isFold.value
-    } 
+    }
     const CurrentPage = inject('CurrentPage')
-    const ThumbsArr = ref([]) 
-    watch(() => props.maxPage, (val) => { 
+    const ThumbsArr = ref([])
+    watch(() => props.maxPage, (val) => {
       for (var i = 0; i < val; i++) {
         ThumbsArr.value.push({
           Page: i + 1,
-          hasRendered:false
+          hasRendered: false
         })
       }
       console.log(ThumbsArr.value)
     })
-    function handleRenderThumb (e) {
-      for (var i = 0; i < ThumbsArr.value.length; i++) { 
-        if (isElementInViewport(ThumbsArr.value[i].ref.$el, e.target) && !ThumbsArr.value[i]['hasRendered']) {
-          ThumbsArr.value[i]['hasRendered'] = true  
+    function handleRenderThumb () {
+      for (var i = 0; i < ThumbsArr.value.length; i++) {
+        if (isElementInViewport(ThumbsArr.value[i].ref.$el, thumbs_wrapper.$el) && !ThumbsArr.value[i]['hasRendered']) {
+          ThumbsArr.value[i]['hasRendered'] = true
         }
       }
     }
     function handleToPage (page) {
       ctx.emit('ToPage', page)
-      ThumbsArr.value[page-1].isSelected = true
+      ThumbsArr.value[page - 1].isSelected = true
     }
+
+    watch(() => isFold.value, (val) => {
+      if (!val) {
+        handleRenderThumb()
+      }
+    })
     let PDFFile = ref(null)
-    watch(()=>props.PDF,(pdf)=>{
-      if(pdf){ 
-        console.log(pdf)
-        PDFFile.value=pdf
+    watch(() => props.PDF, (pdf) => {
+      if (pdf) {
+        PDFFile.value = pdf
       }
     })
 
+    // handleRenderThumb()
     return {
       isFold,
       toggleThumbs,
-      handleRenderThumb, 
+      handleRenderThumb,
       CurrentPage,
       handleToPage,
       ThumbsArr,
-      PDFFile
+      PDFFile,
+      thumbs_wrapper
     }
   },
 }
@@ -140,7 +157,7 @@ export default {
       &.selected {
         border: 10px solid rgba(255, 255, 255, 0.582);
         margin: 10px;
-      } 
+      }
     }
   }
 }

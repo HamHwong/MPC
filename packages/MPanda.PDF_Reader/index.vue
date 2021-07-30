@@ -3,22 +3,40 @@
     :id="`pdf_reader_${id}`"
     :class="{__PDF_Reader:true,loading:LoadingPDF}"
   >
-    <PDFToolBar position="top" />
+    <PDFToolBar
+      position="top"
+      @pre="prePage"
+      @next="nextPage"
+      @zoom:in="zoomIn"
+      @zoom:out="zoomOut"
+    />
     <div
       class="__PDF_Reader_Inner_Wrapper"
-      :style="{minHeight:200+'px'}"
+      :style="{minHeight:minHeight+'px'}"
     >
       <PDFThumbs
         @ToPage="ToPage"
         :PDF="pdfDoc"
         :height="Height"
         :maxPage="MaxPage"
+        :maxHeight="maxHeight"
+        :minHeight="minHeight"
       />
-      <div class="Canvas_Wrapper">
+      <div
+        @mousewheel.prevent="handleWheel"
+        @mousedown="handleMouseDown"
+        @mousemove="handleMouseMove"
+        @mouseup="handleMouseUp"
+        class="Canvas_Wrapper"
+      >
         <canvas ref="canvasDOM"></canvas>
       </div>
     </div>
-    <PDFToolBar position="bottom" />
+    <PDFToolBar
+      position="bottom"
+      @pre="prePage"
+      @next="nextPage"
+    />
   </div>
 </template>
 
@@ -27,7 +45,7 @@ import { ref } from '@vue/reactivity'
 // import { computed } from '@vue/runtime-core'
 import PDFToolBar from './components/toolbar'
 import PDFThumbs from './components/thumbs.vue'
-import {nextTick, onMounted, provide, watch } from '@vue/runtime-core'
+import { nextTick, onMounted, provide, watch } from '@vue/runtime-core'
 import pdfjsLib from 'pdfjs-dist'
 // const pdfjsLib = require("./pdfjs.es5");
 // var pdfjsLib = require('pdfjs-dist/build/pdf.js');
@@ -46,6 +64,14 @@ export default {
     height: {
       type: Number,
       default: () => 0
+    },
+    maxHeight: {
+      type: Number,
+      default: () => 950
+    },
+    minHeight: {
+      type: Number,
+      default: () => 450
     }
   },
   components: {
@@ -56,6 +82,7 @@ export default {
     const canvasDOM = ref(null)
     const ctx = ref(null)
     const pdfDoc = ref(null)
+    let LoadingPDF = ref(true)
     onMounted(() => {
       nextTick(() => {
         ctx.value = canvasDOM.value.getContext('2d')
@@ -67,7 +94,6 @@ export default {
     })
     let MaxPage = ref(0)
     let CurrentPage = ref(0)
-    let LoadingPDF = ref(false)
     let id = ref(randomString(6))
     let Scale = ref(1)
     let Width = ref(props.width)
@@ -81,15 +107,23 @@ export default {
           pdfDoc.value = pdf
           MaxPage.value = pdf.numPages
           CurrentPage.value = 1
-          LoadingPDF.value = false
           ToPage(1)
+        }).finally(() => {
+          LoadingPDF.value = false
         })
       }
     }, {
       immediate: true
     })
+    watch(() => CurrentPage.value, (val) => {
+      var value = Number(String(val).replace(/[^\d]/g, ''))
+      if (value > MaxPage.value) value = MaxPage.value
+      if (value <= 0) value = 1
+      CurrentPage.value = value
+      ToPage(val)
+    })
     function ToPage (num) {
-      nextTick(()=>{
+      nextTick(() => {
         num = Number(num) || 1
         LoadingPDF.value = true;
         ctx.value = ctx.value || canvasDOM.value.getContext('2d')
@@ -112,45 +146,34 @@ export default {
         });
       })
     }
-    // let width = ref(props.width)
-    // let _height = ref(props.height)
-    // let url = ref(props.pdfurl)
-    // let Reader = ref(null)
-    // let contentDOM = ref(null)
-    // let canvasDOM = ref(null)
-    // let canvasWrapper = ref(null)
-    // let thumbs = ref([])
-    // let thumbsDOM = ref(null)
-    // let thumbsInnerWrapperHeight = ref(0)
-    // let ctx = ref(null)
-    // let dragging = ref(false)
-    // let pdfDoc = ref(null)
-    // let keyboardHasBound = ref(false)
-    // let height = computed({
-    //   set: (val) => {
-    //     _height.value = val
-    //     // debugger
-    //     var height = 0
-    //     if (val <= 450) {
-    //       height = 450
-    //     } else if (val >= 900) {
-    //       height = 900
-    //     } else {
-    //       height = val
-    //     }
-    //     thumbsInnerWrapperHeight.value = height + 'px'
-    //   },
-    //   get: () => {
-    //     return _height.value
-    //   }
-    // })
-
-    // // watch(()=>MaxPage.value,()=>{
-    // //   generateThumbs()
-    // // })
-
-
-
+    function nextPage () {
+      if (CurrentPage.value + 1 <= MaxPage.value) {
+        ++CurrentPage.value
+      }
+    }
+    function prePage () {
+      if (CurrentPage.value - 1 > 0) {
+        --CurrentPage.value
+      }
+    }
+    watch(() => Scale.value, () => {
+      ToPage(CurrentPage.value)
+    })
+    function zoomIn () {
+      Scale.value = Scale.value * 1.25
+    }
+    function zoomOut () {
+      Scale.value = Scale.value / 1.25
+    }
+    function handleWheel (e) {
+      e.stopPropagation()
+      e.preventDefault()
+      if (e.deltaY > 0) {
+        nextPage()
+      } else {
+        prePage()
+      }
+    }
     function randomString (len) {
       len = len || 32
       var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz'
@@ -161,21 +184,51 @@ export default {
       }
       return pwd
     }
-
-
-    function handleEnlarge () {
-
+    var dragging = ref(false)
+    var startX = ref(0)
+    var offsetXOfLast = ref(0)
+    var endX = ref(0)
+    var startY = ref(0)
+    var offsetYOfLast = ref(0)
+    var endY = ref(0)
+    function handleMouseDown (e) {
+      dragging.value = true
+      startX.value = e.screenX
+      startY.value = e.screenY
+      // console.log('handleMouseDown', e)
+    }
+    function handleMouseMove (e) {
+      if (dragging.value) {
+        endX.value = e.screenX
+        e.target.parentNode.scrollLeft += -(endX.value - startX.value) - offsetXOfLast.value
+        offsetXOfLast.value = -(endX.value - startX.value)
+        endY.value = e.screenY
+        e.target.parentNode.scrollTop += -(endY.value - startY.value) - offsetYOfLast.value
+        offsetYOfLast.value = -(endY.value - startY.value)
+      }
+    }
+    function handleMouseUp () {
+      offsetXOfLast.value = 0
+      offsetYOfLast.value = 0
+      dragging.value = false
     }
     return {
-      // PDFToolBar,
-      handleEnlarge,
+      // PDFToolBar, 
       id,
       canvasDOM,
       pdfDoc,
       ToPage,
       Width,
       Height,
-      MaxPage
+      MaxPage,
+      nextPage,
+      prePage,
+      handleWheel,
+      zoomIn,
+      zoomOut,
+      handleMouseDown,
+      handleMouseMove,
+      handleMouseUp
     }
   }
 }

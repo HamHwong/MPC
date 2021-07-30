@@ -467,7 +467,6 @@ function __PDF (containerDOM, pdfurl, workerurl, width = 0, height = 0) {
         endX = e.screenX
         this.scrollLeft += -(endX - startX) - offsetXOfLast
         offsetXOfLast = -(endX - startX)
-
         endY = e.screenY
         this.scrollTop += -(endY - startY) - offsetYOfLast
         offsetYOfLast = -(endY - startY)
