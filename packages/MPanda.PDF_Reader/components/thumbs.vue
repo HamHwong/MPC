@@ -5,7 +5,7 @@
     }">
     <div
       class="Thumbs_Inner_Wrapper"
-      :style="{ height: `${height}px`,maxHeight:`${maxHeight}px`,minHeight:`${maxHeight}px` }"
+      :style="{ height: `${height}px`,maxHeight:`${maxHeight}px`,minHeight:`${minHeight}px` }"
       @mousewheel="handleRenderThumb"
       ref="thumbs_wrapper"
     >

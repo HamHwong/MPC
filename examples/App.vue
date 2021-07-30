@@ -28,17 +28,7 @@
       resizeable
       tap-shadow-to-close
     >
-      props:
-      <p>
-        Draggable
-      </p>
-      <p>
-        Resizeable
-      </p>
-      <p>
-        Center (will overwrite draggable and resizeable)
-      </p>
-      <div style="width:800px;height:600px"></div>
+      <MPPdfReader pdfurl="/pdf.pdf" />
     </MPModal>
     <button @click="handleModalDisplay">click</button>
     <div style="width: 800px;box-shadow: 0 0 50px #333;margin:0 auto;margin-top: 20px;border-radius: 5px;overflow: hidden;">

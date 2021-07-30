@@ -97,11 +97,11 @@ export default {
     },
     width: {
       type: Number,
-      default: () => 200
+      default: () => 400
     },
     height: {
       type: Number,
-      default: () => 200
+      default: () => 400
     },
     position: {
       type: Object,
@@ -308,7 +308,7 @@ export default {
       .__Model_Header {
         /* width: 100%; */
         height: 22px;
-        margin: 0 -10px 10px -10px;
+        margin: 0 -10px 0px -10px;
         background-color: #d42b1e;
         box-shadow: 0 0 15px rgb(155, 155, 155);
         display: flex;
@@ -347,6 +347,7 @@ export default {
       }
       .__Model_Content {
         overflow: auto;
+        margin:0 -10px -10px -10px;
       }
       .__Model_Resize {
         position: absolute;
