@@ -80,7 +80,8 @@ export default {
     PDFToolBar,
     PDFThumbs
   }, 
-  setup (props) {
+  emits:['pageChanged','modelResize'],
+  setup (props,context) {
     const canvasDOM = ref(null)
     const ctx = ref(null)
     const pdfDoc = ref(null)
@@ -109,8 +110,7 @@ export default {
           pdfjsLib.getDocument(url).promise.then((pdf) => {
             pdfDoc.value = pdf
             MaxPage.value = pdf.numPages
-            CurrentPage.value = 1
-            ToPage(1)
+            CurrentPage.value = 1 
           }).catch(e=>{
             console.log(e)
           }).finally(() => {
@@ -128,7 +128,8 @@ export default {
       if (value > MaxPage.value) value = MaxPage.value
       if (value <= 0) value = 1
       CurrentPage.value = value
-      ToPage(val)
+      context.emit('pageChanged',CurrentPage.value,context)
+      ToPage(CurrentPage.value)
     })
     function ToPage (num) {
       nextTick(() => {

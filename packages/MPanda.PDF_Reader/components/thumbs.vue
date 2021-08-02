@@ -150,6 +150,7 @@ export default {
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
+    padding: 10px 0;
     .Thumb {
       background-color: #333333;
       margin: 20px;

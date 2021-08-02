@@ -1,87 +1,95 @@
 <template>
   <!-- <teleport :to="appendTo"> -->
-    <div
-      :class="{
+  <div
+    :class="{
       __Model_Shadow:true ,
       Hiding:status===STATUS.HIDING,
       Hide:status===STATUS.HIDE
     }"
-      @mousemove="handleDragging($event);handleResizeMove($event)"
-      @mouseup="endResize"
-      @click.stop="(e)=>{tapShadowToClose&&!isResizing&&handleClose(e)}"
-    >
-      <div :class="{
+    @mousemove="handleDragging($event);handleResizeMove($event)"
+    @mouseup="endResize"
+    @click.stop="(e)=>{tapShadowToClose&&!isResizing&&handleClose(e)}"
+  >
+    <div
+      :class="{
           __Model_Wrapper:true
         }"
-          @click.stop=""
-        >
-        <div
-          :class="{
+      @click.stop=""
+    >
+      <div
+        :class="{
             __Model:true,
-            __Modal_Draggable:draggable&&!center 
+            __Modal_Draggable:draggable&&!center ,
+            __Auto_Resizing:isAutoResizing
           }"
-          :style="{
+        :style="{
               left:draggable?`${x}px`:null,
               top:draggable?`${y}px`:null,
               width:resizeable&&!center?`${w}px`:null,
               height:resizeable&&!center?`${h}px`:null,
-              maxHeight:maxHeight?`${maxHeight}px`:null,
+              maxHeight:MaxHeight,
               maxWidth:maxWidth?`${maxWidth}px`:null
               }"
-        >
-          <div
-            @mousedown="handleDrag"
-            @mouseup="handleDrop"
-            :class="{
+      >
+        <div
+          @mousedown="handleDrag"
+          @mouseup="handleDrop"
+          :class="{
             __Model_Header:true,
             Grabbing:isGrabbing
             }"
-            :style="{
+          :style="{
               height:`${headerHeight}px`
             }"
-          >
-            <div
-              @click="handleClose"
-              class="__Model_Close_Btn"
-            ></div>
-          </div>
-          <div class="__Model_Content"> 
-            <slot name="default"></slot>
-          </div>
+        >
           <div
-            :class="{ 
+            @click="handleClose"
+            class="__Model_Close_Btn"
+          ></div>
+        </div>
+        <div class="__Model_Content">
+          <div ref="contentContainer">
+            <slot
+              @modelResize="checkAndLimitContentMaxHeight"
+              name="default"
+            ></slot>
+          </div>
+        </div>
+        <div
+          :class="{ 
             __Model_Resize:true, 
             Handler_Right:true, 
           }"
-            v-if="resizeable"
-            @mousedown="handleResize($event,DIRECTION.X)"
-          />
-          <div
-            :class="{ 
+          v-if="resizeable"
+          @mousedown="handleResize($event,DIRECTION.X)"
+        />
+        <div
+          :class="{ 
             __Model_Resize:true, 
             Handler_Bottom:true
           }"
           v-if="resizeable"
-            @mousedown="handleResize($event,DIRECTION.Y)"
-          />
-          <div
-            :class="{
+          @mousedown="handleResize($event,DIRECTION.Y)"
+        />
+        <div
+          :class="{
             __Model_Resize:true, 
             Handler_Cross:true
           }"
           v-if="resizeable"
-            @mousedown="handleResize($event,DIRECTION.CROSS)"
-          />
-        </div>
+          @mousedown="handleResize($event,DIRECTION.CROSS)"
+          @dblclick="handleFullContentSize"
+        />
       </div>
     </div>
+  </div>
   <!-- </teleport> -->
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import { DIRECTION, STATUS } from './enum'
-import { watch } from '@vue/runtime-core'
+import { computed, nextTick, watch } from '@vue/runtime-core'
 export default {
   name: 'MPModal',
   props: {
@@ -130,13 +138,13 @@ export default {
       type: Boolean,
       default: () => false
     },
-    tapShadowToClose:{
-      type:Boolean,
-      default:()=>false
+    tapShadowToClose: {
+      type: Boolean,
+      default: () => false
     }
   },
-  emits: ['close','display'],
-  setup (props, context) { 
+  emits: ['close', 'display'],
+  setup (props, context) {
     const status = ref(STATUS.HIDE)
     const display = ref(false)
     watch(() => display.value, (visible) => {
@@ -153,6 +161,13 @@ export default {
     watch(() => props.visible, (visible) => {
       display.value = visible
     }, { immediate: true })
+    const MaxHeight = ref(0)
+    watch(() => status.value, (val) => {
+      if (val === STATUS.DISPLAY) {
+        checkAndLimitContentMaxHeight()
+      }
+    })
+    const contentContainer = ref(null)
     const isVisible = ref(false)
     const isGrabbing = ref(false)
     const isResizing = ref(false)
@@ -163,6 +178,18 @@ export default {
     let headerHeight = 22;
     var Mouse_OffsetX = ref(0)
     var Mouse_StartY = ref(0)
+    function checkAndLimitContentMaxHeight () {
+      var result = null
+      if (props.maxHeight && props.maxHeight > 0) {
+        result = `${props.maxHeight}px`
+      } else if (contentContainer.value) {
+        result = 'unset'
+        nextTick(() => {
+          MaxHeight.value = `${contentContainer.value.offsetHeight + headerHeight - 10}px`
+        })
+      }
+      MaxHeight.value = result
+    }
     function handleDrag (e) {
       if (props.draggable && !isGrabbing.value) {
         isGrabbing.value = true
@@ -170,10 +197,13 @@ export default {
         Mouse_StartY.value = y.value - e.pageY
       }
     }
-    function handleDragging (e) {
+    function handleDragging (e) { 
       if (isGrabbing.value) {
         x.value = e.pageX + Mouse_OffsetX.value
         y.value = e.pageY + Mouse_StartY.value
+        if(e.button===0&&e.buttons===0){
+          isGrabbing.value = false
+        }
       }
     }
     function handleDrop () {
@@ -207,6 +237,7 @@ export default {
     }
     function handleResizeMove (e) {
       if (props.resizeable && isResizing.value) {
+        checkAndLimitContentMaxHeight()
         switch (Direction.value) {
           case DIRECTION.X:
             w.value = e.screenX - x.value
@@ -227,6 +258,19 @@ export default {
       display.value = false
       context.emit('close')
     }
+    const isAutoResizing = ref(false)
+    function handleFullContentSize () { 
+      isAutoResizing.value = true
+      nextTick(() => { 
+        x.value = 0 
+        y.value = 0
+        w.value = props.maxWidth ? props.maxWidth : window.innerWidth - 10
+        h.value = MaxHeight.value.split('px')[0]
+        setTimeout(() => {
+          isAutoResizing.value = false
+        }, 500);
+      })
+    }
     return {
       isGrabbing,
       handleDrag,
@@ -245,7 +289,11 @@ export default {
       status,
       STATUS,
       handleClose,
-      isResizing
+      isResizing,
+      MaxHeight,
+      contentContainer,
+      handleFullContentSize,
+      isAutoResizing
     }
   }
 }
@@ -304,6 +352,9 @@ export default {
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      &.__Auto_Resizing {
+        transition: height 0.5s ease, width 0.5s ease;
+      }
       &.__Modal_Draggable {
         .__Model_Header {
           cursor: grab !important;
@@ -315,8 +366,7 @@ export default {
         // left: 0;
         // top: 0;
       }
-      &.__Modal_Resizeable{
-
+      &.__Modal_Resizeable {
       }
       .__Model_Header {
         /* width: 100%; */
@@ -360,7 +410,7 @@ export default {
       }
       .__Model_Content {
         overflow: auto;
-        margin:0 -10px -10px -10px;
+        margin: 0 -10px -10px -10px;
       }
       .__Model_Resize {
         position: absolute;

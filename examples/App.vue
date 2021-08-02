@@ -24,14 +24,10 @@
       :visible="modalVisibility"
       @close="()=>modalVisibility=false"
       draggable
-      resizeable
-      :height="800"
-      :width="800"
-      :maxHeight="830"
-      :maxWidth="800"
+      resizeable  
       tap-shadow-to-close
     >
-      <MPPdfReader pdfurl="/pdf.pdf" />
+      <MPPdfReader @pageChanged="(page,ctx)=>ctx.emit('modelResize')" pdfurl="/pdf.pdf" />
     </MPModal>
     <button @click="handleModalDisplay">click</button>
     <div style="width: 800px;box-shadow: 0 0 50px #333;margin:0 auto;margin-top: 20px;border-radius: 5px;overflow: hidden;">
@@ -71,7 +67,7 @@ export default {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:800,
+      width:400,
     }, {
       order: 0,
       label: '1',
@@ -101,7 +97,7 @@ export default {
     function handleClick (a, b, c) { console.log(a, b, c) }
     function handleModalDisplay () {
       modalVisibility.value = true
-    }
+    } 
     return {
       modalVisibility,
       handleClick,

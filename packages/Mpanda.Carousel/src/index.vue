@@ -87,7 +87,7 @@ export default {
     watch(() => imgDOMs.value, (imgs) => { 
       nextTick(() => {  
         containerMinWidth.value = Math.max(...imgs.map(img => img.width))
-        console.log('containerMinWidth.value',containerMinWidth.value)
+        // console.log('containerMinWidth.value',containerMinWidth.value)
       })
     }, { immediate: true })
     var currentSectionPos = ref(0);
