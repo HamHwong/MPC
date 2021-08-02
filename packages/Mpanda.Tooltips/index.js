@@ -88,7 +88,7 @@ function __tooltips (rootDOM, el, binding) {
 
           //Position Offset 
           var position_offset = _this.getPositionOffset(direction, w, h)
-          console.log(position_offset)
+          // console.log(position_offset)
           var offset_y = position_offset.y
           var offset_x = position_offset.x
           _this.DOM.style.top = y + wrapper_offset_y + offset_y + 'px'

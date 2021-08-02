@@ -1,16 +1,18 @@
 <template>
   <div>
     <div style="width:400px;margin:0 auto;background-color:#eee;">
-      <MPCarousel 
+      <MPCarousel
         @click="handleClick"
         :value="data"
       />
     </div>
-
-    <div 
-      v-tooltips="'sssss'" 
-    > 
-    dfsdfsd
+    <div>
+      <div
+        style="width:100px"
+        v-tooltips 
+      >
+        鼠标移上来
+      </div>
     </div>
     <div style="display:flex">
       <div
@@ -24,10 +26,13 @@
       :visible="modalVisibility"
       @close="()=>modalVisibility=false"
       draggable
-      resizeable  
+      resizeable
       tap-shadow-to-close
     >
-      <MPPdfReader @pageChanged="(page,ctx)=>ctx.emit('modelResize')" pdfurl="/pdf.pdf" />
+      <MPPdfReader
+        @pageChanged="(page,ctx)=>ctx.emit('modelResize')"
+        pdfurl="/pdf.pdf"
+      />
     </MPModal>
     <button @click="handleModalDisplay">click</button>
     <div style="width: 800px;box-shadow: 0 0 50px #333;margin:0 auto;margin-top: 20px;border-radius: 5px;overflow: hidden;">
@@ -47,57 +52,42 @@ export default {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
+      width: 400,
     }, {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
+      width: 400,
     }, {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
+      width: 400,
     }, {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
+      width: 400,
     }, {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
+      width: 400,
     }, {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
+      width: 400,
     }, {
       order: 0,
       label: '1',
       pic: '/images/img.jpg',
-      width:400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width:400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width:400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width:400,
-    }, ])
+      width: 400,
+    }])
     function handleClick (a, b, c) { console.log(a, b, c) }
     function handleModalDisplay () {
       modalVisibility.value = true
-    } 
+    }
     return {
       modalVisibility,
       handleClick,

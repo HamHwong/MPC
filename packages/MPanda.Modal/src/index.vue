@@ -201,6 +201,8 @@ export default {
       if (isGrabbing.value) {
         x.value = e.pageX + Mouse_OffsetX.value
         y.value = e.pageY + Mouse_StartY.value
+        if(x.value<0)x.value=0
+        if(y.value<0)y.value=0
         if(e.button===0&&e.buttons===0){
           isGrabbing.value = false
         }
@@ -362,9 +364,7 @@ export default {
             cursor: grabbing !important;
           }
         }
-        position: absolute;
-        // left: 0;
-        // top: 0;
+        position: absolute; 
       }
       &.__Modal_Resizeable {
       }
