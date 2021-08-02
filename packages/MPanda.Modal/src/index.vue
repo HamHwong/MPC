@@ -244,7 +244,7 @@ export default {
           case DIRECTION.X:
             w.value = e.screenX - x.value
             break;
-          case DIRECTION.Y:
+          case DIRECTION.Y: 
             h.value = e.screenY - Mouse_StartY.value + startHeight.value
             break;
           case DIRECTION.CROSS:
@@ -263,11 +263,12 @@ export default {
     const isAutoResizing = ref(false)
     function handleFullContentSize () { 
       isAutoResizing.value = true
+      console.log('handleFullContentSize')
       nextTick(() => { 
         x.value = 0 
         y.value = 0
-        w.value = props.maxWidth ? props.maxWidth : window.innerWidth - 10
-        h.value = MaxHeight.value.split('px')[0]
+        w.value = props.maxWidth ? props.maxWidth : document.documentElement.clientWidth - 20
+        h.value = Number(MaxHeight.value.split('px')[0]) 
         setTimeout(() => {
           isAutoResizing.value = false
         }, 500);
