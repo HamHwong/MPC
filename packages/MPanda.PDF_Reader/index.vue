@@ -47,7 +47,7 @@ import { ref } from '@vue/reactivity'
 // import { computed } from '@vue/runtime-core'
 import PDFToolBar from './components/toolbar'
 import PDFThumbs from './components/thumbs.vue'
-import { nextTick, onMounted, provide, watch } from '@vue/runtime-core'
+import { getCurrentInstance, nextTick, onMounted, provide, watch } from '@vue/runtime-core'
 import pdfjsLib from 'pdfjs-dist'
 // const pdfjsLib = require("./pdfjs.es5");
 // var pdfjsLib = require('pdfjs-dist/build/pdf.js');
@@ -80,7 +80,7 @@ export default {
     PDFToolBar,
     PDFThumbs
   }, 
-  emits:['pageChanged','modelResize'],
+  emits:['pageChanged'],
   setup (props,context) {
     const canvasDOM = ref(null)
     const ctx = ref(null)
@@ -123,12 +123,13 @@ export default {
     }, {
       immediate: true
     })
+    const _this = getCurrentInstance()
     watch(() => CurrentPage.value, (val) => {
       var value = Number(String(val).replace(/[^\d]/g, ''))
       if (value > MaxPage.value) value = MaxPage.value
       if (value <= 0) value = 1
-      CurrentPage.value = value
-      context.emit('pageChanged',CurrentPage.value,context)
+      CurrentPage.value = value 
+      context.emit('pageChanged',CurrentPage.value,_this) 
       ToPage(CurrentPage.value)
     })
     function ToPage (num) {

@@ -50,7 +50,6 @@
         <div class="__Model_Content">
           <div ref="contentContainer">
             <slot
-              @modelResize="checkAndLimitContentMaxHeight"
               name="default"
             ></slot>
           </div>
@@ -89,7 +88,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { DIRECTION, STATUS } from './enum'
-import { computed, nextTick, watch } from '@vue/runtime-core'
+import {  nextTick, watch } from '@vue/runtime-core'
 export default {
   name: 'MPModal',
   props: {
@@ -101,10 +100,10 @@ export default {
       type: Boolean,
       default: () => false
     },
-    appendTo: {
-      type: String,
-      default: () => "body",
-    },
+    // appendTo: {
+    //   type: String,
+    //   default: () => "body",
+    // },
     width: {
       type: Number,
       default: () => 400
@@ -156,15 +155,22 @@ export default {
       } else {
         status.value = STATUS.DISPLAY
         context.emit('display')
+        if(!props.height){
+          setTimeout(()=>{
+            handleToMaxHeight()
+          },100)
+        }
       }
     })
     watch(() => props.visible, (visible) => {
-      display.value = visible
-    }, { immediate: true })
+      display.value = visible 
+    })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
       if (val === STATUS.DISPLAY) {
-        checkAndLimitContentMaxHeight()
+        nextTick(() => {
+          checkAndLimitContentMaxHeight()
+        })
       }
     })
     const contentContainer = ref(null)
@@ -179,6 +185,7 @@ export default {
     var Mouse_OffsetX = ref(0)
     var Mouse_StartY = ref(0)
     function checkAndLimitContentMaxHeight () {
+      console.log('HHHHH')
       var result = null
       if (props.maxHeight && props.maxHeight > 0) {
         result = `${props.maxHeight}px`
@@ -197,13 +204,13 @@ export default {
         Mouse_StartY.value = y.value - e.pageY
       }
     }
-    function handleDragging (e) { 
+    function handleDragging (e) {
       if (isGrabbing.value) {
         x.value = e.pageX + Mouse_OffsetX.value
         y.value = e.pageY + Mouse_StartY.value
-        if(x.value<0)x.value=0
-        if(y.value<0)y.value=0
-        if(e.button===0&&e.buttons===0){
+        if (x.value < 0) x.value = 0
+        if (y.value < 0) y.value = 0
+        if (e.button === 0 && e.buttons === 0) {
           isGrabbing.value = false
         }
       }
@@ -244,7 +251,7 @@ export default {
           case DIRECTION.X:
             w.value = e.screenX - x.value
             break;
-          case DIRECTION.Y: 
+          case DIRECTION.Y:
             h.value = e.screenY - Mouse_StartY.value + startHeight.value
             break;
           case DIRECTION.CROSS:
@@ -261,14 +268,23 @@ export default {
       context.emit('close')
     }
     const isAutoResizing = ref(false)
-    function handleFullContentSize () { 
+    function handleToMaxHeight () {
       isAutoResizing.value = true
-      console.log('handleFullContentSize')
-      nextTick(() => { 
-        x.value = 0 
+      nextTick(() => {
+        h.value = Number(MaxHeight.value.toString().split('px')[0])
+        setTimeout(() => {
+          isAutoResizing.value = false
+        }, 500);
+      })
+    }
+    function handleFullContentSize () {
+      console.log('>>>')
+      isAutoResizing.value = true
+      nextTick(() => {
+        x.value = 0
         y.value = 0
-        w.value = props.maxWidth ? props.maxWidth : document.documentElement.clientWidth - 20
-        h.value = Number(MaxHeight.value.split('px')[0]) 
+        w.value = props.maxWidth ? props.maxWidth : document.documentElement.clientWidth - 20 
+        h.value = Number(MaxHeight.value.toString().split('px')[0])
         setTimeout(() => {
           isAutoResizing.value = false
         }, 500);
@@ -296,7 +312,8 @@ export default {
       MaxHeight,
       contentContainer,
       handleFullContentSize,
-      isAutoResizing
+      isAutoResizing,
+      handleToMaxHeight
     }
   }
 }
@@ -365,7 +382,7 @@ export default {
             cursor: grabbing !important;
           }
         }
-        position: absolute; 
+        position: absolute;
       }
       &.__Modal_Resizeable {
       }

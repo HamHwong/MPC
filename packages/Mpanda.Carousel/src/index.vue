@@ -73,7 +73,7 @@ export default {
       default: () => false
     }
   },
-  emits: ['click', 'pause', 'next', 'previous'],
+  emits: ['click', 'pause', 'continue', 'next', 'previous'],
   setup (props, context) {
     const container = ref(null)
     var data = reactive([])
@@ -110,16 +110,17 @@ export default {
         }
       }
     }
-    var doPause = () => {
+    var doPause = () => { 
       context.emit('pause', currentSectionPos.value)
       pause.value = true
     }
     var doContinue = () => {
+      context.emit('continue', currentSectionPos.value)
       pause.value = false
     }
     var play = () => {
       clearTimeout(playTimer.value)
-      playTimer.value = setTimeout(function () {
+      playTimer.value = setTimeout(function () { 
         if (!pause.value) {
           var newPos = (currentSectionPos.value + 1) % data.length
           focusOn(newPos)
@@ -131,11 +132,15 @@ export default {
       var newPos = (currentSectionPos.value + 1) % data.length
       context.emit('next', newPos)
       focusOn(newPos)
+      clearTimeout(playTimer.value)
+      play()
     }
     var toLeft = () => {
       var newPos = (currentSectionPos.value + data.length - 1) % data.length
       context.emit('previous', newPos)
       focusOn(newPos)
+      clearTimeout(playTimer.value)
+      play()
     }
     var zIndex = (index) => {
       var result = 0
@@ -243,7 +248,7 @@ export default {
       justify-content: center;
       & > * {
         background-color: #fff;
-        box-shadow: 0px 0px 30px #838383;
+        box-shadow: 0px 0px 20px #363636;
         pointer-events: all;
       }
     }
@@ -269,6 +274,7 @@ export default {
       left: -30px;
       &::before {
         content: "‹";
+        align-self: center;
       }
     }
     &.right {
@@ -279,6 +285,7 @@ export default {
       right: -30px;
       &::before {
         content: "›";
+        align-self: center;
       }
     }
   }

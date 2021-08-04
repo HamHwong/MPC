@@ -9,7 +9,7 @@
     <div>
       <div
         style="width:100px"
-        v-tooltips 
+        v-tooltips
       >
         鼠标移上来
       </div>
@@ -27,10 +27,13 @@
       @close="()=>modalVisibility=false"
       draggable
       resizeable
-      tap-shadow-to-close
+      :position="{
+        x:100,
+        y:0
+      }"
     >
       <MPPdfReader
-        @pageChanged="(page,ctx)=>ctx.emit('modelResize')"
+        @pageChanged="handlePageChanged"
         pdfurl="/pdf.pdf"
       />
     </MPModal>
@@ -43,6 +46,7 @@
 
 <script>
 import { reactive, ref } from '@vue/reactivity'
+import {emit} from '../packages/Mpanda.Utils'
 
 export default {
   name: 'App',
@@ -88,10 +92,15 @@ export default {
     function handleModalDisplay () {
       modalVisibility.value = true
     }
+    function handlePageChanged (page, _this) {
+      emit('modelResize',_this) 
+      emit('modelFitToContent',_this)  
+    }
     return {
       modalVisibility,
       handleClick,
       handleModalDisplay,
+      handlePageChanged,
       data
     }
   }

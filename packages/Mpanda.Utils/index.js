@@ -1,4 +1,4 @@
-export function isElementInViewport  (el, container) {
+export function isElementInViewport (el, container) {
   //获取元素是否在可视区域
   var rect = el.getBoundingClientRect();
 
@@ -17,4 +17,9 @@ export function isElementInViewport  (el, container) {
     rect.left <= Container_X &&
     rect.right >= 0
   );
+}
+export function emit ($event, _this) {
+  console.log(_this.parent)
+  // _this.parent.emitsOptions[$event] = null
+  // _this.parent.emit($event)
 }
