@@ -1,6 +1,6 @@
 {
   "name": "@mpanda/mpc",
-  "version": "0.1.55",
+  "version": "0.1.56",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
@@ -17,7 +17,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/HamHwong/Mpanda.Frontend.Library.git"
+    "url": "https://github.com/HamHwong/MPC.git"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
