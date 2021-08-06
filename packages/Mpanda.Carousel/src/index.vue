@@ -263,6 +263,7 @@ export default {
     height: 50px;
     width: 50px;
     border-radius: 25px;
+    box-sizing: content-box !important;
     &:hover {
       background-color: rgba(0, 0, 0, 0.5);
     }
