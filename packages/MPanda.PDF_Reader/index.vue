@@ -37,7 +37,9 @@
     <PDFToolBar
       position="bottom"
       @pre="prePage"
-      @next="nextPage"
+      @next="nextPage" 
+      @zoom:in="zoomIn"
+      @zoom:out="zoomOut"
     />
   </div>
 </template>
@@ -170,6 +172,7 @@ export default {
       ToPage(CurrentPage.value)
     })
     function zoomIn () {
+      // console.log('zoom in')
       Scale.value = Scale.value * 1.25
     }
     function zoomOut () {
