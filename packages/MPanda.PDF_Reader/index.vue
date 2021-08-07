@@ -45,15 +45,13 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
-// import { computed } from '@vue/runtime-core'
+import { ref } from '@vue/reactivity' 
 import PDFToolBar from './components/toolbar'
 import PDFThumbs from './components/thumbs.vue'
 import { getCurrentInstance, nextTick, onMounted, provide, watch } from '@vue/runtime-core'
 import pdfjsLib from 'pdfjs-dist'
-// const pdfjsLib = require("./pdfjs.es5");
-// var pdfjsLib = require('pdfjs-dist/build/pdf.js');
-pdfjsLib.disableWorker = true
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker' 
+pdfjsLib.GlobalWorkerOptions,pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
 export default {
   props: {
     pdfurl: {
@@ -287,7 +285,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: #3333336c;
-    z-index: 999;
+    z-index: 8;
   }
   &.loading::after {
     content: "";
@@ -300,7 +298,7 @@ export default {
     width: 40px;
     height: 40px;
     color: #fff;
-    z-index: 1000;
+    z-index: 9;
     transform-origin: 50% 50%;
     animation: zoom 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) alternate infinite;
   }

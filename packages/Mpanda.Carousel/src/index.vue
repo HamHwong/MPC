@@ -1,7 +1,7 @@
 <template>
   <div
     ref="container"
-    :style="{minWidth:`${containerMinWidth*2}px`}" 
+    :style="{minWidth:`${containerMinWidth*2}px`}"
   >
     <div class="__Carousel">
       <section
@@ -84,8 +84,8 @@ export default {
     }, {
       immediate: true
     })
-    watch(() => imgDOMs.value, (imgs) => { 
-      nextTick(() => {  
+    watch(() => imgDOMs.value, (imgs) => {
+      nextTick(() => {
         containerMinWidth.value = Math.max(...imgs.map(img => img.width))
         // console.log('containerMinWidth.value',containerMinWidth.value)
       })
@@ -110,7 +110,7 @@ export default {
         }
       }
     }
-    var doPause = () => { 
+    var doPause = () => {
       context.emit('pause', currentSectionPos.value)
       pause.value = true
     }
@@ -120,7 +120,7 @@ export default {
     }
     var play = () => {
       clearTimeout(playTimer.value)
-      playTimer.value = setTimeout(function () { 
+      playTimer.value = setTimeout(function () {
         if (!pause.value) {
           var newPos = (currentSectionPos.value + 1) % data.length
           focusOn(newPos)
@@ -255,7 +255,7 @@ export default {
   }
   .slide-arrow {
     position: absolute;
-    z-index: 999;
+    z-index: 9;
     background-color: rgba(0, 0, 0, 0.2);
     color: #fff;
     line-height: 45px;
@@ -274,8 +274,9 @@ export default {
       padding-right: 10px;
       left: -30px;
       &::before {
-        content: "‹";
-        align-self: center;
+        content: "‹"; 
+        align-items: center;
+        box-sizing: content-box;
       }
     }
     &.right {
@@ -285,8 +286,9 @@ export default {
       padding-left: 10px;
       right: -30px;
       &::before {
-        content: "›";
-        align-self: center;
+        content: "›"; 
+        align-items: center;
+        box-sizing: content-box;
       }
     }
   }
@@ -304,7 +306,7 @@ export default {
       background: #fff;
       box-shadow: 0 0 10px #333;
       margin: 5px;
-      z-index: 9999;
+      z-index: 9;
       border-radius: 50%;
       &.active {
         width: 8px;

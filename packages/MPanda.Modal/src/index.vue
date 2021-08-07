@@ -131,7 +131,8 @@ export default {
     },
     visible: {
       type: Boolean,
-      default: () => false
+      default: () => false,
+      required:true
     },
     center: {
       type: Boolean,
@@ -142,15 +143,17 @@ export default {
       default: () => false
     }
   },
-  emits: ['close', 'display'],
+  emits: ['close', 'display','hide'],
   setup (props, context) {
     const status = ref(STATUS.HIDE)
     const display = ref(false)
     watch(() => display.value, (visible) => {
+      console.log('watch:display',visible)
       if (!visible) {
         status.value = STATUS.HIDING
         setTimeout(() => {
           status.value = STATUS.HIDE
+          context.emit('hide')
         }, 500);
       } else {
         status.value = STATUS.DISPLAY
@@ -163,10 +166,12 @@ export default {
       }
     })
     watch(() => props.visible, (visible) => {
+      console.log('watch: props.visible',visible)
       display.value = visible 
     })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
+      console.log('watch: status.value',val)
       if (val === STATUS.DISPLAY) {
         nextTick(() => {
           checkAndLimitContentMaxHeight()
@@ -184,8 +189,7 @@ export default {
     let headerHeight = 22;
     var Mouse_OffsetX = ref(0)
     var Mouse_StartY = ref(0)
-    function checkAndLimitContentMaxHeight () {
-      console.log('HHHHH')
+    function checkAndLimitContentMaxHeight () { 
       var result = null
       if (props.maxHeight && props.maxHeight > 0) {
         result = `${props.maxHeight}px`
@@ -232,7 +236,7 @@ export default {
         Direction.value = direction
         startHeight.value = h.value
         // Mouse_OffsetX.value = x.value - e.pageX
-        Mouse_StartY.value = e.screenY
+        Mouse_StartY.value = e.clientY
       }
     }
     function endResize (e) {
@@ -249,14 +253,15 @@ export default {
         checkAndLimitContentMaxHeight()
         switch (Direction.value) {
           case DIRECTION.X:
-            w.value = e.screenX - x.value
+            w.value = e.clientX - x.value
             break;
           case DIRECTION.Y:
-            h.value = e.screenY - Mouse_StartY.value + startHeight.value
+            h.value = e.clientY - Mouse_StartY.value + startHeight.value
             break;
           case DIRECTION.CROSS:
-            w.value = e.screenX - x.value
-            h.value = e.screenY - Mouse_StartY.value + startHeight.value
+            // console.log(e)
+            w.value = e.clientX - x.value
+            h.value = e.clientY - Mouse_StartY.value + startHeight.value
             break;
         }
       }
@@ -278,7 +283,7 @@ export default {
       })
     }
     function handleFullContentSize () {
-      console.log('>>>')
+      // console.log('>>>')
       isAutoResizing.value = true
       nextTick(() => {
         x.value = 0

@@ -77,7 +77,7 @@ function __tooltips (rootDOM, el, binding) {
 
           w = e.target.offsetWidth
           h = e.target.offsetHeight
-          console.log(w, h)
+          // console.log(w, h)
 
           var direction = _this.getDirection(x, y)
           _this.setDirection(direction)

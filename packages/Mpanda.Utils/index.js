@@ -18,8 +18,7 @@ export function isElementInViewport (el, container) {
     rect.right >= 0
   );
 }
-export function emit ($event, _this) {
-  console.log(_this.parent)
+export function emit ($event, _this) { 
   // _this.parent.emitsOptions[$event] = null
   // _this.parent.emit($event)
 }
