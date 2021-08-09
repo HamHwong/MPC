@@ -3,30 +3,22 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText }
-  from '@fortawesome/vue-fontawesome' 
-library.add(fas, far, fab) 
+library.add(fas, far, fab)
 // 导入组件
 import MPCarousel from "./Mpanda.Carousel/index";
 import MPModal from "./MPanda.Modal/index";
-import MPPdfReader from './MPanda.PDF_Reader/index' 
+import MPPdfReader from './MPanda.PDF_Reader/index'
 import PDFToolBar from './MPanda.PDF_Reader/components/toolbar'
-// 
+// Directives
 import MPTooltips from './Mpanda.Tooltips/index.js'
 import MPSuspend from './Mpanda.Suspend/index.js'
-
-// 存储组件列表-数组方式
-// const components = [tedMenu]
 
 // 存储组件列表-对象方式
 const components = {
   MPCarousel,
   MPModal,
   MPPdfReader,
-  PDFToolBar,
-  'font-awesome-icon': FontAwesomeIcon,
-  'font-awesome-layers': FontAwesomeLayers,
-  'font-awesome-layers-text': FontAwesomeLayersText,
+  PDFToolBar
 };
 const directives = {
   tooltips: MPTooltips,
@@ -37,11 +29,6 @@ const directives = {
 const install = function (Vue) {
   // 判断是否安装
   if (install.installed) return;
-
-  // 遍历注册全局组件-数组方式
-  // components.forEach(component => {
-  //   Vue.component(component.name, component)
-  // });
 
   // 遍历注册全局组件-对象方式
   Object.keys(components).forEach(key => {
@@ -62,5 +49,6 @@ export default {
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install,
   // 以下是具体的组件列表
-  components: components
+  components: components,
+  directives: directives
 };

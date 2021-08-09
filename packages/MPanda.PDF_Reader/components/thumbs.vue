@@ -33,10 +33,11 @@
 </template>
 
 <script>
-import { reactive, ref, toRef, toRefs } from '@vue/reactivity'
+import { ref } from '@vue/reactivity'
 import { isElementInViewport } from '@utils/index.js'
 import { inject, watch } from '@vue/runtime-core'
 import Thumb from './thumb.vue'
+import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome' 
 export default {
   name: 'PDFThumbs',
   props: {
@@ -61,7 +62,7 @@ export default {
       default: () => 450
     }
   },
-  components: { Thumb },
+  components: { Thumb,FontAwesomeIcon},
   emits: ['ToPage'],
   setup (props, ctx) {
     const isFold = ref(true)
@@ -112,7 +113,7 @@ export default {
       handleToPage,
       ThumbsArr,
       PDFFile,
-      thumbs_wrapper
+      thumbs_wrapper 
     }
   },
 }

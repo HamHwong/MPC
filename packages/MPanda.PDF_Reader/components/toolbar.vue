@@ -38,6 +38,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { inject } from '@vue/runtime-core'
+import { FontAwesomeIcon  } from '@fortawesome/vue-fontawesome' 
 export default {
   name: "PDFToolBar",
   props: {
@@ -48,6 +49,7 @@ export default {
     }
   },
   emits:['next','pre','zoom:out','zoom:in'],
+  components:{FontAwesomeIcon},
   setup (props,ctx) {
     const visible = ref(false)
     const CurrentPage = inject('CurrentPage')
@@ -134,7 +136,7 @@ export default {
       nextPage,
       prePage,
       zoomOut,
-      zoomIn
+      zoomIn, 
     }
   }
 }

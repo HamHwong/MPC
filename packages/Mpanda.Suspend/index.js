@@ -48,33 +48,33 @@ function doSuspending (origin, target, radius) {
   }
 
   target.dom.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-  // target.dom.style.fontSize = '8px'
-  // target.dom.innerText = `
-  // OriginCenterPoint.X:${OriginCenterPoint.X} 
-  // TargetCenterPoint:{
-  //     X:${TargetCenterPoint.X},
-  //     Y:${TargetCenterPoint.Y},
-  //     W:${TargetCenterPoint.W},
-  //     H:${TargetCenterPoint.H}
-  // }
-  // scaleX:${scaleX}
-  // scaleY:${scaleY}
-  // radius:${radius}
-  // `
-}
-
+  target.dom.style.fontSize = '8px'
+  target.dom.innerText = `
+  OriginCenterPoint.X:${OriginCenterPoint.X} 
+  TargetCenterPoint:{
+      X:${TargetCenterPoint.X},
+      Y:${TargetCenterPoint.Y},
+      W:${TargetCenterPoint.W},
+      H:${TargetCenterPoint.H}
+  }
+  scaleX:${scaleX}
+  scaleY:${scaleY}
+  radius:${radius}
+  `
+} 
 function foreachSuspend (e) { 
   doms.map(dom => {
     doSuspending({ x: e.pageX, y: e.pageY, w: 0, h: 0 }, dom)
   })
 }
 
-export default {
-  mounted (el) {
+export default { 
+  mounted (el) { 
     document.removeEventListener('mousemove', foreachSuspend)
     el.style.transitionProperty = 'transform';
     el.style.transitionDuration = '0.5s';
-    doms.push({ x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight, dom: el })
+    var info = el.getBoundingClientRect()
+    doms.push({ x: info.x, y: info.y, w: el.offsetWidth, h: el.offsetHeight, dom: el })
     document.addEventListener('mousemove', foreachSuspend)
   }
 }
