@@ -85,7 +85,7 @@ export default {
     const canvasDOM = ref(null)
     const ctx = ref(null)
     const pdfDoc = ref(null)
-    let LoadingPDF = ref(true)
+    let LoadingPDF = ref(false)
     onMounted(() => {
       nextTick(() => {
         ctx.value = canvasDOM.value.getContext('2d')

@@ -43,7 +43,7 @@ function __tooltips (rootDOM, el, binding) {
     this.contentDOM.innerText = text
   }
   this.attachEventTriggerToDOM = function (DOM) {
-    // if(DOM.scrollWidth<DOM.offsetWidth) return
+    if(DOM.scrollWidth<DOM.offsetWidth) return
     //获取元素的纵坐标
     function getTop (e) {
       var offset = e.offsetTop;
@@ -61,10 +61,11 @@ function __tooltips (rootDOM, el, binding) {
     DOM.addEventListener('mouseover', function (e) {
       clearTimeout(_this.debounceTimer)
       _this.debounceTimer = setTimeout(() => {
-        if (!_this.isShow()) {
+        // if (!_this.isShow()) {
           e.stopPropagation()
           e.preventDefault()
           _this.update(binding.value || e.target.innerText)
+          console.log(binding,binding.value)
           // Mouse Or Target Position
           var x = 0, y = 0, w = 0, h = 0
           if (_this.mode === _this.MODE.FOLLOW_TARGET) {
@@ -94,7 +95,7 @@ function __tooltips (rootDOM, el, binding) {
           _this.DOM.style.top = y + wrapper_offset_y + offset_y + 'px'
           _this.DOM.style.left = x + wrapper_offset_x + offset_x + 'px'
           _this.show()
-        }
+        // }
       }, _this.timerDuration);
     })
     DOM.addEventListener('mouseleave', function (e) {

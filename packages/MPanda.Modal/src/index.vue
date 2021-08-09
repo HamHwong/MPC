@@ -49,9 +49,7 @@
         </div>
         <div class="__Model_Content">
           <div ref="contentContainer">
-            <slot
-              name="default"
-            ></slot>
+            <slot name="default"></slot>
           </div>
         </div>
         <div
@@ -88,7 +86,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { DIRECTION, STATUS } from './enum'
-import {  nextTick, watch } from '@vue/runtime-core'
+import { nextTick, watch } from '@vue/runtime-core'
 export default {
   name: 'MPModal',
   props: {
@@ -132,7 +130,7 @@ export default {
     visible: {
       type: Boolean,
       default: () => false,
-      required:true
+      required: true
     },
     center: {
       type: Boolean,
@@ -143,13 +141,13 @@ export default {
       default: () => false
     }
   },
-  emits: ['close', 'display','hide'],
+  emits: ['close', 'display', 'hide'],
   setup (props, context) {
     const status = ref(STATUS.HIDE)
     const display = ref(false)
-    watch(() => display.value, (visible) => {
-      console.log('watch:display',visible)
-      if (!visible) {
+    watch(() => display.value, (isVisible) => {
+      console.log('watch:display', isVisible)
+      if (!isVisible) {
         status.value = STATUS.HIDING
         setTimeout(() => {
           status.value = STATUS.HIDE
@@ -158,20 +156,20 @@ export default {
       } else {
         status.value = STATUS.DISPLAY
         context.emit('display')
-        if(!props.height){
-          setTimeout(()=>{
+        if (!props.height) {
+          setTimeout(() => {
             handleToMaxHeight()
-          },100)
+          }, 100)
         }
       }
     })
-    watch(() => props.visible, (visible) => {
-      console.log('watch: props.visible',visible)
-      display.value = visible 
+    watch(() => props.visible, (isVisible) => {
+      console.log('watch: props.visible', isVisible)
+      display.value = isVisible
     })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
-      console.log('watch: status.value',val)
+      console.log('watch: status.value', val)
       if (val === STATUS.DISPLAY) {
         nextTick(() => {
           checkAndLimitContentMaxHeight()
@@ -189,7 +187,7 @@ export default {
     let headerHeight = 22;
     var Mouse_OffsetX = ref(0)
     var Mouse_StartY = ref(0)
-    function checkAndLimitContentMaxHeight () { 
+    function checkAndLimitContentMaxHeight () {
       var result = null
       if (props.maxHeight && props.maxHeight > 0) {
         result = `${props.maxHeight}px`
@@ -288,7 +286,7 @@ export default {
       nextTick(() => {
         x.value = 0
         y.value = 0
-        w.value = props.maxWidth ? props.maxWidth : document.documentElement.clientWidth - 20 
+        w.value = props.maxWidth ? props.maxWidth : document.documentElement.clientWidth - 20
         h.value = Number(MaxHeight.value.toString().split('px')[0])
         setTimeout(() => {
           isAutoResizing.value = false

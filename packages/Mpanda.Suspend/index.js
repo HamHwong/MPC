@@ -48,19 +48,19 @@ function doSuspending (origin, target, radius) {
   }
 
   target.dom.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-  target.dom.style.fontSize = '8px'
-  target.dom.innerText = `
-  OriginCenterPoint.X:${OriginCenterPoint.X} 
-  TargetCenterPoint:{
-      X:${TargetCenterPoint.X},
-      Y:${TargetCenterPoint.Y},
-      W:${TargetCenterPoint.W},
-      H:${TargetCenterPoint.H}
-  }
-  scaleX:${scaleX}
-  scaleY:${scaleY}
-  radius:${radius}
-  `
+  // target.dom.style.fontSize = '8px'
+  // target.dom.innerText = `
+  // OriginCenterPoint.X:${OriginCenterPoint.X} 
+  // TargetCenterPoint:{
+  //     X:${TargetCenterPoint.X},
+  //     Y:${TargetCenterPoint.Y},
+  //     W:${TargetCenterPoint.W},
+  //     H:${TargetCenterPoint.H}
+  // }
+  // scaleX:${scaleX}
+  // scaleY:${scaleY}
+  // radius:${radius}
+  // `
 } 
 function foreachSuspend (e) { 
   doms.map(dom => {
