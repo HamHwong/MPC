@@ -1,3 +1,12 @@
+/**
+ * 判断el DOM是否在container DOM中显示
+ * 若Container为空,则默认为Windows
+ * 例: 目标DOM处于Container底部,向下滚动到DOM的top显示出现时,IsElementInViewport返回True
+ * @export
+ * @param {*} el 目标DOM
+ * @param {*} container 容器DOM
+ * @return {Boolean} 
+ */
 export function isElementInViewport (el, container) {
   //获取元素是否在可视区域
   var rect = el.getBoundingClientRect();

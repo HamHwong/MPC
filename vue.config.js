@@ -13,7 +13,7 @@ module.exports = {
     }
   },
   
-  css: { extract: false },
+  css: { extract: true },
   chainWebpack: config => {
     config.module
       .rule('js')

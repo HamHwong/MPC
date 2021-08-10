@@ -12,7 +12,10 @@ import PDFToolBar from './MPanda.PDF_Reader/components/toolbar'
 // Directives
 import MPTooltips from './Mpanda.Tooltips/index.js'
 import MPSuspend from './Mpanda.Suspend/index.js'
-
+// Utils
+import {isElementInViewport} from './Mpanda.Utils/index'
+// 样式
+import './Scss/index.scss'
 // 存储组件列表-对象方式
 const components = {
   MPCarousel,
@@ -23,6 +26,9 @@ const components = {
 const directives = {
   tooltips: MPTooltips,
   suspend: MPSuspend
+}
+const utils = {
+  isElementInViewport
 }
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
@@ -50,5 +56,6 @@ export default {
   install,
   // 以下是具体的组件列表
   components: components,
-  directives: directives
+  directives: directives,
+  utils: utils
 };

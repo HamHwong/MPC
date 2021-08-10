@@ -1,4 +1,4 @@
-import './index.css'
+
 function __tooltips (rootDOM, el, binding) {
   this.rootDOM = rootDOM || document.querySelector('#app')|| document.querySelector('body')
   this.DOM = null
