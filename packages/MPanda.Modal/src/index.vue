@@ -144,16 +144,9 @@ export default {
   emits: ['close', 'display'],
   setup (props, context) {
     const status = ref(STATUS.HIDE)
-    const display = ref(false)
-    // watch(() => display.value, (isVisible) => { 
-    //   if (!isVisible) {
-    //     handleClose()
-    //   } else {
-    //     handleShow()
-    //   }
-    // })
+    const display = ref(false) 
     watch(() => props.visible, (isVisible) => {
-      // console.log('watch: props.visible', isVisible)
+      console.log('watch: props.visible', isVisible)
       display.value = isVisible
       if(isVisible){
         handleShow()
@@ -163,7 +156,7 @@ export default {
     })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
-      // console.log('watch: status.value', val, STATUS.DISPLAY)
+      console.log('watch: status.value', val, STATUS.DISPLAY)
       if (val === STATUS.DISPLAY) {
         nextTick(() => {
           checkAndLimitContentMaxHeight()
