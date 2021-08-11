@@ -14,7 +14,7 @@ Vue.use(MPC)
 > Modern browsers except IE
 
 ## Documentation
-> Contributing!
+> [Document site]('https://MPC.Mpanda.Studio/')
 ## Licence
 > MPC is open source and released under the MIT Licence.
 > Copyright (c) 2021 Ham

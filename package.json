@@ -1,6 +1,6 @@
 {
   "name": "@mpanda/mpc",
-  "version": "0.1.62.83",
+  "version": "0.1.62.84",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
@@ -31,7 +31,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
-    "pdfjs-dist": "2.3.200"
+    "pdfjs-dist": "2.4.456"
   },
   "devDependencies": { 
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -44,8 +44,7 @@
     "eslint-plugin-vue": "^7.0.0",
     "file-loader": "^6.2.0",
     "node-sass": "4.14.1",
-    "path": "^0.12.7",
-    "pdfjs-dist": "^2.9.359",
+    "path": "^0.12.7", 
     "sass-loader": "8.0.0",
     "url-loader": "^4.1.1",
     "vue": "^3.0.0",
