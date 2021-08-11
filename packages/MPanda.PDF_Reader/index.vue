@@ -29,7 +29,7 @@
         class="Canvas_Wrapper"
       >
         <canvas
-          @mousewheel.prevent="handleWheel"
+          @wheel="handleWheel"
           ref="canvasDOM"
         ></canvas>
       </div>

@@ -6,7 +6,7 @@
     <div
       class="Thumbs_Inner_Wrapper"
       :style="{ height: `${height}px`,maxHeight:`${maxHeight}px`,minHeight:`${minHeight}px` }"
-      @mousewheel="handleRenderThumb"
+      @wheel="handleRenderThumb"
       ref="thumbs_wrapper"
     >
       <Thumb
