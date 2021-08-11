@@ -25,7 +25,7 @@
         :style="{
               left:draggable?`${x}px`:null,
               top:draggable?`${y}px`:null,
-              width:resizeable&&!center?`${w}px`:null,
+              width:resizeable&&!center?(w!=='unset'?`${w}px`:w):null,
               height:resizeable&&!center?`${h}px`:null,
               maxHeight:MaxHeight,
               maxWidth:maxWidth?`${maxWidth}px`:null
@@ -104,11 +104,11 @@ export default {
     // },
     width: {
       type: Number,
-      default: () => 400
+      default: () => 0
     },
     height: {
       type: Number,
-      default: () => 400
+      default: () => 0
     },
     maxHeight: {
       type: Number,
@@ -141,41 +141,49 @@ export default {
       default: () => false
     }
   },
-  emits: ['close', 'display', 'hide'],
+  emits: ['close', 'display'],
   setup (props, context) {
     const status = ref(STATUS.HIDE)
     const display = ref(false)
-    watch(() => display.value, (isVisible) => {
-      console.log('watch:display', isVisible)
-      if (!isVisible) {
-        status.value = STATUS.HIDING
-        setTimeout(() => {
-          status.value = STATUS.HIDE
-          context.emit('hide')
-        }, 500);
-      } else {
-        status.value = STATUS.DISPLAY
-        context.emit('display')
-        if (!props.height) {
-          setTimeout(() => {
-            handleToMaxHeight()
-          }, 100)
-        }
-      }
-    })
+    // watch(() => display.value, (isVisible) => { 
+    //   if (!isVisible) {
+    //     handleClose()
+    //   } else {
+    //     handleShow()
+    //   }
+    // })
     watch(() => props.visible, (isVisible) => {
-      console.log('watch: props.visible', isVisible)
+      // console.log('watch: props.visible', isVisible)
       display.value = isVisible
+      if(isVisible){
+        handleShow()
+      }else{
+        handleClose()
+      }
     })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
-      console.log('watch: status.value', val)
+      // console.log('watch: status.value', val, STATUS.DISPLAY)
       if (val === STATUS.DISPLAY) {
         nextTick(() => {
           checkAndLimitContentMaxHeight()
         })
       }
     })
+    function handleShow(){
+        status.value = STATUS.DISPLAY
+        context.emit('display') 
+        if (!props.height) {
+          setTimeout(() => {
+            handleToMaxHeight()
+          }, 100)
+        }
+        if(!props.width){
+          setTimeout(() => {
+            w.value='unset'
+          }, 100)
+        }
+    } 
     const contentContainer = ref(null)
     const isVisible = ref(false)
     const isGrabbing = ref(false)
@@ -188,7 +196,7 @@ export default {
     var Mouse_OffsetX = ref(0)
     var Mouse_StartY = ref(0)
     function checkAndLimitContentMaxHeight () {
-      var result = null
+      var result = null 
       if (props.maxHeight && props.maxHeight > 0) {
         result = `${props.maxHeight}px`
       } else if (contentContainer.value) {
@@ -265,10 +273,16 @@ export default {
       }
     }
     function handleClose (e) {
-      e.stopPropagation()
-      e.preventDefault()
-      display.value = false
-      context.emit('close')
+      if(e){
+        e.stopPropagation()
+        e.preventDefault()
+      }
+      status.value = STATUS.HIDING
+      setTimeout(() => {
+        status.value = STATUS.HIDE 
+        display.value = false
+        context.emit('close') 
+      }, 500);
     }
     const isAutoResizing = ref(false)
     function handleToMaxHeight () {

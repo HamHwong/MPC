@@ -65,7 +65,7 @@ function __tooltips (rootDOM, el, binding) {
           e.stopPropagation()
           e.preventDefault()
           _this.update(binding.value || e.target.innerText)
-          console.log(binding,binding.value)
+          // console.log(binding,binding.value)
           // Mouse Or Target Position
           var x = 0, y = 0, w = 0, h = 0
           if (_this.mode === _this.MODE.FOLLOW_TARGET) {

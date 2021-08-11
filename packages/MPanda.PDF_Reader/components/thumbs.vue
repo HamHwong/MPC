@@ -37,7 +37,7 @@ import { ref } from '@vue/reactivity'
 import { isElementInViewport } from '@utils/index.js'
 import { inject, watch } from '@vue/runtime-core'
 import Thumb from './thumb.vue'
-import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome' 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 export default {
   name: 'PDFThumbs',
   props: {
@@ -82,7 +82,7 @@ export default {
     })
     function handleRenderThumb () {
       for (var i = 0; i < ThumbsArr.value.length; i++) {
-        if (isElementInViewport(ThumbsArr.value[i].ref.$el, thumbs_wrapper.$el) && !ThumbsArr.value[i]['hasRendered']) {
+        if (isElementInViewport(ThumbsArr.value[i].ref.$el, thumbs_wrapper.value ) && !ThumbsArr.value[i]['hasRendered']) {
           ThumbsArr.value[i]['hasRendered'] = true
         }
       }

@@ -12,11 +12,17 @@ export function isElementInViewport (el, container) {
   var rect = el.getBoundingClientRect();
   var Container_Y = 0
   var Container_X = 0
+  var cont_rect ={}
+  // console.log('container',container)
   if (container) {
-    var cont_rect = container.getBoundingClientRect()
+    cont_rect = container.getBoundingClientRect()
     Container_Y = cont_rect.y + container.offsetHeight
     Container_X = cont_rect.x + container.offsetWidth
   } else {
+    cont_rect={
+      y:0,
+      x:0
+    }
     Container_Y = window.innerHeight || document.documentElement.clientHeight
     Container_X = window.innerWidth || document.documentElement.clientWidth
   } 
