@@ -3,7 +3,7 @@
     <div style="width:400px;margin:0 auto;background-color:#eee;">
       <MPCarousel
         @click="handleClick"
-        :value="data"
+        :value="data" 
       />
     </div>
     <div>

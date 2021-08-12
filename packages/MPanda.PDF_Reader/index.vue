@@ -51,7 +51,7 @@ import PDFThumbs from './components/thumbs.vue'
 import { getCurrentInstance, nextTick, onMounted, provide, watch } from '@vue/runtime-core'
 import pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry' 
-console.log('pdfjsLib',pdfjsLib)
+// console.log('pdfjsLib',pdfjsLib)
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
 export default {
   props: {

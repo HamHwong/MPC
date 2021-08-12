@@ -3,7 +3,10 @@
     ref="container"
     :style="{minWidth:`${containerMinWidth*2}px`}"
   >
-    <div class="__Carousel">
+    <div
+      class="__Carousel"
+      :style="{height:height||`300px`,minHeight:`${containerMinHeight&&containerMinHeight>300?containerMinHeight:300}px`}"
+    >
       <section
         v-for="(item,index) in data"
         :class="{
@@ -66,11 +69,40 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => []
+      default: () => [],
+      required: true
     },
     indicators: {
       type: Boolean,
       default: () => false
+    },
+    height: {
+      type: String,
+      default: () => 'null',
+      validator(val){
+        var value = val.toLowerCase()
+        if(value.indexOf('px')>0
+        ||value.indexOf('em')>0
+        ||value.indexOf('rem')>0
+        ||value.indexOf('%')>0
+        ||value.indexOf('vh')>0
+        ||value.indexOf('vw')>0) {
+          if(!isNaN(Number(value.split('px')[0]))
+          ||!isNaN(Number(value.split('em')[0]))
+          ||!isNaN(Number(value.split('rem')[0]))
+          ||!isNaN(Number(value.split('%')[0]))
+          ||!isNaN(Number(value.split('vh')[0]))
+          ||!isNaN(Number(value.split('vw')[0]))){
+            return true
+          }else{
+            return false
+          }
+        } else if(!isNaN(Number(value))){
+          return true
+        } else {
+          return false
+        }
+      }
     }
   },
   emits: ['click', 'pause', 'continue', 'next', 'previous'],
@@ -87,7 +119,10 @@ export default {
     watch(() => imgDOMs.value, (imgs) => {
       nextTick(() => {
         containerMinWidth.value = Math.max(...imgs.map(img => img.width))
-        // console.log('containerMinWidth.value',containerMinWidth.value)
+      }).then(() => {
+        nextTick(() => {
+          imgs.map(img => console.log(img.height))
+        })
       })
     }, { immediate: true })
     var currentSectionPos = ref(0);
@@ -95,6 +130,7 @@ export default {
     var playTimer = ref(null);
     var intervalTime = ref(4000);
     var containerMinWidth = ref(0);
+    var containerMinHeight = ref(0);
     var focusOn = (index) => {
       currentSectionPos.value = index
     };
@@ -122,6 +158,12 @@ export default {
       clearTimeout(playTimer.value)
       playTimer.value = setTimeout(function () {
         if (!pause.value) {
+          if (containerMinHeight.value === 0) {
+            nextTick(() => {
+              containerMinHeight.value = Math.max(...imgDOMs.value.map(img => img.height))
+              console.log('containerMinHeight', containerMinHeight.value)
+            })
+          }
           var newPos = (currentSectionPos.value + 1) % data.length
           focusOn(newPos)
         }
@@ -190,6 +232,7 @@ export default {
       setMargin,
       container,
       containerMinWidth,
+      containerMinHeight,
       imgDOMs
     }
   }
@@ -198,7 +241,6 @@ export default {
 
 <style lang="scss" scoped>
 .__Carousel {
-  min-height: 300px;
   position: relative;
   display: flex;
   align-items: center;
@@ -274,7 +316,7 @@ export default {
       padding-right: 10px;
       left: -30px;
       &::before {
-        content: "‹"; 
+        content: "‹";
         align-items: center;
         box-sizing: content-box;
       }
@@ -286,7 +328,7 @@ export default {
       padding-left: 10px;
       right: -30px;
       &::before {
-        content: "›"; 
+        content: "›";
         align-items: center;
         box-sizing: content-box;
       }
