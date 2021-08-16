@@ -16,8 +16,8 @@ export function isElementInViewport (el, container) {
   // console.log('container',container)
   if (container) {
     cont_rect = container.getBoundingClientRect()
-    Container_Y = cont_rect.y + container.offsetHeight
-    Container_X = cont_rect.x + container.offsetWidth
+    Container_Y = cont_rect.top + container.offsetHeight
+    Container_X = cont_rect.left + container.offsetWidth
   } else {
     cont_rect={
       y:0,

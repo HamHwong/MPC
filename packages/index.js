@@ -7,8 +7,8 @@ library.add(fas, far, fab)
 // 导入组件
 import MPCarousel from "./Mpanda.Carousel/index";
 import MPModal from "./MPanda.Modal/index";
-import MPPdfReader from './MPanda.PDF_Reader/index'
-import PDFToolBar from './MPanda.PDF_Reader/components/toolbar'
+import MPPdfReader from './MPanda.PDF_Reader/index.js'
+// import PDFToolBar from './MPanda.PDF_Reader/src/components/toolbar'
 // Directives
 import MPTooltips from './Mpanda.Tooltips/index.js'
 import MPSuspend from './Mpanda.Suspend/index.js'
@@ -21,7 +21,7 @@ const components = {
   MPCarousel,
   MPModal,
   MPPdfReader,
-  PDFToolBar
+  // PDFToolBar
 };
 const directives = {
   tooltips: MPTooltips,

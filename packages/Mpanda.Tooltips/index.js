@@ -20,6 +20,10 @@ function __tooltips (rootDOM, el, binding) {
     this.attachEventTriggerToDOM(el)
   }
   this.generateTooltipsDOMTo = function (parentDOM) {
+    var DOM = parentDOM.querySelector(`.${this.className}`)
+    if(DOM){
+      this.DOM = DOM
+    }
     if (this.DOM === null && !this.tooltipsExisted()) {
       this.DOM = document.createElement('div')
       this.contentDOM = document.createElement('div')
@@ -78,7 +82,6 @@ function __tooltips (rootDOM, el, binding) {
 
           w = e.target.offsetWidth
           h = e.target.offsetHeight
-          // console.log(w, h)
 
           var direction = _this.getDirection(x, y)
           _this.setDirection(direction)
@@ -89,7 +92,6 @@ function __tooltips (rootDOM, el, binding) {
 
           //Position Offset 
           var position_offset = _this.getPositionOffset(direction, w, h)
-          // console.log(position_offset)
           var offset_y = position_offset.y
           var offset_x = position_offset.x
           _this.DOM.style.top = y + wrapper_offset_y + offset_y + 'px'

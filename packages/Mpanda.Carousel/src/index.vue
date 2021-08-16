@@ -121,7 +121,7 @@ export default {
         containerMinWidth.value = Math.max(...imgs.map(img => img.width))
       }).then(() => {
         nextTick(() => {
-          imgs.map(img => console.log(img.height))
+          // imgs.map(img => console.log(img.height))
         })
       })
     }, { immediate: true })
@@ -161,7 +161,7 @@ export default {
           if (containerMinHeight.value === 0) {
             nextTick(() => {
               containerMinHeight.value = Math.max(...imgDOMs.value.map(img => img.height))
-              console.log('containerMinHeight', containerMinHeight.value)
+              // console.log('containerMinHeight', containerMinHeight.value)
             })
           }
           var newPos = (currentSectionPos.value + 1) % data.length
