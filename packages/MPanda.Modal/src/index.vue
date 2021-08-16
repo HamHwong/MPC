@@ -146,7 +146,6 @@ export default {
     const status = ref(STATUS.HIDE)
     const display = ref(false) 
     watch(() => props.visible, (isVisible) => {
-      console.log('watch: props.visible', isVisible)
       display.value = isVisible
       if(isVisible){
         handleShow()
@@ -156,8 +155,7 @@ export default {
     })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
-      console.log('watch: status.value', val, STATUS.DISPLAY)
-      if (val === STATUS.DISPLAY) {
+       if (val === STATUS.DISPLAY) {
         nextTick(() => {
           checkAndLimitContentMaxHeight()
         })
@@ -258,7 +256,6 @@ export default {
             h.value = e.clientY - Mouse_StartY.value + startHeight.value
             break;
           case DIRECTION.CROSS:
-            // console.log(e)
             w.value = e.clientX - x.value
             h.value = e.clientY - Mouse_StartY.value + startHeight.value
             break;
@@ -288,7 +285,6 @@ export default {
       })
     }
     function handleFullContentSize () {
-      // console.log('>>>')
       isAutoResizing.value = true
       nextTick(() => {
         x.value = 0

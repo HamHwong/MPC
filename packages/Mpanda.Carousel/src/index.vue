@@ -1,59 +1,59 @@
 <template>
-  <div
-    ref="container"
-    :style="{minWidth:`${containerMinWidth*2}px`}"
-  >
+  <div ref="container" :style="{ minWidth: `${containerMinWidth * 2}px` }">
     <div
       class="__Carousel"
-      :style="{height:height||`300px`,minHeight:`${containerMinHeight&&containerMinHeight>300?containerMinHeight:300}px`}"
+      :style="{
+        height: height || `300px`,
+        minHeight: `${
+          containerMinHeight && containerMinHeight > 300
+            ? containerMinHeight
+            : 300
+        }px`,
+      }"
     >
       <section
-        v-for="(item,index) in data"
+        v-for="(item, index) in data"
         :class="{
-          slide:true,
-          left:checkPosition(index,'left'),
-          active:checkPosition(index,'active'), 
-          right:checkPosition(index,'right'),
-          }"
+          slide: true,
+          left: checkPosition(index, 'left'),
+          active: checkPosition(index, 'active'),
+          right: checkPosition(index, 'right'),
+        }"
         :style="{
-            zIndex:zIndex(index),
-            marginRight: checkPosition(index,'left')?setMargin():null,
-            marginLeft:checkPosition(index,'right')?setMargin():null
-          }"
+          zIndex: zIndex(index),
+          marginRight: checkPosition(index, 'left') ? setMargin() : null,
+          marginLeft: checkPosition(index, 'right') ? setMargin() : null,
+        }"
         :key="index"
         @mouseover="doPause"
         @mouseout="doContinue"
-        @mouseup="handleClick($event,value[index],index)"
+        @mouseup="handleClick($event, value[index], index)"
         @click="focusOn(index)"
       >
         <figure>
           <img
             :src="item.pic"
             :style="{
-              width:(item.width&&item.width!==0)?`${item.width}px` :'100%',
-              height:(item.height&&item.height!==0)?`${item.height}px` :null
+              width:
+                item.width && item.width !== 0 ? `${item.width}px` : '100%',
+              height:
+                item.height && item.height !== 0 ? `${item.height}px` : null,
             }"
-            :ref="el=>imgDOMs[index]=(el)"
-          >
+            :ref="(el) => (imgDOMs[index] = el)"
+          />
         </figure>
       </section>
-      <div
-        @click="toLeft"
-        class="slide-arrow left"
-      ></div>
-      <div
-        @click="toRight"
-        class="slide-arrow right"
-      ></div>
-      <div
-        v-if="indicators"
-        class="slide-indicators"
-      >
+      <div @click="toLeft" class="slide-arrow left"></div>
+      <div @click="toRight" class="slide-arrow right"></div>
+      <div v-if="indicators" class="slide-indicators">
         <i
           @click="focusOn(index)"
-          v-for="(i,index) in value"
+          v-for="(i, index) in value"
           :key="index"
-          :class="{'slide-indicator':true,active:index===currentSectionPos}"
+          :class="{
+            'slide-indicator': true,
+            active: index === currentSectionPos,
+          }"
           @mouseover="doPause"
           @mouseout="doContinue"
         />
@@ -63,77 +63,63 @@
 </template>
 
 <script>
-import { onMounted, ref, nextTick, reactive, watch } from 'vue'
+import { onMounted, onBeforeUnmount, ref, nextTick, reactive, watch } from 'vue'
+import { SizeNumberValidator } from '../../MPanda.Validators'
 export default {
   name: 'MPCarousel',
   props: {
     value: {
       type: Array,
       default: () => [],
-      required: true
+      required: true,
     },
     indicators: {
       type: Boolean,
-      default: () => false
+      default: () => false,
     },
     height: {
       type: String,
       default: () => 'null',
-      validator(val){
-        var value = val.toLowerCase()
-        if(value.indexOf('px')>0
-        ||value.indexOf('em')>0
-        ||value.indexOf('rem')>0
-        ||value.indexOf('%')>0
-        ||value.indexOf('vh')>0
-        ||value.indexOf('vw')>0) {
-          if(!isNaN(Number(value.split('px')[0]))
-          ||!isNaN(Number(value.split('em')[0]))
-          ||!isNaN(Number(value.split('rem')[0]))
-          ||!isNaN(Number(value.split('%')[0]))
-          ||!isNaN(Number(value.split('vh')[0]))
-          ||!isNaN(Number(value.split('vw')[0]))){
-            return true
-          }else{
-            return false
-          }
-        } else if(!isNaN(Number(value))){
-          return true
-        } else {
-          return false
-        }
-      }
-    }
+      validator: SizeNumberValidator,
+    },
   },
   emits: ['click', 'pause', 'continue', 'next', 'previous'],
-  setup (props, context) {
+  setup(props, context) {
     const container = ref(null)
     var data = reactive([])
     var imgDOMs = ref([])
-    watch(() => props.value, (val) => {
-      var sortedArr = val.sort((pre, next) => pre.order - next.order)
-      sortedArr.map(i => data.push(i))
-    }, {
-      immediate: true
-    })
-    watch(() => imgDOMs.value, (imgs) => {
-      nextTick(() => {
-        containerMinWidth.value = Math.max(...imgs.map(img => img.width))
-      }).then(() => {
+    watch(
+      () => props.value,
+      (val) => {
+        var sortedArr = val.sort((pre, next) => pre.order - next.order)
+        sortedArr.map((i) => data.push(i))
+      },
+      {
+        immediate: true,
+      }
+    )
+    watch(
+      () => imgDOMs.value,
+      (imgs) => {
         nextTick(() => {
-          // imgs.map(img => console.log(img.height))
+          containerMinWidth.value = Math.max(...imgs.map((img) => img.width))
+        }).then(() => {
+          nextTick(() => {
+            // imgs.map(img => console.log(img.height))
+          })
         })
-      })
-    }, { immediate: true })
-    var currentSectionPos = ref(0);
-    var pause = ref(false);
-    var playTimer = ref(null);
-    var intervalTime = ref(4000);
-    var containerMinWidth = ref(0);
-    var containerMinHeight = ref(0);
+      },
+      { immediate: true }
+    )
+    var currentSectionPos = ref(0)
+    var pause = ref(false)
+    var playTimer = ref(null)
+    var intervalTime = ref(4000)
+    var containerMinWidth = ref(0)
+    var containerMinHeight = ref(0)
     var focusOn = (index) => {
       currentSectionPos.value = index
-    };
+    }
     var convert = (number) => {
       if (typeof number === 'number') {
         return `${number}px`
@@ -156,12 +142,17 @@ export default {
     }
     var play = () => {
       clearTimeout(playTimer.value)
-      playTimer.value = setTimeout(function () {
+      playTimer.value = setTimeout(function() {
         if (!pause.value) {
           if (containerMinHeight.value === 0) {
             nextTick(() => {
-              containerMinHeight.value = Math.max(...imgDOMs.value.map(img => img.height))
-              // console.log('containerMinHeight', containerMinHeight.value)
+              containerMinHeight.value = Math.max(
+                ...imgDOMs.value.map((img) => {
+                  if (img.height) {
+                    return img.height
+                  } else return 0
+                })
+              )
             })
           }
           var newPos = (currentSectionPos.value + 1) % data.length
@@ -198,7 +189,7 @@ export default {
     var handleClick = ($event, item, index) => {
       context.emit('click', $event, item, index)
     }
-    function checkPosition (index, pos) {
+    function checkPosition(index, pos) {
       pos = pos.toLowerCase()
       if (currentSectionPos.value > index) {
         return pos === 'left'
@@ -208,7 +199,7 @@ export default {
         return pos === 'right'
       }
     }
-    function setMargin () {
+    function setMargin() {
       var result = -49
       return `${result}%`
     }
@@ -216,6 +207,10 @@ export default {
       nextTick(() => {
         play()
       })
+    })
+    onBeforeUnmount(() => {
+      console.log('destory')
+      clearTimeout(playTimer.value)
     })
     return {
       currentSectionPos,
@@ -233,9 +228,9 @@ export default {
       container,
       containerMinWidth,
       containerMinHeight,
-      imgDOMs
+      imgDOMs,
     }
-  }
+  },
 }
 </script>
 
@@ -316,7 +311,7 @@ export default {
       padding-right: 10px;
       left: -30px;
       &::before {
-        content: "‹";
+        content: '‹';
         align-items: center;
         box-sizing: content-box;
       }
@@ -328,7 +323,7 @@ export default {
       padding-left: 10px;
       right: -30px;
       &::before {
-        content: "›";
+        content: '›';
         align-items: center;
         box-sizing: content-box;
       }

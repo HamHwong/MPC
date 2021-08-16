@@ -5,10 +5,10 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 library.add(fas, far, fab)
 // 导入组件
-import MPCarousel from "./Mpanda.Carousel/index";
-import MPModal from "./MPanda.Modal/index";
-import MPPdfReader from './MPanda.PDF_Reader/index.js'
-// import PDFToolBar from './MPanda.PDF_Reader/src/components/toolbar'
+import MPCarousel from "./Mpanda.Carousel";
+import MPModal from "./MPanda.Modal";
+import MPPdfReader from './MPanda.PDF_Reader' 
+import MPCard from './MPanda.Card' 
 // Directives
 import MPTooltips from './Mpanda.Tooltips/index.js'
 import MPSuspend from './Mpanda.Suspend/index.js'
@@ -21,6 +21,7 @@ const components = {
   MPCarousel,
   MPModal,
   MPPdfReader,
+  MPCard
   // PDFToolBar
 };
 const directives = {

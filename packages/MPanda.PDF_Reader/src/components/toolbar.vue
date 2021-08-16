@@ -93,11 +93,9 @@ export default {
       ctx.emit('pre')
     }
     function zoomOut(){
-      // console.log('zoom:out')
       ctx.emit('zoom:out')
     }
     function zoomIn(){
-      // console.log('zoom:in')
       ctx.emit('zoom:in')
     }
     // function debounce (func, wait) {

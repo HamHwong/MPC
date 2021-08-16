@@ -1,6 +1,6 @@
 {
   "name": "@mpanda/mpc",
-  "version": "0.1.62.87",
+  "version": "0.1.62.88",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
@@ -33,18 +33,19 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "pdfjs-dist": "2.4.456"
   },
-  "devDependencies": { 
+  "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "core-js": "^3.6.5",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "file-loader": "^6.2.0",
     "node-sass": "4.14.1",
-    "path": "^0.12.7", 
+    "path": "^0.12.7",
     "sass-loader": "8.0.0",
     "url-loader": "^4.1.1",
     "vue": "^3.0.0",

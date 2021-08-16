@@ -51,7 +51,6 @@ import PDFThumbs from './components/thumbs.vue'
 import { getCurrentInstance, nextTick, onMounted, provide, watch } from '@vue/runtime-core'
 import pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry' 
-// console.log('pdfjsLib',pdfjsLib)
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
 export default {
   props: {
@@ -171,7 +170,6 @@ export default {
       ToPage(CurrentPage.value)
     })
     function zoomIn () {
-      // console.log('zoom in')
       Scale.value = Scale.value * 1.25
     }
     function zoomOut () {
@@ -207,7 +205,6 @@ export default {
       dragging.value = true
       startX.value = e.screenX
       startY.value = e.screenY
-      // console.log('handleMouseDown', e)
     }
     function handleMouseMove (e) {
       if (dragging.value) {

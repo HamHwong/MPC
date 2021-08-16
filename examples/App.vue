@@ -1,49 +1,45 @@
 <template>
   <div>
     <div style="width:400px;margin:0 auto;background-color:#eee;">
-      <MPCarousel
-        @click="handleClick"
-        :value="data" 
-      />
+      <MPCarousel @click="handleClick" :value="data" />
     </div>
     <div>
-      <div
-        style="width:100px"
-        v-tooltips
-      >
+      <div style="width:100px" v-tooltips>
         鼠标移上来
       </div>
     </div>
     <div style="display:flex">
-      <div
+      <MPCard
+        type="userInfo"
+        style="margin:10px"
         v-for="i in 5"
         :key="i"
-        style="width:100px;height:100px;box-shadow:0 0 20px #ccc;border-radius:10px;margin:10px"
         v-suspend:debug
-      ></div>
+      >
+        {{ i }}
+        <template #header>Heeader</template>
+      </MPCard>
     </div>
     <MPModal
       :visible="modalVisibility"
-      @close="()=>modalVisibility=false"
+      @close="() => (modalVisibility = false)"
       draggable
       resizeable
       :position="{
-        x:100,
-        y:0
+        x: 100,
+        y: 0,
       }"
     >
-      <MPPdfReader
-        @pageChanged="handlePageChanged"
-        pdfurl="/pdf.pdf"
-      />
+      <MPPdfReader @pageChanged="handlePageChanged" pdfurl="/pdf.pdf" />
     </MPModal>
     <button @click="handleModalDisplay">click</button>
-    <div style="width: 800px;box-shadow: 0 0 50px #333;margin:0 auto;margin-top: 20px;border-radius: 5px;overflow: hidden;">
+    <div
+      style="width: 800px;box-shadow: 0 0 50px #333;margin:0 auto;margin-top: 20px;border-radius: 5px;overflow: hidden;"
+    >
       <MPPdfReader pdfurl="/pdf.pdf" />
     </div>
 
     <div>
-
       <div>
         <span>{{ isInViewPort }}</span>
         <div
@@ -54,7 +50,9 @@
             overflow-y:auto;
             color:#fff;"
         >
-          <div ref="el" style="width:50px;
+          <div
+            ref="el"
+            style="width:50px;
             height:50px;
             background-color:#fff;
             margin-top:1000px;
@@ -64,12 +62,12 @@
             font-size:8px;
             text-align:center;
             box-shadow:rgb(204 204 204) 0px 0px 20px;
-            border-radius:10px">
+            border-radius:10px"
+          >
             到了
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -82,58 +80,67 @@ import { nextTick } from '@vue/runtime-core'
 
 export default {
   name: 'App',
-  setup () {
+  setup() {
     const modalVisibility = ref(false)
-    const data = reactive([{
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }, {
-      order: 0,
-      label: '1',
-      pic: '/images/img.jpg',
-      width: 400,
-    }])
-    function handleClick (a, b, c) { console.log(a, b, c) }
-    function handleModalDisplay () {
+    const data = reactive([
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+      {
+        order: 0,
+        label: '1',
+        pic: '/images/img.jpg',
+        width: 400,
+      },
+    ])
+    function handleClick(a, b, c) {
+      console.log(a, b, c)
+    }
+    function handleModalDisplay() {
       modalVisibility.value = true
     }
-    function handlePageChanged (page, _this) {
+    function handlePageChanged(page, _this) {
       emit('modelResize', _this)
       emit('modelFitToContent', _this)
     }
 
     const isInViewPort = ref(false)
     const el = ref(null)
-    function handleWheel (e) {
+    function handleWheel(e) {
       nextTick(() => {
-        //console.log('e.target,el.value', e.target, el.value)
         isInViewPort.value = isElementInViewport(e.target, el.value)
       })
     }
@@ -146,9 +153,9 @@ export default {
       data,
       el,
       handleWheel,
-      isInViewPort
+      isInViewPort,
     }
-  }
+  },
 }
 </script>
 
