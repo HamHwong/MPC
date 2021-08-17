@@ -8,19 +8,17 @@
         鼠标移上来
       </div>
     </div>
-    <div style="
+    <div
+      style="
     display:flex;
     flex-wrap: wrap;  
     width :100%
-    " >
-      <MPCard
-        type="userinfo" 
-        v-suspend="`${i*200}px`" 
-        v-blur
-      > 
-        <template #title>title</template> 
-        <template #content>content</template> 
-        <template #others>others</template> 
+    "
+    >
+      <MPCard type="userinfo" v-suspend="`${i * 200}px`" v-blur>
+        <template #title>title</template>
+        <template #content>content</template>
+        <template #others>others</template>
       </MPCard>
     </div>
     <MPModal
@@ -70,6 +68,23 @@
             到了
           </div>
         </div>
+      </div>
+    </div>
+
+    <div style="background:url(/images/img2.jpg) no-repeat;
+                width:400px;
+                height:400px;
+                background-size:cover;">
+      <div
+        style="width:100px;
+        height:100px;
+        float:right;
+        margin-right:100px;
+        box-shadow:0 0 20px #ccc;
+        border-radius:10px;"
+        v-blur
+      >
+        ssss
       </div>
     </div>
   </div>
