@@ -24,6 +24,7 @@ module.exports = {
         return options
       })
     config.resolve.alias
+      .set('@', resolve('./packages'))
       .set('@utils', resolve('./packages/Mpanda.Utils'))
       .set('@validators', resolve('./packages/Mpanda.Validators'))
   },

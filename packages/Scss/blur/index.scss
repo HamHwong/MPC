@@ -1,0 +1,25 @@
+._blur_bg{
+  background: inherit; 
+  background-attachment:fixed;
+  background-size: inherit;
+  background-position: inherit;
+  background-repeat: inherit;
+  background-clip: inherit;
+  z-index: 1;
+  &::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;  
+    z-index: -1; 
+    background: inherit; 
+    background-size: inherit;
+    background-position: inherit;
+    background-attachment: fixed;
+    background-repeat: inherit;
+    background-clip: inherit;
+    filter: blur(5px);
+  }
+}

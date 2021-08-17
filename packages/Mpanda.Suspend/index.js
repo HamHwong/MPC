@@ -1,3 +1,4 @@
+import {SizeNumberValidator} from '@/MPanda.Validators'
 const doms = []
 function doSuspending (origin, target, radius) {
   var OriginCenterPoint = { X: origin.x + origin.w / 2, Y: origin.y + origin.h / 2 }
@@ -45,36 +46,28 @@ function doSuspending (origin, target, radius) {
     } else {
       rotateX = -maxRotate * scaleX
     }
-  }
-
-  target.dom.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-  // target.dom.style.fontSize = '8px'
-  // target.dom.innerText = `
-  // OriginCenterPoint.X:${OriginCenterPoint.X} 
-  // TargetCenterPoint:{
-  //     X:${TargetCenterPoint.X},
-  //     Y:${TargetCenterPoint.Y},
-  //     W:${TargetCenterPoint.W},
-  //     H:${TargetCenterPoint.H}
-  // }
-  // scaleX:${scaleX}
-  // scaleY:${scaleY}
-  // radius:${radius}
-  // `
+  } 
+  target.dom.style.transform = `perspective(${target.perspective}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
 } 
 function foreachSuspend (e) { 
-  doms.map(dom => {
-    doSuspending({ x: e.pageX, y: e.pageY, w: 0, h: 0 }, dom)
+  doms.map(({el,perspective}) => {
+    var info = el.getBoundingClientRect()
+    const dom = { x: info.left, y: info.top, w: el.offsetWidth, h: el.offsetHeight, dom: el ,perspective} 
+    doSuspending({ x: e.clientX, y: e.clientY, w: 0, h: 0 }, dom)
   })
 }
 
 export default { 
-  mounted (el) { 
+  mounted (el,binding) { 
     document.removeEventListener('mousemove', foreachSuspend)
     el.style.transitionProperty = 'transform';
-    el.style.transitionDuration = '0.5s';
-    var info = el.getBoundingClientRect()
-    doms.push({ x: info.x, y: info.y, w: el.offsetWidth, h: el.offsetHeight, dom: el })
+    el.style.transitionDuration = '0.5s'; 
+    console.log(binding.value)
+    let perspective = `800px` // default
+    if(SizeNumberValidator(binding.value)){
+      perspective = binding.value
+    }
+    doms.push({el,perspective})
     document.addEventListener('mousemove', foreachSuspend)
   }
 }

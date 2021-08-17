@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="width:400px;margin:0 auto;background-color:#eee;">
+    <div style="width:400px;background-color:#eee;">
       <MPCarousel @click="handleClick" :value="data" />
     </div>
     <div>
@@ -8,16 +8,19 @@
         鼠标移上来
       </div>
     </div>
-    <div style="display:flex">
+    <div style="
+    display:flex;
+    flex-wrap: wrap;  
+    width :100%
+    " >
       <MPCard
-        type="userInfo"
-        style="margin:10px"
-        v-for="i in 5"
-        :key="i"
-        v-suspend:debug
-      >
-        {{ i }}
-        <template #header>Heeader</template>
+        type="userinfo" 
+        v-suspend="`${i*200}px`" 
+        v-blur
+      > 
+        <template #title>title</template> 
+        <template #content>content</template> 
+        <template #others>others</template> 
       </MPCard>
     </div>
     <MPModal

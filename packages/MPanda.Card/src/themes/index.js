@@ -7,7 +7,10 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 },{})
 var templates = modules
 var renameTemplate = {}
+var TEMPLATE_ENUM=[]
 for (let name in templates) { 
   renameTemplate['card-' + name] = templates[name]
+  TEMPLATE_ENUM.push(name)
 }
 export default renameTemplate
+export {TEMPLATE_ENUM}
