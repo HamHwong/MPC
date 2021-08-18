@@ -108,12 +108,17 @@
         ssss
       </div>
     </div>
+
+  <MPCard style="background-color:#fff;">
+
+    <span>You can custom your own card.</span>
+  
+  </MPCard> 
   </div>
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity'
-import { emit } from '../packages/Mpanda.Utils'
+import { reactive, ref } from '@vue/reactivity' 
 import { isElementInViewport } from '../packages/Mpanda.Utils'
 import { nextTick } from '@vue/runtime-core'
 
@@ -171,9 +176,7 @@ export default {
     function handleModalDisplay() {
       modalVisibility.value = true
     }
-    function handlePageChanged(page, _this) {
-      emit('modelResize', _this)
-      emit('modelFitToContent', _this)
+    function handlePageChanged(page, _this) { 
     }
 
     const isInViewPort = ref(false)

@@ -33,11 +33,11 @@ export function isElementInViewport(el, container) {
   )
 }
 /**
- * 
+ *
  * Position暂不支持Fixed,Static
  * @export
- * @param {*} ChildDom
- * @param {*} ParentDom
+ * @param {*} ChildDom 子DOM
+ * @param {*} ParentDom 父DOM
  * @return {*}
  */
 export function getRelativePositionOfChildParentDOMs(ChildDom, ParentDom) {
@@ -47,37 +47,32 @@ export function getRelativePositionOfChildParentDOMs(ChildDom, ParentDom) {
   var offsetTop = ChildDom.offsetTop - ParentDom.offsetTop
   var offsetLeft = ChildDom.offsetLeft - ParentDom.offsetLeft
 
-  // var marginLeft = Number(getStyle(ChildDom,'marginLeft').split('px')[0])
-  // var marginRight = getStyle(ChildDom,'marginRight')
-  // var marginTop = Number(getStyle(ChildDom,'marginTop').split('px')[0])
-  // var marginBottom = getStyle(ChildDom,'marginRight')
-
   if (ChildDom.style.position === 'absolute') {
     offsetTop = ChildDom.offsetTop
     offsetLeft = ChildDom.offsetLeft
-  }else{ 
+  } else {
     offsetTop = ChildDom.offsetTop - ParentDom.offsetTop
     offsetLeft = ChildDom.offsetLeft - ParentDom.offsetLeft
-  } 
-
-  // console.log('offsetTop:'+offsetTop,'offsetLeft:'+offsetLeft)
-  // console.log('marginLeft:'+marginLeft,'marginTop:'+marginTop)
-  // offsetLeft=offsetLeft-marginLeft
-  // offsetTop=offsetLeft-marginTop
+  }
 
   return {
     offsetTop,
     offsetLeft,
   }
 }
-/*
- * 功能: 通过属性名获取传入标签渲染后的样式
- * 参数: 第一个参数表示你想要获取其属性值的标签; 第二个参数表示你想要获取其属性值的属性名
- * 返回值: 返回第一个参数标签里面的属性名为第二个参数的样式
+ 
+/**
+ *
+ * 通过属性名获取传入标签渲染后的样式
+ * @param {*} element 第一个参数表示你想要获取其属性值的标签; 
+ * @param {*} proName 第二个参数表示你想要获取其属性值的属性名
+ * @return {*} 返回第一个参数标签里面的属性名为第二个参数的样式
  */
-function getRenderedStyle(element, proName) {
+export function getRenderedStyle(element, proName) {
   // document.defaultView.getComputedStyle为标准浏览器方法，element.currentStyle兼容IE6~IE8
-  return document.defaultView ? document.defaultView.getComputedStyle(element)[proName] : element.currentStyle[proName];
+  return document.defaultView
+    ? document.defaultView.getComputedStyle(element)[proName]
+    : element.currentStyle[proName]
 }
 /**
  * 导入相当目录下所有文件
@@ -99,8 +94,4 @@ export class loadAllFilesUnderRelativeFolder {
     }, {})
     return modules
   }
-}
-export function emit($event, _this) {
-  // _this.parent.emitsOptions[$event] = null
-  // _this.parent.emit($event)
-}
+} 
