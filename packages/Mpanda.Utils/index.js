@@ -33,6 +33,53 @@ export function isElementInViewport(el, container) {
   )
 }
 /**
+ * 
+ * Position暂不支持Fixed,Static
+ * @export
+ * @param {*} ChildDom
+ * @param {*} ParentDom
+ * @return {*}
+ */
+export function getRelativePositionOfChildParentDOMs(ChildDom, ParentDom) {
+  if (ChildDom.parentElement !== ParentDom) {
+    throw new Error('子DOM并不在该DOM内!')
+  }
+  var offsetTop = ChildDom.offsetTop - ParentDom.offsetTop
+  var offsetLeft = ChildDom.offsetLeft - ParentDom.offsetLeft
+
+  // var marginLeft = Number(getStyle(ChildDom,'marginLeft').split('px')[0])
+  // var marginRight = getStyle(ChildDom,'marginRight')
+  // var marginTop = Number(getStyle(ChildDom,'marginTop').split('px')[0])
+  // var marginBottom = getStyle(ChildDom,'marginRight')
+
+  if (ChildDom.style.position === 'absolute') {
+    offsetTop = ChildDom.offsetTop
+    offsetLeft = ChildDom.offsetLeft
+  }else{ 
+    offsetTop = ChildDom.offsetTop - ParentDom.offsetTop
+    offsetLeft = ChildDom.offsetLeft - ParentDom.offsetLeft
+  } 
+
+  // console.log('offsetTop:'+offsetTop,'offsetLeft:'+offsetLeft)
+  // console.log('marginLeft:'+marginLeft,'marginTop:'+marginTop)
+  // offsetLeft=offsetLeft-marginLeft
+  // offsetTop=offsetLeft-marginTop
+
+  return {
+    offsetTop,
+    offsetLeft,
+  }
+}
+/*
+ * 功能: 通过属性名获取传入标签渲染后的样式
+ * 参数: 第一个参数表示你想要获取其属性值的标签; 第二个参数表示你想要获取其属性值的属性名
+ * 返回值: 返回第一个参数标签里面的属性名为第二个参数的样式
+ */
+function getRenderedStyle(element, proName) {
+  // document.defaultView.getComputedStyle为标准浏览器方法，element.currentStyle兼容IE6~IE8
+  return document.defaultView ? document.defaultView.getComputedStyle(element)[proName] : element.currentStyle[proName];
+}
+/**
  * 导入相当目录下所有文件
  * @export
  * @param {*} relativePath

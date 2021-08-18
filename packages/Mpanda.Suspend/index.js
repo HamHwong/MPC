@@ -62,7 +62,7 @@ export default {
     document.removeEventListener('mousemove', foreachSuspend)
     el.style.transitionProperty = 'transform';
     el.style.transitionDuration = '0.5s'; 
-    console.log(binding.value)
+    // console.log(binding.value)
     let perspective = `800px` // default
     if(SizeNumberValidator(binding.value)){
       perspective = binding.value

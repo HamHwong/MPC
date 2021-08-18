@@ -71,17 +71,38 @@
       </div>
     </div>
 
-    <div style="background:url(/images/img2.jpg) no-repeat;
+    <div
+      style="background:url(/images/img.jpg) no-repeat;
                 width:400px;
                 height:400px;
-                background-size:cover;">
+                padding:50px;
+                background-size:cover;"
+    >
       <div
-        style="width:100px;
-        height:100px;
-        float:right;
-        margin-right:100px;
+        style=" 
+        width:100px;
+        height:100px; 
         box-shadow:0 0 20px #ccc;
         border-radius:10px;"
+        v-blur
+      >
+        ssss
+      </div>
+    </div>
+    <div
+      style="
+          background:url(/images/img.jpg) no-repeat;
+          background-size:cover; 
+          height:400px;
+          width: 250px"
+    >
+      <div
+        style="
+          width:300px;
+          height:300px; 
+          box-shadow:0 0 20px #ccc;
+          top:100px;
+          left:100px;"
         v-blur
       >
         ssss
@@ -186,4 +207,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 } */
+body {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
 </style>
