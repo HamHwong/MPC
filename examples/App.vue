@@ -15,11 +15,34 @@
     width :100%
     "
     >
-      <MPCard type="userinfo" v-suspend="`${i * 200}px`" v-blur>
-        <template #title>title</template>
-        <template #content>content</template>
-        <template #others>others</template>
-      </MPCard>
+      <div style="width:300px">
+        <MPCard :avatar="avatar" type="userinfo">
+          <template #title>title</template>
+          <template #content>content</template>
+          <template #others>others</template>
+        </MPCard>
+      </div>
+      <div>
+        <MPCard
+          :radius="`20px`"
+          type="bankCard"
+          style="width:350px;height:200px"
+        >
+          <template #title>title</template>
+          <template #content>content</template>
+          <template #date>date</template>
+          <template #others>others</template>
+        </MPCard>
+        <MPCard
+          type="bankCard"
+          style="width:350px;height:200px;background-size:contain"
+          :backgroundImage="`/images/img.jpg`"
+        >
+          <template #title>title</template>
+          <template #content>content</template>
+          <template #others>others</template>
+        </MPCard>
+      </div>
     </div>
     <MPModal
       :visible="modalVisibility"
@@ -109,16 +132,14 @@
       </div>
     </div>
 
-  <MPCard style="background-color:#fff;">
-
-    <span>You can custom your own card.</span>
-  
-  </MPCard> 
+    <MPCard style="background-color:#fff;">
+      <span>You can custom your own card.</span>
+    </MPCard>
   </div>
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity' 
+import { reactive, ref } from '@vue/reactivity'
 import { isElementInViewport } from '../packages/Mpanda.Utils'
 import { nextTick } from '@vue/runtime-core'
 
@@ -176,8 +197,7 @@ export default {
     function handleModalDisplay() {
       modalVisibility.value = true
     }
-    function handlePageChanged(page, _this) { 
-    }
+    function handlePageChanged(page, _this) {}
 
     const isInViewPort = ref(false)
     const el = ref(null)
@@ -186,7 +206,12 @@ export default {
         isInViewPort.value = isElementInViewport(e.target, el.value)
       })
     }
+    const avatar = ref(null)
 
+    setTimeout(() => {
+      console.log('Ding~')
+      avatar.value = 'https://mpanda.studio/assets/images/logo.png'
+    }, 5000)
     return {
       modalVisibility,
       handleClick,
@@ -196,6 +221,7 @@ export default {
       el,
       handleWheel,
       isInViewPort,
+      avatar,
     }
   },
 }

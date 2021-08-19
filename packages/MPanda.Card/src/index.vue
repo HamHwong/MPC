@@ -31,6 +31,7 @@
 import { provide, ref, watch } from '@vue/runtime-core'
 import { SizeNumberValidator } from '../../MPanda.Validators'
 import templates from './themes'
+import useProps2ChildrenComponents from '@hooks/props2ChildrenComponents'
 export default {
   components: { ...templates },
   props: {
@@ -55,25 +56,26 @@ export default {
     },
     avatar: {
       type: [String, null],
-      default: () => '',
+      default: () => null
+    },
+    backgroundImage:{
+      type:[String,null],
+      default: ()=>null
+    },
+    avatarPosition: {
+      type: String,
+      default: () => 'left'
     },
   },
   setup(props, ctx) {
-    const defaultAvatar = ref(null)
-    watch(
-      () => props.avatar,
-      () => {
-        if (!props.avatar) {
-          defaultAvatar.value = require('@/assets/images/default-avatar.png')
-        } else {
-          defaultAvatar.value = props.avatar
-        }
-      },
-      {
-        immediate: true,
-      }
-    )
-    provide('avatar', defaultAvatar)
+    if(['userinfo'].includes(props.type.toLowerCase())){
+      useProps2ChildrenComponents(props,'avatar',require('@/assets/images/default-avatar.png'))
+      useProps2ChildrenComponents(props,'avatarPosition','left')
+    }
+    if(['bankcard'].includes(props.type.toLowerCase())){ 
+      useProps2ChildrenComponents(props,'backgroundImage')
+    } 
+    
     return {
       ...templates,
     }
@@ -85,5 +87,12 @@ export default {
   width: 100%;
   min-height: 100px;
   box-shadow: 0 0 20px #ccc;
+  position: relative;
+} 
+</style>
+<style lang="scss">
+
+.card:not(:first-child){
+  margin-left: 10px;
 }
 </style>

@@ -1,44 +1,49 @@
 <template>
-  <div>
-    <div class="user-card-body right-avatar">
-      <div class="user-card-avatar">
-        <slot name="avatar">
-          <img :src="avatar" alt="" />
-        </slot>
+  <div
+    :class="{
+      'user-card-body': true,
+      'left-avatar': avatarPosition === 'left',
+      'right-avatar': avatarPosition === 'right',
+    }"
+  >
+    <div class="user-card-avatar">
+      <slot name="avatar">
+        <img :src="avatar" alt="" />
+      </slot>
+    </div>
+    <div>
+      <div class="user-card-name">
+        <slot name="title">#title</slot>
       </div>
-      <div>
-        <div class="user-card-name">
-          <slot name="title">#title</slot>
-        </div>
-        <div class="user-card-info">
-          <span> <slot name="content">#content</slot></span>
-          <p>
-            <slot name="others">
-              #others
-            </slot>
-          </p>
-        </div>
+      <div class="user-card-info">
+        <span> <slot name="content">#content</slot></span>
+        <p>
+          <slot name="others">
+            #others
+          </slot>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
-<script> 
+<script>
 import { inject } from '@vue/runtime-core'
 export default {
   setup() {
     const avatar = inject('avatar')
+    const avatarPosition = inject('avatarPosition')
     return {
       avatar,
+      avatarPosition,
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@import url('~@scss/variables.scss');
+@import '@scss/variables.scss';
 $avatar_size: 64px;
-
 .user-card-body {
   position: relative;
   padding: 0.5rem 1rem;

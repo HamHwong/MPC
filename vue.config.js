@@ -26,6 +26,7 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('./packages'))
       .set('@scss',resolve('./packages/Scss'))
+      .set('@hooks',resolve('./packages/Hooks'))
       .set('@utils', resolve('./packages/Mpanda.Utils'))
       .set('@validators', resolve('./packages/Mpanda.Validators'))
   },
