@@ -3,14 +3,27 @@
     class="bankCardDOM"
     :style="{ backgroundImage: `url(${bgimg})` }"
     ref="bankCardDOM"
-    v-blur
+    v-blur:white="bgBlur?10:`unset`"
   > 
-    <slot name="header" />
-    <slot name="title" />
-    <slot name="avatar" />
-    <slot name="content" />
-    <slot name="date" />
-    <slot name="others" />
+  bgBlur:{{bgBlur}}
+    <div class="header">
+      <slot name="header" />
+    </div>
+    <div class="chip">
+      <slot name="title" />
+    </div>
+    <div class="logo">
+      <slot name="avatar" />
+    </div>
+    <div class="number">
+      <slot name="content" />
+    </div>
+    <div class="expiredDate">
+      <slot name="date" />
+    </div>
+    <div class="others">
+      <slot name="others" />
+    </div>
   </div>
 </template>
 
@@ -23,9 +36,11 @@ import {
   toRef,
   watch,
 } from '@vue/runtime-core'
+import {getRandomBetween} from '@utils'
 export default {
   setup() {
     const bgimg = inject('backgroundImage')
+    const bgBlur = inject('bgBlur')
     const bankCardDOM = ref(null)
     onMounted(() => {
       nextTick(() => {
@@ -43,14 +58,7 @@ export default {
       var bgColor = '#fff'
       ctx.fillStyle = bgColor
       ctx.fillRect(0, 0, w, h)
-      var colors = ['#f19790', '#f9bd10', '#66c18c', '#57c3c2', '#d276a3']
-
-      function getRandomBetween(num1, num2) {
-        var max = Math.max(num1, num2)
-        var min = max === num1 ? num2 : num1
-        parseInt(Math.random() * (max - min + 1) + min, 10)
-        return Math.floor(Math.random() * (max - min + 1) + min)
-      }
+      var colors = ['#f19790', '#f9bd10', '#66c18c', '#57c3c2' ]
 
       colors.map((color) => {
         var size = getRandomBetween(w, h) / getRandomBetween(2, 4)
@@ -67,6 +75,7 @@ export default {
 
     return {
       bgimg,
+      bgBlur,
       bankCardDOM,
     }
   },
@@ -75,6 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 .bankCardDOM {
+  position:relative;
   width: 100%;
   height: 100%;
   border: 1px solid rgba(255, 255, 255, 0.8);
@@ -82,6 +92,27 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
   background-size: inherit;
-  background-position: unset !important;
+  background-position: unset !important; 
+  .number{
+    position: absolute;
+    bottom:2em;
+    font-size: 1.3em; 
+    letter-spacing: .25em;
+    color: #fff;
+    left:50%;
+    width:100%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .expiredDate{
+    position: absolute;
+    right:10px;
+    bottom:10px;
+  }
+  .chip{
+    position: absolute;
+    top:50%;
+    left: 10px;
+  }
 }
 </style>

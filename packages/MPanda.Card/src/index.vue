@@ -66,6 +66,10 @@ export default {
       type: String,
       default: () => 'left'
     },
+    bgBlur:{
+      type: Boolean,
+      default: ()=>true
+    }
   },
   setup(props, ctx) {
     if(['userinfo'].includes(props.type.toLowerCase())){
@@ -74,6 +78,7 @@ export default {
     }
     if(['bankcard'].includes(props.type.toLowerCase())){ 
       useProps2ChildrenComponents(props,'backgroundImage')
+      useProps2ChildrenComponents(props,'bgBlur',true)
     } 
     
     return {

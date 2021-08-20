@@ -11,20 +11,19 @@ export default function (props,propName,defaultValue){
   const propValue = ref(null)
   watch(
     () => props[propName],
-    () => {
-      if (!props[propName]) { 
-        if(defaultValue){
+    ( ) => {
+      if (null==props[propName]) { 
+        if(null!==defaultValue){
           propValue.value = defaultValue
         }
       } else {
         propValue.value = props[propName]
-      }
+      } 
     },
     {
       immediate: true,
       deep:true
     }
-  ) 
-  console.log('propName',propName,'propsValue',propValue)
+  )  
   provide(propName, propValue)
 }

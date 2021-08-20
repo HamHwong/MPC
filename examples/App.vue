@@ -27,19 +27,23 @@
           :radius="`20px`"
           type="bankCard"
           style="width:350px;height:200px"
+          :bgBlur="false"
         >
           <template #title>title</template>
-          <template #content>content</template>
+          <template #content>5412 7512 3412 3456</template>
           <template #date>date</template>
           <template #others>others</template>
         </MPCard>
+      </div>
+      <div>
         <MPCard
+          :radius="`20px`"
           type="bankCard"
-          style="width:350px;height:200px;background-size:contain"
-          :backgroundImage="`/images/img.jpg`"
+          style="width:350px;height:200px"
         >
           <template #title>title</template>
-          <template #content>content</template>
+          <template #content>5412 7512 3412 3456</template>
+          <template #date>date</template>
           <template #others>others</template>
         </MPCard>
       </div>

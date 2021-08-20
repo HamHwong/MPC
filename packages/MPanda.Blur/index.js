@@ -1,13 +1,21 @@
 import { getRelativePositionOfChildParentDOMs } from "../Mpanda.Utils"
-
+import { SizeNumberValidator } from '../MPanda.Validators'
 export default {
   beforeMount() {},
   // called when bound element's parent component is mounted
   mounted(el, binding) {
-    var blurClassName = '_blur_bg'
+    var blurClassName = '_blur_bg' 
     var classNames = el.className.split(' ')
+    if(binding.value==='unset')return
     if (!classNames.includes(blurClassName)) {
       classNames.push(blurClassName)
+      if(SizeNumberValidator(binding.value&&binding.value.toString())){ 
+        classNames.push('__blur_'+binding.value) 
+      } 
+      if(binding.arg){
+        classNames.push('__blur_hasCover')
+        classNames.push('__blur_over_'+binding.arg)
+      }
       el.className = classNames.join(' ')
       var {offsetLeft,offsetTop} = getRelativePositionOfChildParentDOMs(el,el.parentElement)
       // console.log('offsetLeft:'+offsetLeft,'offsetTop:'+offsetTop)

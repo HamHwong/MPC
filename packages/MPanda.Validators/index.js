@@ -1,4 +1,5 @@
 export function SizeNumberValidator(val){
+  if(!val||val.trim()==='null') return false
   var value = val.toLowerCase()
   if(value.indexOf('px')>0
   ||value.indexOf('em')>0
@@ -16,7 +17,7 @@ export function SizeNumberValidator(val){
     }else{
       return false
     }
-  } else if(!isNaN(Number(value))||val.trim()==='null'){
+  } else if(!isNaN(Number(value))){
     return true
   } else {
     return false

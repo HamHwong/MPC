@@ -78,8 +78,8 @@ export default {
       default: () => false,
     },
     height: {
-      type: String,
-      default: () => 'null',
+      type: [String,null],
+      default: () => null,
       validator: SizeNumberValidator,
     },
   },

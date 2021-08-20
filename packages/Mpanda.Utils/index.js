@@ -75,6 +75,18 @@ export function getRenderedStyle(element, proName) {
     : element.currentStyle[proName]
 }
 /**
+ * 获取范围在Num1和Num2之间的随机整数
+ * @param {*} num1 
+ * @param {*} num2 
+ * @returns 
+ */
+export function getRandomBetween(num1, num2) {
+  var max = Math.max(num1, num2)
+  var min = max === num1 ? num2 : num1
+  parseInt(Math.random() * (max - min + 1) + min, 10)
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+/**
  * 导入相当目录下所有文件
  * @export
  * @param {*} relativePath
