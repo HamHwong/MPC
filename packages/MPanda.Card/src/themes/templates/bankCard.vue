@@ -3,9 +3,9 @@
     class="bankCardDOM"
     :style="{ backgroundImage: `url(${bgimg})` }"
     ref="bankCardDOM"
-    v-blur:white="bgBlur?10:`unset`"
-  > 
-  bgBlur:{{bgBlur}}
+    v-blur:white="bgBlur ? 10 : `unset`"
+  >
+    bgBlur:{{ bgBlur }}
     <div class="header">
       <slot name="header" />
     </div>
@@ -36,7 +36,7 @@ import {
   toRef,
   watch,
 } from '@vue/runtime-core'
-import {getRandomBetween} from '@utils'
+import { getRandomBetween } from '@utils'
 export default {
   setup() {
     const bgimg = inject('backgroundImage')
@@ -58,7 +58,7 @@ export default {
       var bgColor = '#fff'
       ctx.fillStyle = bgColor
       ctx.fillRect(0, 0, w, h)
-      var colors = ['#f19790', '#f9bd10', '#66c18c', '#57c3c2' ]
+      var colors = ['#f19790', '#f9bd10', '#66c18c', '#57c3c2']
 
       colors.map((color) => {
         var size = getRandomBetween(w, h) / getRandomBetween(2, 4)
@@ -84,7 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 .bankCardDOM {
-  position:relative;
+  position: relative;
   width: 100%;
   height: 100%;
   border: 1px solid rgba(255, 255, 255, 0.8);
@@ -92,27 +92,49 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
   background-size: inherit;
-  background-position: unset !important; 
-  .number{
+  background-position: unset !important;
+  .number {
     position: absolute;
-    bottom:2em;
-    font-size: 1.3em; 
-    letter-spacing: .25em;
+    bottom: 2em;
+    font-size: 1.3em;
+    letter-spacing: 0.25em;
     color: #fff;
-    left:50%;
-    width:100%;
+    left: 50%;
+    width: 100%;
     transform: translateX(-50%);
     text-align: center;
+    text-shadow: 0 0 5px rgba(99, 99, 99, 0.45);
   }
-  .expiredDate{
+  .expiredDate {
     position: absolute;
-    right:10px;
-    bottom:10px;
+    right: 10px;
+    bottom: 10px;
   }
-  .chip{
+  $theme_color: #333;
+  $body_color: #fff;
+  $width: 40px;
+  $height: 30px;
+  .chip {
     position: absolute;
-    top:50%;
+    width: $width;
+    height: $height;
+    border: 2px solid $theme_color;
+    border-radius: 5px;
+    overflow: hidden;
+    top: 50%;
     left: 10px;
+    &::before{
+      content:'';
+      display: block;
+      width:1px;
+      height:1px;
+      box-shadow: 0px 0px .0px .5px rgb(100, 105, 108),
+                  0px .5px .0px .5px rgb(130, 163, 170),
+                  0px 1.0px .0px .5px rgb(177, 180, 137),
+                  0px 1.5px .0px .5px rgb(102, 119, 145),
+                  0px 2px .0px .5px rgb(32, 23, 28),
+                  0px 2.5px .0px .5px rgb(32, 16, 17);
+    }
   }
 }
 </style>

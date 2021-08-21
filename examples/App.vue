@@ -28,8 +28,7 @@
           type="bankCard"
           style="width:350px;height:200px"
           :bgBlur="false"
-        >
-          <template #title>title</template>
+        > 
           <template #content>5412 7512 3412 3456</template>
           <template #date>date</template>
           <template #others>others</template>
@@ -40,8 +39,7 @@
           :radius="`20px`"
           type="bankCard"
           style="width:350px;height:200px"
-        >
-          <template #title>title</template>
+        > 
           <template #content>5412 7512 3412 3456</template>
           <template #date>date</template>
           <template #others>others</template>
