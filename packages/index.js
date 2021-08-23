@@ -22,8 +22,7 @@ const components = {
   MPCarousel,
   MPModal,
   MPPdfReader,
-  MPCard,
-  // PDFToolBar
+  MPCard, 
 }
 const directives = {
   tooltips: MPTooltips,

@@ -29,6 +29,7 @@
           style="width:350px;height:200px"
           :bgBlur="false"
         > 
+          <template #avatar>Logo</template>
           <template #content>5412 7512 3412 3456</template>
           <template #date>date</template>
           <template #others>others</template>
@@ -40,6 +41,7 @@
           type="bankCard"
           style="width:350px;height:200px"
         > 
+          <template #avatar>Logo</template>
           <template #content>5412 7512 3412 3456</template>
           <template #date>date</template>
           <template #others>others</template>

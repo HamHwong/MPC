@@ -89,7 +89,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card {
-  width: 100%;
+  // width: 100%;
   min-height: 100px;
   box-shadow: 0 0 20px #ccc;
   position: relative;
