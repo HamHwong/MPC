@@ -12,8 +12,8 @@
       style="
     display:flex;
     flex-wrap: wrap;  
-    width :100%
-    "
+    width :100%;
+    justify-content: space-around;"
     >
       <div style="width:300px">
         <MPCard :avatar="avatar" type="userinfo">
@@ -26,13 +26,71 @@
         <MPCard
           :radius="`20px`"
           type="bankCard"
-          style="width:350px;height:200px"
+          style="width:350px;height:200px;color:#fff;"
+          backgroundImage="/images/img3.jpg"
           :bgBlur="false"
-        > 
-          <template #avatar>Logo</template>
+        >
+          <template #header>
+            <div
+              style="display:flex;justify-content: space-between;flex:1; align-items: center;"
+            >
+              <span style="font-size:12px;">WORD ELITE</span>
+              <span>
+                <img src="./assets/images/mastercard/wave.png" :width="15" />
+              </span>
+            </div>
+          </template>
+          <template #avatar>
+            <img
+              src="./assets/images/mastercard/mastercard.png"
+              :width="35"
+              :height="35"
+              style="margin:0px 5px 0px 0px;"
+              alt=""
+            />
+          </template>
           <template #content>5412 7512 3412 3456</template>
-          <template #date>date</template>
-          <template #others>others</template>
+          <template #date
+            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
+          >
+          <template #others
+            ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
+          >
+        </MPCard>
+      </div>
+      <div>
+        <MPCard
+          :radius="`20px`"
+          type="bankCard"
+          style="width:350px;height:200px;"
+          :bgBlur="false"
+        >
+          <template #header>
+            <div
+              style="display:flex;justify-content: space-between;flex:1; align-items: center;"
+            >
+              <span style="font-size:12px;">WORD ELITE</span>
+              <span>
+                <img src="./assets/images/mastercard/wave.png" :width="15" />
+              </span>
+            </div>
+          </template>
+          <template #avatar>
+            <img
+              src="./assets/images/mastercard/mastercard.png"
+              :width="35"
+              :height="35"
+              style="margin:0px 5px 0px 0px;"
+              alt=""
+            />
+          </template>
+          <template #content>5412 7512 3412 3456</template>
+          <template #date
+            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
+          >
+          <template #others
+            ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
+          >
         </MPCard>
       </div>
       <div>
@@ -40,11 +98,33 @@
           :radius="`20px`"
           type="bankCard"
           style="width:350px;height:200px"
-        > 
-          <template #avatar>Logo</template>
+        >
+          <template #header>
+            <div
+              style="display:flex;justify-content: space-between;flex:1; align-items: center;"
+            >
+              <span style="font-size:12px">WORD ELITE</span>
+              <span>
+                <img src="./assets/images/mastercard/wave.png" :width="15" />
+              </span>
+            </div>
+          </template>
+          <template #avatar>
+            <img
+              src="./assets/images/mastercard/mastercard.png"
+              :width="35"
+              :height="35"
+              style="margin:0px 5px 0px 0px;"
+              alt=""
+            />
+          </template>
           <template #content>5412 7512 3412 3456</template>
-          <template #date>date</template>
-          <template #others>others</template>
+          <template #date
+            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
+          >
+          <template #others
+            ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
+          >
         </MPCard>
       </div>
     </div>

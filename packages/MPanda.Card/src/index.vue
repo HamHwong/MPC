@@ -73,7 +73,7 @@ export default {
   },
   setup(props, ctx) {
     if(['userinfo'].includes(props.type.toLowerCase())){
-      useProps2ChildrenComponents(props,'avatar',require('@/assets/images/default-avatar.png'))
+      useProps2ChildrenComponents(props,'avatar',require('../../../public/images/avatar/default-avatar.png'))
       useProps2ChildrenComponents(props,'avatarPosition','left')
     }
     if(['bankcard'].includes(props.type.toLowerCase())){ 

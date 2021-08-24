@@ -1,6 +1,6 @@
 {
   "name": "@mpanda/mpc",
-  "version": "0.1.62.99",
+  "version": "0.1.63.01",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
