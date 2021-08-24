@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { ref, watch } from '@vue/runtime-core'
+import { ref, watch } from 'vue'
 export default {
   props: {
     page: {

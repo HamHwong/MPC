@@ -35,7 +35,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { isElementInViewport } from '@utils/index.js'
-import { inject, watch } from '@vue/runtime-core'
+import { inject, watch } from 'vue'
 import Thumb from './thumb.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 export default {

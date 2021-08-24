@@ -13,9 +13,22 @@
     </div>
     <div class="header">
       <div class="logo">
-        <slot name="avatar" />
+        <slot name="avatar">
+          <img
+            src="../../assets/images/mastercard/mastercard.png"
+            :width="35"
+            :height="35"
+            style="margin:0px 5px 0px 0px;"
+            alt=""
+          />
+        </slot>
       </div>
-      <slot name="header" />
+      <slot name="header">
+        <span style="font-size:12px;">WORD ELITE</span>
+        <span>
+          <img src="../../assets/images/mastercard/wave.png" :width="15" />
+        </span>
+      </slot>
     </div>
     <div class="number">
       <slot name="content" />
@@ -30,14 +43,7 @@
 </template>
 
 <script>
-import {
-  inject,
-  nextTick,
-  onMounted,
-  ref,
-  toRef,
-  watch,
-} from '@vue/runtime-core'
+import { inject, nextTick, onMounted, ref } from 'vue'
 import { getRandomBetween } from '@utils'
 export default {
   setup() {

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { inject } from '@vue/runtime-core'
+import { inject } from 'vue'
 export default {
   setup() {
     const avatar = inject('avatar')

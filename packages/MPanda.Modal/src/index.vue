@@ -86,7 +86,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { DIRECTION, STATUS } from './enum'
-import { nextTick, watch } from '@vue/runtime-core'
+import { nextTick, watch } from 'vue'
 export default {
   name: 'MPModal',
   props: {

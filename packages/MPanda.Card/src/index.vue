@@ -27,8 +27,7 @@
   </div>
 </template>
 
-<script>
-import { provide, ref, watch } from '@vue/runtime-core'
+<script> 
 import { SizeNumberValidator } from '../../MPanda.Validators'
 import templates from './themes'
 import useProps2ChildrenComponents from '@hooks/props2ChildrenComponents'
@@ -71,9 +70,9 @@ export default {
       default: ()=>true
     }
   },
-  setup(props, ctx) {
+  setup(props) {
     if(['userinfo'].includes(props.type.toLowerCase())){
-      useProps2ChildrenComponents(props,'avatar',require('../../../public/images/avatar/default-avatar.png'))
+      useProps2ChildrenComponents(props,'avatar',require('./assets/images/avatar/default-avatar.png'))
       useProps2ChildrenComponents(props,'avatarPosition','left')
     }
     if(['bankcard'].includes(props.type.toLowerCase())){ 

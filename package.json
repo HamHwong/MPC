@@ -1,6 +1,6 @@
 {
   "name": "@mpanda/mpc",
-  "version": "0.1.63.01",
+  "version": "0.1.64.00",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
@@ -23,14 +23,14 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name mpc --dest lib packages/index.js"
+    "lib": "vue-cli-service build --target lib --name mpc --dest lib packages/index.js "
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@fortawesome/vue-fontawesome": "^3.0.0-4",
+    "@fortawesome/vue-fontawesome": "^3.0.0-4", 
     "pdfjs-dist": "2.4.456"
   },
   "devDependencies": {

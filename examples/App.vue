@@ -225,7 +225,7 @@
 <script>
 import { reactive, ref } from '@vue/reactivity'
 import { isElementInViewport } from '../packages/Mpanda.Utils'
-import { nextTick } from '@vue/runtime-core'
+import { nextTick } from 'vue'
 
 export default {
   name: 'App',

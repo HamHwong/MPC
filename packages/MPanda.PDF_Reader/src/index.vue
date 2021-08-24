@@ -48,7 +48,7 @@
 import { ref } from '@vue/reactivity' 
 import PDFToolBar from './components/toolbar'
 import PDFThumbs from './components/thumbs.vue'
-import { getCurrentInstance, nextTick, onMounted, provide, watch } from '@vue/runtime-core'
+import { getCurrentInstance, nextTick, onMounted, provide, watch } from 'vue'
 import pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry' 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
