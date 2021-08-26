@@ -44,11 +44,10 @@
   </div>
 </template>
 
-<script>
-import { ref } from '@vue/reactivity' 
+<script> 
 import PDFToolBar from './components/toolbar'
 import PDFThumbs from './components/thumbs.vue'
-import { getCurrentInstance, nextTick, onMounted, provide, watch } from 'vue'
+import { getCurrentInstance, nextTick, onMounted, provide, watch,ref } from 'vue'
 import pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry' 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker

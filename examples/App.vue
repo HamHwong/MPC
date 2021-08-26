@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity'
+import { reactive, ref } from 'vue'
 import { isElementInViewport } from '../packages/Mpanda.Utils'
 import { nextTick } from 'vue'
 

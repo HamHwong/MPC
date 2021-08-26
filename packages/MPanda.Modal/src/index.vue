@@ -83,10 +83,9 @@
   <!-- </teleport> -->
 </template>
 
-<script>
-import { ref } from '@vue/reactivity'
+<script> 
 import { DIRECTION, STATUS } from './enum'
-import { nextTick, watch } from 'vue'
+import { nextTick, watch, ref } from 'vue'
 export default {
   name: 'MPModal',
   props: {
@@ -155,7 +154,7 @@ export default {
     })
     const MaxHeight = ref(0)
     watch(() => status.value, (val) => {
-       if (val === STATUS.DISPLAY) {
+      if (val === STATUS.DISPLAY) {
         nextTick(() => {
           checkAndLimitContentMaxHeight()
         })
@@ -268,8 +267,8 @@ export default {
         e.preventDefault()
       }
       status.value = STATUS.HIDING
-      setTimeout(() => {
-        status.value = STATUS.HIDE 
+      setTimeout(() => { 
+        status.value = STATUS.HIDE  
         display.value = false
         context.emit('close') 
       }, 500);

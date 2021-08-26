@@ -32,10 +32,9 @@
   </div>
 </template>
 
-<script>
-import { ref } from '@vue/reactivity'
+<script> 
 import { isElementInViewport } from '@utils/index.js'
-import { inject, watch } from 'vue'
+import { inject, watch ,ref} from 'vue'
 import Thumb from './thumb.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 export default {

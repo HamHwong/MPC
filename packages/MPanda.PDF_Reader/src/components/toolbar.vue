@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
-import { inject } from 'vue'
+
+import { inject,ref } from 'vue'
 import { FontAwesomeIcon  } from '@fortawesome/vue-fontawesome' 
 export default {
   name: "PDFToolBar",
