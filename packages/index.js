@@ -14,7 +14,7 @@ import MPTooltips from './Mpanda.Tooltips'
 import MPSuspend from './Mpanda.Suspend'
 import MPBlur from './MPanda.Blur'
 // Utils
-import { isElementInViewport } from './Mpanda.Utils/index'
+import { isElementInViewport,getRandomBetween,getRenderedStyle,getRelativePositionOfChildParentDOMs } from './Mpanda.Utils/index'
 // 样式
 import './Scss/index.scss'
 // 存储组件列表-对象方式
@@ -31,6 +31,9 @@ const directives = {
 }
 const utils = {
   isElementInViewport,
+  getRandomBetween,
+  getRenderedStyle,
+  getRelativePositionOfChildParentDOMs
 }
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册

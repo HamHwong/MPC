@@ -86,24 +86,24 @@ export function getRandomBetween(num1, num2) {
   parseInt(Math.random() * (max - min + 1) + min, 10)
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
-/**
- * 导入相当目录下所有文件
- * @export
- * @param {*} relativePath
- * @param {*} fileRegex
- * @return {*}
- */
-export class loadAllFilesUnderRelativeFolder {
-  load(relativePath, fileRegex) {
-    let modulesFiles = require.context(relativePath, true, fileRegex)
-    let modules = modulesFiles.keys().reduce((modules, modulePath) => {
-      const moduleName = modulePath
-        .replace(/(.*\/)*([^.]+).*/gi, '$2')
-        .toLowerCase()
-      const value = modulesFiles(modulePath)
-      modules[moduleName] = value.default
-      return modules
-    }, {})
-    return modules
-  }
-} 
+// /**
+//  * 导入相当目录下所有文件
+//  * @export
+//  * @param {*} relativePath
+//  * @param {*} fileRegex
+//  * @return {*}
+//  */
+// export class loadAllFilesUnderRelativeFolder {
+//   load(relativePath, fileRegex) {
+//     let modulesFiles = require.context(relativePath, true, fileRegex)
+//     let modules = modulesFiles.keys().reduce((modules, modulePath) => {
+//       const moduleName = modulePath
+//         .replace(/(.*\/)*([^.]+).*/gi, '$2')
+//         .toLowerCase()
+//       const value = modulesFiles(modulePath)
+//       modules[moduleName] = value.default
+//       return modules
+//     }, {})
+//     return modules
+//   }
+// } 

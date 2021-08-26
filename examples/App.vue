@@ -133,6 +133,7 @@
       @close="() => (modalVisibility = false)"
       draggable
       resizeable
+      height=200
       :position="{
         x: 100,
         y: 0,

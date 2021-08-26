@@ -23,8 +23,8 @@
             __Auto_Resizing:isAutoResizing
           }"
         :style="{
-              left:draggable?`${x}px`:null,
-              top:draggable?`${y}px`:null,
+              left:draggable&&!center?`${x}px`:null,
+              top:draggable&&!center?`${y}px`:null,
               width:resizeable&&!center?(w!=='unset'?`${w}px`:w):null,
               height:resizeable&&!center?`${h}px`:null,
               maxHeight:MaxHeight,
@@ -189,7 +189,9 @@ export default {
       var result = null 
       if (props.maxHeight && props.maxHeight > 0) {
         result = `${props.maxHeight}px`
-      } else if (contentContainer.value) {
+      } else if(props.height){
+        result = 'unset'
+      }else if (contentContainer.value) {
         result = 'unset'
         nextTick(() => {
           MaxHeight.value = `${contentContainer.value.offsetHeight + headerHeight - 10}px`
@@ -252,11 +254,11 @@ export default {
             w.value = e.clientX - x.value
             break;
           case DIRECTION.Y:
-            h.value = e.clientY - Mouse_StartY.value + startHeight.value
+            h.value = e.clientY - Mouse_StartY.value + Number(startHeight.value )
             break;
           case DIRECTION.CROSS:
             w.value = e.clientX - x.value
-            h.value = e.clientY - Mouse_StartY.value + startHeight.value
+            h.value = e.clientY - Mouse_StartY.value +Number( startHeight.value)
             break;
         }
       }
@@ -275,6 +277,7 @@ export default {
     }
     const isAutoResizing = ref(false)
     function handleToMaxHeight () {
+      console.log('handleToMaxHeight')
       isAutoResizing.value = true
       nextTick(() => {
         h.value = Number(MaxHeight.value.toString().split('px')[0])

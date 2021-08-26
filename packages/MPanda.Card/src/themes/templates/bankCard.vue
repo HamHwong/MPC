@@ -144,6 +144,7 @@ export default {
     overflow: hidden;
     top: calc(50% - 20px);
     left: 10px;
+    box-sizing: content-box;
     &::before {
       content: '';
       display: block;

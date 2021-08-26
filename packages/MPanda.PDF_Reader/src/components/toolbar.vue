@@ -220,4 +220,7 @@ export default {
   }
   transition: top 0.2s ease, bottom 0.2s ease;
 }
+/deep/svg{
+      box-sizing: content-box;
+}
 </style>
