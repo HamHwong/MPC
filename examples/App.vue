@@ -7,22 +7,17 @@
       <div style="width:100px" v-tooltips>
         鼠标移上来
       </div>
-    </div>
-    <div
-      style="
-    display:flex;
-    flex-wrap: wrap;  
-    width :100%;
-    justify-content: space-around;"
-    >
-      <div style="width:300px">
+    </div> 
+    <MRow type='flex' direction="row" wrap="nowrap" justify="between" align="center" alignContent="between">
+      <MCol :span="4" :xs="24">
         <MPCard :avatar="avatar" type="userinfo">
           <template #title>title</template>
           <template #content>content</template>
           <template #others>others</template>
         </MPCard>
-      </div>
-      <div>
+      </MCol>
+
+      <MCol :span="{xs:12,FHD:12}" :xs="5" :offset="8" >
         <MPCard
           :radius="`20px`"
           type="bankCard"
@@ -51,14 +46,16 @@
           </template>
           <template #content>5412 7512 3412 3456</template>
           <template #date
-            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
+            ><small style="font-size:0.5rem">VALID THAU</small>
+            12/23</template
           >
           <template #others
             ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
           >
         </MPCard>
-      </div>
-      <div>
+      </MCol>
+
+      <MCol>
         <MPCard
           :radius="`20px`"
           type="bankCard"
@@ -86,14 +83,16 @@
           </template>
           <template #content>5412 7512 3412 3456</template>
           <template #date
-            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
+            ><small style="font-size:0.5rem">VALID THAU</small>
+            12/23</template
           >
           <template #others
             ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
           >
         </MPCard>
-      </div>
-      <div>
+      </MCol>
+
+      <MCol>
         <MPCard
           :radius="`20px`"
           type="bankCard"
@@ -120,20 +119,20 @@
           </template>
           <template #content>5412 7512 3412 3456</template>
           <template #date
-            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
+            ><small style="font-size:0.5rem">VALID THAU</small>
+            12/23</template
           >
           <template #others
             ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
           >
         </MPCard>
-      </div>
-    </div>
+      </MCol>
+    </MRow>
     <MPModal
       :visible="modalVisibility"
       @close="() => (modalVisibility = false)"
       draggable
       resizeable
-      height=200
       :position="{
         x: 100,
         y: 0,
@@ -225,7 +224,7 @@
 
 <script>
 import { reactive, ref } from 'vue'
-import { isElementInViewport } from '../packages/Mpanda.Utils'
+import { isElementInViewport } from '../packages/Utils'
 import { nextTick } from 'vue'
 
 export default {
@@ -294,7 +293,6 @@ export default {
     const avatar = ref(null)
 
     setTimeout(() => {
-      console.log('Ding~')
       avatar.value = 'https://mpanda.studio/assets/images/logo.png'
     }, 5000)
     return {

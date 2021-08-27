@@ -1,4 +1,5 @@
 const path = require('path')
+const TerserPlugin = require('terser-webpack-plugin');
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -24,15 +25,23 @@ module.exports = {
         return options
       })
     config.resolve.alias
-      .set('@', resolve('./packages'))
       .set('@scss',resolve('./packages/Scss'))
       .set('@hooks',resolve('./packages/Hooks'))
-      .set('@utils', resolve('./packages/Mpanda.Utils'))
-      .set('@validators', resolve('./packages/Mpanda.Validators'))
+      .set('@utils', resolve('./packages/Utils'))
+      .set('@validators', resolve('./packages/Validators'))
+      .set('@', resolve('./packages'))
+
+    
   },
-  configureWebpack: {
-    module: {
-      unknownContextCritical: false,
-    },
-  },
+  configureWebpack: config=>{ 
+    if(process.env.NODE_ENV ==='production'){
+      config.plugins = config.plugins.concat([new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      })]) 
+    }
+  }
 }

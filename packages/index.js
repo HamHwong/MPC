@@ -5,16 +5,17 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 library.add(fas, far, fab)
 // 导入组件
-import MPCarousel from './Mpanda.Carousel'
-import MPModal from './MPanda.Modal'
-import MPPdfReader from './MPanda.PDF_Reader'
-import MPCard from './MPanda.Card'
+import MPCarousel from './Components/Mpanda.Carousel'
+import MPModal from './Components/MPanda.Modal'
+import MPPdfReader from './Components/MPanda.PDF_Reader'
+import MPCard from './Components/MPanda.Card'
+import MPLayout from './Components/Mpanda.Layout'
 // Directives
-import MPTooltips from './Mpanda.Tooltips'
-import MPSuspend from './Mpanda.Suspend'
-import MPBlur from './MPanda.Blur'
+import MPTooltips from './Directives/Mpanda.Tooltips'
+import MPSuspend from './Directives/Mpanda.Suspend'
+import MPBlur from './Directives/MPanda.Blur'
 // Utils
-import { isElementInViewport,getRandomBetween,getRenderedStyle,getRelativePositionOfChildParentDOMs } from './Mpanda.Utils/index'
+import { isElementInViewport,getRandomBetween,getRenderedStyle,getRelativePositionOfChildParentDOMs } from './Utils/index'
 // 样式
 import './Scss/index.scss'
 // 存储组件列表-对象方式
@@ -23,6 +24,7 @@ const components = {
   MPModal,
   MPPdfReader,
   MPCard, 
+  ...MPLayout
 }
 const directives = {
   tooltips: MPTooltips,

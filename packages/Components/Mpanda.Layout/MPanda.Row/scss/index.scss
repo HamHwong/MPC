@@ -1,0 +1,80 @@
+.MRow {
+  display: block;
+  width: 100%;
+}
+.MRow-flex {
+  @mixin flex-direction($direction) {
+    &.fx-direction-#{$direction} {
+      flex-direction: $direction;
+    }
+  }
+  @mixin flex-wrap($type) {
+    &.fx-wrap-#{$type} {
+      flex-wrap: $type;
+    }
+  }
+  @mixin flex-justify($type) {
+    &.fx-justify-#{$type} {
+      @if $type == start or $type == end {
+        justify-content: flex-#{$type};
+      } @else if $type == between or $type == around {
+        justify-content: space-#{$type};
+      } @else {
+        justify-content: $type;
+      }
+    }
+  }
+  @mixin flex-align($type) {
+    &.fx-align-#{$type} {
+      @if $type == start or $type == end {
+        align-items: flex-$type;
+      } @else {
+        align-items: $type;
+      }
+    }
+  }
+  @mixin flex-align-content($type) {
+    &.fx-alignContent-#{$type} {
+      @if $type == start or $type == end {
+        align-content: flex-#{$type};
+      } @else if $type == between or $type == around {
+        align-content: space-#{$type};
+      } @else {
+        align-content: $type;
+      }
+    }
+  }
+
+  display: flex;
+
+  @include flex-direction(row);
+  @include flex-direction(row-reverse);
+  @include flex-direction(column);
+  @include flex-direction(column-reverse);
+  @include flex-direction(unset);
+
+  @include flex-wrap(nowrap);
+  @include flex-wrap(wrap);
+  @include flex-wrap(wrap-reverse);
+
+  @include flex-justify(start);
+  @include flex-justify(end);
+  @include flex-justify(center);
+  @include flex-justify(between);
+  @include flex-justify(around);
+
+  @include flex-align(start);
+  @include flex-align(end);
+  @include flex-align(center);
+  @include flex-align(baseline);
+  @include flex-align(stretch);
+
+  @include flex-align-content(start);
+  @include flex-align-content(end);
+  @include flex-align-content(center);
+  @include flex-align-content(between);
+  @include flex-align-content(around);
+}
+.MRow-grid {
+  display: grid;
+}

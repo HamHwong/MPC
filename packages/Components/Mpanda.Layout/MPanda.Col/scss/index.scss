@@ -1,0 +1,174 @@
+$screen-xs-max: 768px;
+$screen-sm-min: 768px;
+$screen-sm-max: 992px;
+$screen-md-min: 992px;
+$screen-md-max: 1200px;
+$screen-lg-min: 1200px;
+$screen-lg-max: 1366px;
+$screen-FHD-min: 1366px;
+$screen-FHD-max: 1920px;
+$screen-2k-min: 1920px;
+$screen-2k-max: 2560px;
+$screen-4k-min: 2560px;
+$screen-4k-max: 4096px;
+$screen-8k-min: 4096px;
+@mixin max-screen($max) {
+  @media only screen and (max-width: $max) {
+    @content;
+  }
+}
+@mixin min-screen($min) {
+  @media only screen and (min-width: $min) {
+    @content;
+  }
+}
+@mixin screen-in($min, $max) {
+  @media only screen and (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+// Content flow
+.MRow:not(.MRow-flex):not(.MRow-grid){
+  &>.MCol {
+    display: inline-block;
+    @for $i from 1 through 24 {
+      &.span-#{$i} {
+        width: $i/24 * 100%;
+      }
+      &.xs-#{$i} {
+        @include max-screen($screen-xs-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.sm-#{$i} {
+        @include max-screen($screen-sm-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.md-#{$i} {
+        @include max-screen($screen-md-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.lg-#{$i} {
+        @include max-screen($screen-lg-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.FHD-#{$i} {
+        @include max-screen($screen-FHD-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.2k-#{$i} {
+        @include max-screen($screen-2k-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.4k-#{$i} {
+        @include max-screen($screen-4k-max) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.8k-#{$i} {
+        @include min-screen($screen-8k-min) {
+          width: $i/24 * 100%;
+        }
+      }
+      &.offset-#{$i} { 
+        margin-left: $i/24 * 100%; 
+      }
+    }
+  }
+}
+// Flex
+.MRow-flex {
+  &>.MCol {
+    @for $i from 1 through 24 {
+      &.span-#{$i} {
+        flex: $i;
+      }
+      &.xs-#{$i} {
+        @include max-screen($screen-xs-max) {
+          flex: $i;
+        }
+      }
+      &.sm-#{$i} {
+        @include max-screen($screen-sm-max) {
+          flex: $i;
+        }
+      }
+      &.md-#{$i} {
+        @include max-screen($screen-md-max) {
+          flex: $i;
+        }
+      }
+      &.lg-#{$i} {
+        @include max-screen($screen-lg-max) {
+          flex: $i;
+        }
+      }
+      &.FHD-#{$i} {
+        @include max-screen($screen-FHD-max) {
+          flex: $i;
+        }
+      }
+      &.2k-#{$i} {
+        @include max-screen($screen-2k-max) {
+          flex: $i;
+        }
+      }
+      &.4k-#{$i} {
+        @include max-screen($screen-4k-max) {
+          flex: $i;
+        }
+      }
+      &.8k-#{$i} {
+        @include min-screen($screen-8k-min) {
+          flex: $i;
+        }
+      }
+    }
+  }
+}
+// Grid
+.MRow-grid {
+  &>.MCol {
+    @for $i from 1 through 24 {
+      &.span-#{$i} { 
+      }
+      &.xs-#{$i} {
+        @include max-screen($screen-xs-max) { 
+        }
+      }
+      &.sm-#{$i} {
+        @include max-screen($screen-sm-max) { 
+        }
+      }
+      &.md-#{$i} {
+        @include max-screen($screen-md-max) { 
+        }
+      }
+      &.lg-#{$i} {
+        @include max-screen($screen-lg-max) { 
+        }
+      }
+      &.FHD-#{$i} {
+        @include max-screen($screen-FHD-max) { 
+        }
+      }
+      &.2k-#{$i} {
+        @include max-screen($screen-2k-max) { 
+        }
+      }
+      &.4k-#{$i} {
+        @include max-screen($screen-4k-max) { 
+        }
+      }
+      &.8k-#{$i} {
+        @include min-screen($screen-8k-min) { 
+        }
+      }
+    }
+  }
+}
