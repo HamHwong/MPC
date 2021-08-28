@@ -208,8 +208,7 @@ export default {
         play()
       })
     })
-    onBeforeUnmount(() => {
-      console.log('destory')
+    onBeforeUnmount(() => { 
       clearTimeout(playTimer.value)
     })
     return {

@@ -18,7 +18,8 @@ export default {
     type: [String, null],
     default: () => null,
     validator: (val) => {
-      return val === null || ['flex', 'grid'].includes(val.toLowerCase())
+      console.log(val)
+      return val === null ||val === undefined || ['flex', 'grid'].includes(val.toLowerCase())
     },
     direction: {
       type: [String],
@@ -26,10 +27,10 @@ export default {
     },
     wrap: {
       type: [String, null],
-      default: () => null,
+      default: () => 'wrap',
       validator(val) {
         return (
-          val === null ||
+          val === null ||val === undefined ||
           ['nowrap', 'wrap', 'wrap-reverse'].includes(val.toLowerCase())
         )
       },
@@ -39,7 +40,7 @@ export default {
       default: () => null,
       validator(val) {
         return (
-          val === null ||
+          val === null ||val === undefined ||
           ['start', 'end', 'center', 'between', 'around'].includes(
             val.toLowerCase()
           )
@@ -51,7 +52,7 @@ export default {
       default: () => null,
       validator(val) {
         return (
-          val === null ||
+          val === null ||val === undefined ||
           ['start', 'end', 'center', 'baseline', 'stretch'].includes(
             val.toLowerCase()
           )
@@ -63,7 +64,7 @@ export default {
       default: () => null,
       validator(val) {
         return (
-          val === null ||
+          val === null ||val === undefined ||
           ['start','end','center','between','around'].includes(
             val.toLowerCase()
           )
@@ -123,10 +124,10 @@ export default {
       },
     })
     function isFlex() {
-      return props.type.toLowerCase() === 'flex'
+      return props.type&&props.type.toLowerCase() === 'flex'
     }
     function isGrid() {
-      return props.type.toLowerCase() === 'grid'
+      return props.type&&props.type.toLowerCase() === 'grid'
     }
     function handleStylesToClassName(StylesArray, prefix) {
       var result = StylesArray.map((item) => {

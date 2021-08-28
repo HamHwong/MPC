@@ -1,6 +1,6 @@
 {
   "name": "@mpanda/mpc",
-  "version": "0.1.65.10",
+  "version": "0.1.65.16",
   "main": "/lib/mpc.umd.js",
   "keywords": [
     "vue",
@@ -30,7 +30,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@fortawesome/vue-fontawesome": "^3.0.0-4", 
+    "@fortawesome/vue-fontawesome": "^3.0.0-4",
+    "md5": "^2.3.0",
     "pdfjs-dist": "2.4.456"
   },
   "devDependencies": {

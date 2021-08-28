@@ -26,10 +26,10 @@ $screen-8k-min: 4096px;
   @media only screen and (min-width: $min) and (max-width: $max) {
     @content;
   }
-}
+} 
 // Content flow
-.MRow:not(.MRow-flex):not(.MRow-grid){
-  &>.MCol {
+.MRow:not(.MRow-flex):not(.MRow-grid) {
+  & > .MCol {
     display: inline-block;
     @for $i from 1 through 24 {
       &.span-#{$i} {
@@ -75,57 +75,66 @@ $screen-8k-min: 4096px;
           width: $i/24 * 100%;
         }
       }
-      &.offset-#{$i} { 
-        margin-left: $i/24 * 100%; 
+      &.offset-#{$i} {
+        margin-left: $i/24 * 100%;
       }
     }
   }
 }
 // Flex
 .MRow-flex {
-  &>.MCol {
+  & > .MCol {
     @for $i from 1 through 24 {
       &.span-#{$i} {
-        flex: $i;
+        flex-basis: $i/24 * 100%;
+        max-width: $i/24 * 100%;
       }
       &.xs-#{$i} {
         @include max-screen($screen-xs-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.sm-#{$i} {
         @include max-screen($screen-sm-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.md-#{$i} {
         @include max-screen($screen-md-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.lg-#{$i} {
         @include max-screen($screen-lg-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.FHD-#{$i} {
         @include max-screen($screen-FHD-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.2k-#{$i} {
         @include max-screen($screen-2k-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.4k-#{$i} {
         @include max-screen($screen-4k-max) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
       &.8k-#{$i} {
         @include min-screen($screen-8k-min) {
-          flex: $i;
+          flex-basis: $i/24 * 100%;
+          max-width: $i/24 * 100%;
         }
       }
     }
@@ -133,42 +142,91 @@ $screen-8k-min: 4096px;
 }
 // Grid
 .MRow-grid {
-  &>.MCol {
+  & > .MCol {
     @for $i from 1 through 24 {
-      &.span-#{$i} { 
+      &.span-#{$i} {
       }
       &.xs-#{$i} {
-        @include max-screen($screen-xs-max) { 
+        @include max-screen($screen-xs-max) {
         }
       }
       &.sm-#{$i} {
-        @include max-screen($screen-sm-max) { 
+        @include max-screen($screen-sm-max) {
         }
       }
       &.md-#{$i} {
-        @include max-screen($screen-md-max) { 
+        @include max-screen($screen-md-max) {
         }
       }
       &.lg-#{$i} {
-        @include max-screen($screen-lg-max) { 
+        @include max-screen($screen-lg-max) {
         }
       }
       &.FHD-#{$i} {
-        @include max-screen($screen-FHD-max) { 
+        @include max-screen($screen-FHD-max) {
         }
       }
       &.2k-#{$i} {
-        @include max-screen($screen-2k-max) { 
+        @include max-screen($screen-2k-max) {
         }
       }
       &.4k-#{$i} {
-        @include max-screen($screen-4k-max) { 
+        @include max-screen($screen-4k-max) {
         }
       }
       &.8k-#{$i} {
-        @include min-screen($screen-8k-min) { 
+        @include min-screen($screen-8k-min) {
         }
       }
     }
   }
 }
+// .MCol ::v-deep { 
+//   position: relative;
+//    *{
+//     overflow: hidden; 
+//     >*{
+//       visibility: hidden;
+//     }
+//     &::before {
+//       content: '';
+//       position: absolute !important;
+//       display: block !important;
+//       width: inherit!important;
+//       height: inherit!important;
+//       min-width: 100%!important;
+//       min-height: 100%!important;
+//       background-color: rgb(161, 161, 161)!important;
+//       border: none!important;
+//       box-shadow: none!important;
+//       border-radius: inherit!important;
+//       z-index: 2;
+//     }
+//   }
+//   &>*{
+//     perspective: 500;
+//     transform-style: preserve-3d;
+//     &::after { 
+//       content: '';
+//       position: absolute !important;
+//       left: -100%;
+//       top: 0;
+//       background-color: rgba(51, 51, 51, 0.384);
+//       width: 40px;
+//       height: 250%;
+//       animation: loading 1s infinite;
+//       z-index: 3;
+//       transform: rotateZ(-30deg) translateX(20px); 
+//       transform-origin: top;
+//       mix-blend-mode:color;
+//     }
+//     @keyframes loading {
+//       from{
+//         left: -100%;
+//       }
+//       to{
+//         left: 200%;
+//       }
+//     }
+//   }
+// }

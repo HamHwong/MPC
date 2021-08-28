@@ -8,7 +8,7 @@
         鼠标移上来
       </div>
     </div> 
-    <MRow type='flex' direction="row" wrap="nowrap" justify="between" align="center" alignContent="between">
+    <MRow direction="row" justify="between" align="center" alignContent="between">
       <MCol :span="4" :xs="24">
         <MPCard :avatar="avatar" type="userinfo">
           <template #title>title</template>
@@ -24,6 +24,7 @@
           style="width:350px;height:200px;color:#fff;"
           backgroundImage="/images/img3.jpg"
           :bgBlur="false"
+          v-copy:click="(a,window)=>{window.console.log(this)}"
         >
           <template #header>
             <div
@@ -225,7 +226,8 @@
 <script>
 import { reactive, ref } from 'vue'
 import { isElementInViewport } from '../packages/Utils'
-import { nextTick } from 'vue'
+import { on,emit } from '../packages/EventBus'
+import { nextTick } from 'vue' 
 
 export default {
   name: 'App',
@@ -291,10 +293,13 @@ export default {
       })
     }
     const avatar = ref(null)
-
     setTimeout(() => {
       avatar.value = 'https://mpanda.studio/assets/images/logo.png'
     }, 5000)
+    on('$copy',(val)=>{ 
+      console.log('onthis:',val)
+    })
+
     return {
       modalVisibility,
       handleClick,
