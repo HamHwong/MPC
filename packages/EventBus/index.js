@@ -1,11 +1,13 @@
 import md5 from 'md5' 
+import { getCurrentInstance } from 'vue'
 export const EventBusFactory = {
   Vue: null,
   init(Vue) {
+    this.id=Math.random()
     this.Vue = Vue
     this.EventBus = null
   },
-  getInstance() { 
+  getInstance() {  
     if (this.Vue.config.globalProperties.Emitter) {
       return this.EventBus || this.Vue.config.globalProperties.Emitter
     } else {
@@ -27,18 +29,25 @@ export class EventsBus {
   // 子组件发送事件
   emit($event, ...args) {
     console.log('emit', $event, ...args) 
-    this.eventsList[$event].map(({ fn, uid, isGlobal }) => {
+    this.eventsList[$event]=this.eventsList[$event].map((param) => {
+      const { fn, uid, isGlobal, isOnce=false } = param
       if (isGlobal || this.getRoutePathMd5()=== uid) {
         fn(...args)
+        if(isOnce){
+          return null
+        }
       }
+      return param
     })
+    this.eventsList[$event]=this.eventsList[$event].filter(i=>i)
   }
   // 子组件定义事件
   on($event, fn, isGlobal = false) {
+    console.log('on', $event)
+    console.log('getCurrentInstance()',getCurrentInstance().vnode.dirs)
     if (!this.eventsList[$event]) {
       this.eventsList[$event] = []
-    }
-    console.log(this.getRoutePathMd5())
+    } 
     this.eventsList[$event].push({
       uid: this.getRoutePathMd5(),
       fn,
@@ -46,8 +55,25 @@ export class EventsBus {
     })
   }
   // 只执行一次
-  once($event, ...args) {
-    console.log('once', $event, ...args)
+  once($event, fn, isGlobal = false) {
+    console.log('once', $event)
+    if (!this.eventsList[$event]) {
+      this.eventsList[$event] = []
+    } 
+    this.eventsList[$event].push({
+      uid: this.getRoutePathMd5(),
+      fn,
+      isGlobal,
+      isOnce:true
+    })
+    // this.eventsList[$event]=this.eventsList[$event].map((param) => {
+    //   if (param.isGlobal || this.getRoutePathMd5()=== param.uid) {
+    //     param.fn(...args)
+    //     return null
+    //   }
+    //   return param
+    // })
+    // this.eventsList[$event]=this.eventsList[$event].filter(i=>i)
   }
   clean($event) {
     console.log('clean', $event)

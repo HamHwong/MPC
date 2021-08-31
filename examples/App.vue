@@ -1,5 +1,7 @@
 <template>
   <div>
+    <Component1 v-bridge:a v-blur></Component1>
+    <Component2 v-bridge:a></Component2>
     <div style="width:400px;background-color:#eee;">
       <MPCarousel @click="handleClick" :value="data" />
     </div>
@@ -7,8 +9,13 @@
       <div style="width:100px" v-tooltips>
         鼠标移上来
       </div>
-    </div> 
-    <MRow direction="row" justify="between" align="center" alignContent="between">
+    </div>
+    <MRow
+      direction="row"
+      justify="between"
+      align="center"
+      alignContent="between"
+    >
       <MCol :span="4" :xs="24">
         <MPCard :avatar="avatar" type="userinfo">
           <template #title>title</template>
@@ -17,14 +24,18 @@
         </MPCard>
       </MCol>
 
-      <MCol :span="{xs:12,FHD:12}" :xs="5" :offset="8" >
+      <MCol :span="{ xs: 12, FHD: 12 }" :xs="5" :offset="8">
         <MPCard
           :radius="`20px`"
           type="bankCard"
           style="width:350px;height:200px;color:#fff;"
           backgroundImage="/images/img3.jpg"
           :bgBlur="false"
-          v-copy:click="(a,window)=>{window.console.log(this)}"
+          v-copy:click="
+            (a, window) => {
+              window.console.log(this)
+            }
+          "
         >
           <template #header>
             <div
@@ -47,8 +58,7 @@
           </template>
           <template #content>5412 7512 3412 3456</template>
           <template #date
-            ><small style="font-size:0.5rem">VALID THAU</small>
-            12/23</template
+            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
           >
           <template #others
             ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
@@ -84,8 +94,7 @@
           </template>
           <template #content>5412 7512 3412 3456</template>
           <template #date
-            ><small style="font-size:0.5rem">VALID THAU</small>
-            12/23</template
+            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
           >
           <template #others
             ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
@@ -120,8 +129,7 @@
           </template>
           <template #content>5412 7512 3412 3456</template>
           <template #date
-            ><small style="font-size:0.5rem">VALID THAU</small>
-            12/23</template
+            ><small style="font-size:0.5rem">VALID THAU</small> 12/23</template
           >
           <template #others
             ><small style="font-size:12px">LEE M. CARDHOLDER</small></template
@@ -226,11 +234,17 @@
 <script>
 import { reactive, ref } from 'vue'
 import { isElementInViewport } from '../packages/Utils'
-import { on,emit } from '../packages/EventBus'
-import { nextTick } from 'vue' 
+import mpc from '../packages'
+import { nextTick } from 'vue'
+import Component1 from './components/component1.vue'
+import Component2 from './components/component2.vue'
 
 export default {
   name: 'App',
+  components:{
+    Component1,
+    Component2
+  },
   setup() {
     const modalVisibility = ref(false)
     const data = reactive([
@@ -296,9 +310,10 @@ export default {
     setTimeout(() => {
       avatar.value = 'https://mpanda.studio/assets/images/logo.png'
     }, 5000)
-    on('$copy',(val)=>{ 
-      console.log('onthis:',val)
+    mpc.on('$copy', (val) => {
+      console.log('onthis:', val)
     })
+    // console.log('on,emit',mpc.on,mpc.emit)
 
     return {
       modalVisibility,
@@ -309,7 +324,7 @@ export default {
       el,
       handleWheel,
       isInViewPort,
-      avatar,
+      avatar, 
     }
   },
 }

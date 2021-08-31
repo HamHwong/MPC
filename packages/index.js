@@ -15,6 +15,7 @@ import MPTooltips from './Directives/Mpanda.Tooltips'
 import MPSuspend from './Directives/Mpanda.Suspend'
 import MPBlur from './Directives/MPanda.Blur'
 import MPCopy from './Directives/MPanda.Copy'
+import MPBridge from './Directives/MPanda.Bridge'
 // EventsBus
 import { EventsBus,EventBusFactory } from './EventBus'
 // Utils
@@ -39,6 +40,7 @@ const directives = {
   suspend: MPSuspend,
   blur: MPBlur,
   copy: MPCopy,
+  bridge: MPBridge
 }
 const utils = {
   isElementInViewport,
@@ -80,7 +82,7 @@ const install = function(Vue) {
 
 // 安装事件总线
 function installEventsBus(Vue) {
-  console.log('安装！',config)
+  console.log('安装！')
   if (config.enableEventsBus) {
     Vue.config.globalProperties.EnableEmitter = config.enableEventsBus
     EventBusFactory.init(Vue)
@@ -105,7 +107,8 @@ export default {
   enableEventsBus,
   EventsBus,
   EventBusFactory,
-  on:config.VueInstance && config.VueInstance.config.globalProperties.Emitter.on,
-  emit:config.VueInstance && config.VueInstance.config.globalProperties.Emitter.emit,
-  clean:config.VueInstance && config.VueInstance.config.globalProperties.Emitter.clean
+  on:(...args)=>EventBusFactory.getInstance().on(...args),
+  once:(...args)=>EventBusFactory.getInstance().once(...args),
+  emit:(...args)=>EventBusFactory.getInstance().emit(...args),
+  clean:(...args)=>EventBusFactory.getInstance().clean(...args)
 }
