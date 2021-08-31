@@ -88,6 +88,8 @@ $screen-8k-min: 4096px;
       &.span-#{$i} {
         flex-basis: $i/24 * 100%;
         max-width: $i/24 * 100%;
+        flex-shrink: 0;
+        flex-grow: 0;
       }
       &.xs-#{$i} {
         @include max-screen($screen-xs-max) {

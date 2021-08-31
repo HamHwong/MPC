@@ -31,9 +31,10 @@
           style="width:350px;height:200px;color:#fff;"
           backgroundImage="/images/img3.jpg"
           :bgBlur="false"
+          v-bridge:a
           v-copy:click="
             (a, window) => {
-              window.console.log(this)
+              window.console.log(this.directives,this.dir) 
             }
           "
         >
@@ -66,7 +67,7 @@
         </MPCard>
       </MCol>
 
-      <MCol>
+      <MCol :span="10">
         <MPCard
           :radius="`20px`"
           type="bankCard"

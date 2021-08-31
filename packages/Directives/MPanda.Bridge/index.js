@@ -1,27 +1,19 @@
-import { EventBusFactory } from "../../EventBus";
+// import { EventBusFactory } from '../../EventBus'
+
+import { emit, on } from "../../EventBus"
 
 export default {
-  beforeMount () {
-
-  },
+  beforeMount() {},
   // called when bound element's parent component is mounted
-  mounted (el, binding) {  
-    console.log(EventBusFactory.id,el,binding)
+  mounted(el, binding) {
+    binding.bridge = binding.arg 
   },
   // called before the containing component's VNode is updated
-  beforeUpdate () {
-
-  },
+  beforeUpdate() {},
   // called after the containing component's VNode and the VNodes of its children // have updated
-  updated () {
-
-  },
+  updated() {},
   // called before the bound element's parent component is unmounted
-  beforeUnmount () {
-
-  },
+  beforeUnmount() {},
   // called when the bound element's parent component is unmounted
-  unmounted () {
-
-  }
+  unmounted() {},
 }

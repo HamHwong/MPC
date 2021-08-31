@@ -5,14 +5,13 @@
 </template>
 
 <script>
-import { on } from '../../packages/EventBus'
+import { emit, on } from '../../packages/EventBus'
 export default {
   name:'component1',
   setup(){
-    on('$copy',()=>{console.log('lalallaal')})
-    return {
-
-    }
+    on('$copy',function(){  
+      console.log('From Component1 with bridge')
+    }) 
   }
 }
 </script>

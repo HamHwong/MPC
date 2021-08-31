@@ -1,13 +1,14 @@
-import md5 from 'md5' 
-import { getCurrentInstance } from 'vue'
+/* eslint-disable */ 
+import md5 from 'md5'
+import { getCurrentInstance } from 'vue' 
 export const EventBusFactory = {
   Vue: null,
   init(Vue) {
-    this.id=Math.random()
+    this.id = Math.random()
     this.Vue = Vue
     this.EventBus = null
   },
-  getInstance() {  
+  getInstance() {
     if (this.Vue.config.globalProperties.Emitter) {
       return this.EventBus || this.Vue.config.globalProperties.Emitter
     } else {
@@ -21,53 +22,88 @@ export const EventBusFactory = {
       )
     }
   },
+  getEventBus() {
+    if (this.Vue.config.globalProperties.EnableEmitter) {
+      return this.EventBus
+    } else {
+      throw new Error(
+        'EventsBus未开启！请在main.js中开启EventsBus，参考：mpc.enableEventsBus()'
+      )
+    }
+  },
 }
 export class EventsBus {
   constructor() {
     this.eventsList = {}
   }
   // 子组件发送事件
-  emit($event, ...args) {
-    console.log('emit', $event, ...args) 
-    this.eventsList[$event]=this.eventsList[$event].map((param) => {
-      const { fn, uid, isGlobal, isOnce=false } = param
-      if (isGlobal || this.getRoutePathMd5()=== uid) {
+  emit($event, targetBridge, ...args) {
+    var eventName = $event
+    if (targetBridge) {
+      eventName = `${targetBridge}:bridge:${$event}`
+    } 
+    if (!this.eventsList[eventName]) return null
+    this.eventsList[eventName] = this.eventsList[eventName].map((param) => {
+      const {Id, fn, fromPageId, isGlobal, isOnce = false, bridge } = param
+      if (targetBridge && bridge === targetBridge) {
         fn(...args)
-        if(isOnce){
+      } else if (
+        (!targetBridge && isGlobal) ||
+        this.getRoutePathMd5() === fromPageId
+      ) {
+        fn(...args)
+        if (isOnce) {
           return null
         }
       }
       return param
     })
-    this.eventsList[$event]=this.eventsList[$event].filter(i=>i)
+    // Clean Once Subscriber
+    this.eventsList[$event] = this.eventsList[$event].filter((i) => i)
+  }
+  getBridge(ins) {
+    let result = null
+    let instance = ins||getCurrentInstance()
+    let directives = instance.vnode||instance
+    if (directives.dirs && directives.dirs.length > 0) {
+      for (var i = 0; i < directives.dirs.length; i++) {
+        if (directives.dirs[i].arg) {
+          result = directives.dirs[i].arg
+          break
+        }
+      }
+    }
+    return result
   }
   // 子组件定义事件
   on($event, fn, isGlobal = false) {
-    console.log('on', $event)
-    console.log('getCurrentInstance()',getCurrentInstance().vnode.dirs)
-    if (!this.eventsList[$event]) {
-      this.eventsList[$event] = []
-    } 
-    this.eventsList[$event].push({
-      uid: this.getRoutePathMd5(),
+    var bridge = this.getBridge()
+    var eventsName = bridge ? `${bridge}:bridge:${$event}` : $event
+    if (!this.eventsList[eventsName]) {
+      this.eventsList[eventsName] = []
+    }
+    this.eventsList[eventsName].push({
+      Id:Math.random(),
+      fromPageId: this.getRoutePathMd5(),
       fn,
       isGlobal,
+      bridge: bridge,
     })
   }
   // 只执行一次
   once($event, fn, isGlobal = false) {
-    console.log('once', $event)
+    // console.log('once', $event)
     if (!this.eventsList[$event]) {
       this.eventsList[$event] = []
-    } 
+    }
     this.eventsList[$event].push({
-      uid: this.getRoutePathMd5(),
+      fromPageId: this.getRoutePathMd5(),
       fn,
       isGlobal,
-      isOnce:true
+      isOnce: true,
     })
     // this.eventsList[$event]=this.eventsList[$event].map((param) => {
-    //   if (param.isGlobal || this.getRoutePathMd5()=== param.uid) {
+    //   if (param.isGlobal || this.getRoutePathMd5()=== param.fromPageId) {
     //     param.fn(...args)
     //     return null
     //   }
@@ -76,14 +112,14 @@ export class EventsBus {
     // this.eventsList[$event]=this.eventsList[$event].filter(i=>i)
   }
   clean($event) {
-    console.log('clean', $event)
+    // console.log('clean', $event)
     if ($event) {
       this.eventsList[$event] = []
     } else {
       this.eventsList[$event] = {}
     }
   }
-  getRoutePathMd5(){
+  getRoutePathMd5() {
     return md5(location.href.split('?')[0].toUpperCase())
   }
   //
@@ -92,14 +128,17 @@ export class EventsBus {
   //   emit($event,...args)
   // }
 }
-export function emit($event, ...args) {
-  EventBusFactory.getInstance().emit($event, ...args)
+export function emit($event, targetBridge = null, ...args) {
+  return EventBusFactory.getInstance().emit($event, targetBridge, ...args)
 }
 export function on($event, ...args) {
-  EventBusFactory.getInstance().on($event, ...args)
+  return EventBusFactory.getInstance().on($event, ...args)
 }
 export function once($event, ...args) {
-  EventBusFactory.getInstance().once($event, ...args)
+  return EventBusFactory.getInstance().once($event, ...args)
+} 
+export function getBridge(target){
+  return EventBusFactory.getInstance().getBridge(target)
 }
 // export function boardcast($event,...args){
 //   EventBusFactory.getInstance().boardcast($event,...args)

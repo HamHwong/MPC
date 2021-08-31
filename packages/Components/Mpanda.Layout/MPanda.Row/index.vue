@@ -71,6 +71,14 @@ export default {
         )
       },
     },
+    // rows:{
+    //   type:Number,
+    //   default: () => 1,
+    // },
+    // cols:{
+    //   type:Number,
+    //   default: () => 1,
+    // }
   },
   setup(props) {
     provide('type', props.type)
@@ -117,8 +125,19 @@ export default {
     const grid_options_class = computed({
       get() {
         var result = ''
-        if (isGrid()) {
-          result = ''
+        if (isGrid()) {          
+          var styles = [ 
+            {
+              justify: props.justify && props.justify.toLowerCase(),
+            },
+            {
+              align: props.align && props.align.toLowerCase(),
+            },
+            {
+              alignContent: props.alignContent && props.alignContent.toLowerCase(),
+            },
+          ]
+          result = handleStylesToClassName(styles, 'gr')
         }
         return result
       },
