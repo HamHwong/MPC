@@ -96,7 +96,7 @@ export default {
     }
   },
   // called before the containing component's VNode is updated
-  beforeUpdate(el) {
+  beforeUpdate() {
     // console.log('beforeUpdate:el.offsetTop',el.offsetTop)
   },
   // called after the containing component's VNode and the VNodes of its children // have updated

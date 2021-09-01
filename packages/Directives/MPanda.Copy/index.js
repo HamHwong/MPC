@@ -2,7 +2,6 @@ import { getCurrentInstance } from 'vue'
 import { emit, getBridge } from '../../EventBus'
 
 export default {
-  beforeMount(el, binding) {},
   // called when bound element's parent component is mounted
   mounted(el, binding, target) {
     var action = binding.arg || 'click'

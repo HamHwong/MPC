@@ -74,7 +74,7 @@ export default {
     },
   },
   name: 'MCol',
-  setup(props, ctx) {
+  setup(props) {
     // const type = inject('type')
 
     const _layoutClassName = toRefs(props)

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { emit, on } from '../../packages/EventBus'
+import {  on } from '../../packages/EventBus'
 export default {
   name:'component1',
   setup(){

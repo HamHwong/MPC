@@ -298,7 +298,9 @@ export default {
     function handleModalDisplay() {
       modalVisibility.value = true
     }
-    function handlePageChanged(page, _this) {}
+    function handlePageChanged(page, _this) {
+      console.log(page,_this)
+    }
 
     const isInViewPort = ref(false)
     const el = ref(null)

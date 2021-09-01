@@ -1,6 +1,4 @@
-// import { EventBusFactory } from '../../EventBus'
-
-import { emit, on } from "../../EventBus"
+// import { EventBusFactory } from '../../EventBus' 
 
 export default {
   beforeMount() {},

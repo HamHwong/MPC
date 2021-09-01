@@ -5,7 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-  lintOnSave: false,
+  lintOnSave: true,
   pages: {
     index: {
       entry: 'examples/main.js',
