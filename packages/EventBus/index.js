@@ -1,4 +1,5 @@
 /* eslint-disable */  
+//TODO 忘了上次写到哪儿了,先这样吧
 import md5 from 'md5'
 import { getCurrentInstance } from 'vue' 
 export const EventBusFactory = {
@@ -129,7 +130,7 @@ export class EventsBus {
   // }
 }
 export function emit($event, targetBridge = null, ...args) {
-  console.log(arguments,arguments.callee,caller)
+  // console.log(arguments,arguments.callee,caller)
   return EventBusFactory.getInstance().emit($event, targetBridge, ...args)
 }
 export function on($event, ...args) {

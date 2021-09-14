@@ -10,6 +10,7 @@ import MPModal from './Components/MPanda.Modal'
 import MPPdfReader from './Components/MPanda.PDF_Reader'
 import MPCard from './Components/MPanda.Card'
 import MPLayout from './Components/Mpanda.Layout'
+import MPWaterFall from './Components/Mpanda.WaterFall'
 // Directives
 import MPTooltips from './Directives/Mpanda.Tooltips'
 import MPSuspend from './Directives/Mpanda.Suspend'
@@ -33,6 +34,7 @@ const components = {
   MPModal,
   MPPdfReader,
   MPCard,
+  MPWaterFall,
   ...MPLayout,
 }
 const directives = {

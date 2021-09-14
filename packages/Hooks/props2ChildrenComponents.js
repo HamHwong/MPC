@@ -7,23 +7,23 @@ import { provide, ref, watch } from 'vue'
  * @param {*} propName
  * @param {*} defaultValue Prop默认值, 可不传
  */
-export default function (props,propName,defaultValue){
+export default function(props, propName, defaultValue) {
   const propValue = ref(null)
   watch(
     () => props[propName],
-    ( ) => {
-      if (null==props[propName]) { 
-        if(null!==defaultValue){
+    () => {
+      if (null == props[propName]) {
+        if (null !== defaultValue) {
           propValue.value = defaultValue
         }
       } else {
         propValue.value = props[propName]
-      } 
+      }
     },
     {
       immediate: true,
-      deep:true
+      deep: true,
     }
-  )  
+  )
   provide(propName, propValue)
 }

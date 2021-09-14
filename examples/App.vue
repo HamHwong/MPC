@@ -34,7 +34,7 @@
           v-bridge:a
           v-copy:click="
             (a, window) => {
-              window.console.log(this.directives,this.dir) 
+              window.console.log(this.directives, this.dir)
             }
           "
         >
@@ -229,12 +229,37 @@
     <MPCard style="background-color:#fff;">
       <span>You can custom your own card.</span>
     </MPCard>
+
+    <div style="overflow-y:auto;height:500px;width:700px;margin:20px">
+      <MPWaterFall column="3" type="center">
+        <MPCard
+          :radius="`10px`"
+          type="gallery"
+          style="margin:5px"
+          v-for="i in 20"
+          :key="i"
+          :image="`/images/img${i % 4 == 0 || i % 4 == 1 ? '' : i % 4}.jpg`"
+        >
+          <div style="padding:10px;position:relative">
+            <div>
+              <i>
+                <font-awesome-icon :icon="['far', 'heart']" />
+              </i>
+            </div>
+            <div>
+              Name
+            </div>
+          </div>
+        </MPCard>
+      </MPWaterFall>
+    </div>
   </div>
 </template>
 
 <script>
 import { reactive, ref } from 'vue'
 import { isElementInViewport } from '../packages/Utils'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import mpc from '../packages'
 import { nextTick } from 'vue'
 import Component1 from './components/component1.vue'
@@ -242,9 +267,10 @@ import Component2 from './components/component2.vue'
 
 export default {
   name: 'App',
-  components:{
+  components: {
     Component1,
-    Component2
+    Component2,
+    FontAwesomeIcon,
   },
   setup() {
     const modalVisibility = ref(false)
@@ -299,7 +325,7 @@ export default {
       modalVisibility.value = true
     }
     function handlePageChanged(page, _this) {
-      console.log(page,_this)
+      console.log(page, _this)
     }
 
     const isInViewPort = ref(false)
@@ -327,7 +353,7 @@ export default {
       el,
       handleWheel,
       isInViewPort,
-      avatar, 
+      avatar,
     }
   },
 }

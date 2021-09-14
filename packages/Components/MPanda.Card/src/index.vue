@@ -1,5 +1,5 @@
 <template>
-  <div v-bind="$attrs" class="card" :style="{ borderRadius: radius }">
+  <div v-bind="$attrs" class="card" :style="{ borderRadius: radius,overflow:!hideOverflow||type.trim().toLowerCase()==='userinfo'?null:`hidden` }">
     <component v-if="type" :is="`card-` + type.trim().toLowerCase()">
       <template #default>
         <slot name="default" />
@@ -12,6 +12,9 @@
       </template>
       <template #avatar>
         <slot name="avatar" />
+      </template>
+      <template #img>
+        <slot name="img" />
       </template>
       <template #content>
         <slot name="content" />
@@ -68,6 +71,14 @@ export default {
     bgBlur:{
       type: Boolean,
       default: ()=>true
+    },
+    image:{
+      type: [String, null],
+      default: () => null
+    },
+    hideOverflow:{
+      type:Boolean,
+      default:true
     }
   },
   setup(props) {
@@ -78,6 +89,9 @@ export default {
     if(['bankcard'].includes(props.type.toLowerCase())){ 
       useProps2ChildrenComponents(props,'backgroundImage')
       useProps2ChildrenComponents(props,'bgBlur',true)
+    } 
+    if(['gallery'].includes(props.type.toLowerCase())){ 
+      useProps2ChildrenComponents(props,'image') 
     } 
     
     return {
@@ -97,6 +111,6 @@ export default {
 <style lang="scss">
 
 .card:not(:first-child){
-  margin-left: 10px;
+  // margin-left: 10px;
 }
 </style>
