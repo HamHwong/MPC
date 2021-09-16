@@ -230,8 +230,8 @@
       <span>You can custom your own card.</span>
     </MPCard>
 
-    <div style="overflow-y:auto;height:500px;width:700px;margin:20px">
-      <MPWaterFall column="3" type="center">
+    <div style="width:700px;margin:20px">
+      <MPWaterFall column="3" type="center" height="300px">
         <MPCard
           :radius="`10px`"
           type="gallery"
