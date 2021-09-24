@@ -250,6 +250,7 @@ export default {
     background-position: center;
     filter: blur(2px);
     /* 强制开启gpu加速 */
+    will-change: transform;
     transform: translateZ(0);
     user-select: none;
     &.active {
